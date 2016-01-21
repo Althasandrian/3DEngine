@@ -5,6 +5,11 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3DEngine", "3DEngine\3DEngine.vcxproj", "{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame", "TestGame\TestGame.vcxproj", "{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81} = {ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -15,6 +20,10 @@ Global
 		{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}.Debug|Win32.Build.0 = Debug|Win32
 		{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}.Release|Win32.ActiveCfg = Release|Win32
 		{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}.Release|Win32.Build.0 = Release|Win32
+		{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}.Debug|Win32.ActiveCfg = Debug|Win32
+		{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}.Debug|Win32.Build.0 = Debug|Win32
+		{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}.Release|Win32.ActiveCfg = Release|Win32
+		{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
