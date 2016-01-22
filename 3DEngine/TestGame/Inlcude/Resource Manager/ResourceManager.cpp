@@ -1,13 +1,6 @@
 #include "Resource Manager\ResourceManager.h"
+#include <string>
 
-ResourceManager::ResourceManager()
-{
-
-}
-ResourceManager::~ResourceManager()
-{
-
-}
 Resource* ResourceManager::LoadResource(std::string filepath)
 {
 
@@ -30,7 +23,6 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 		Resource *res = new Resource();
 		res->filepath = filepath;
 		res->type = Text;
-		res->UID = "name";
 		res->resourceUsers.push_back(1);
 		_resources.push_back(res);
 		return res;
@@ -42,7 +34,6 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 		Resource * res = new Resource();
 		res->filepath = filepath;
 		res->type = Image;
-		res->UID = "name2";
 		res->resourceUsers.push_back(1);
 		_resources.push_back(res);
 		return res;
@@ -54,19 +45,17 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 		Resource *res = new Resource();
 		res->filepath = filepath;
 		res->type = Audio;
-		res->UID = "Name3";
 		res->resourceUsers.push_back(1);
 		_resources.push_back(res);
 		return res;
 	}
 	else if (filepath.substr(filepath.size() - 4) == ".vid")
 	{
-		std::cout << "a lol file" << std::endl;
+		std::cout << "a video file" << std::endl;
 		std::cout << "Loading Resource" << std::endl;
 		Resource *res = new Resource();
 		res->filepath = filepath;
 		res->type = Video;
-		res->UID = "Name4";
 		res->resourceUsers.push_back(1);
 		_resources.push_back(res);
 		return res;
@@ -78,13 +67,13 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 	}
 
 }
-void ResourceManager::UnLoadResource(std::string name)
+void ResourceManager::UnLoadResource(std::string filepath)
 {
 	
 	_it = _resources.begin();
 	while (_it != _resources.end())
 	{
-		if ((*_it)->UID == name)
+		if ((*_it)->filepath == filepath)
 		{
 			std::cout << "Deleting resource" << std::endl;
 			(*_it)->resourceUsers.pop_back();
@@ -101,12 +90,12 @@ void ResourceManager::UnLoadResource(std::string name)
 	}
 
 }
-int ResourceManager::GetResourceUsers(std::string name)
+int ResourceManager::GetResourceUsers(std::string filepath)
 {
 	_it = _resources.begin();
 	while (_it != _resources.end())
 	{
-		if ((*_it)->UID == name)
+		if ((*_it)->filepath == filepath)
 		{
 			return (*_it)->resourceUsers.size();
 		}
