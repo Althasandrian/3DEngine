@@ -17,7 +17,7 @@ public:
 	Window();
 	~Window();
 
-	int createWindow(LPCWSTR windowName, glm::vec2 size, glm::vec2 position, LPCWSTR icon, LPCWSTR cursor, int style, WNDPROC messageCallback);
+	int createWindow(const char* windowName, glm::vec2 size, glm::vec2 position, const char* icon, const char* cursor, int style, WNDPROC messageCallback);
 	//! A basic function to create a window.
 	/*!
 	\param[in] windowName A constant character pointer

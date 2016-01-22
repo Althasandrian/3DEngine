@@ -31,7 +31,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int main(int argc, char** argv) {
 
-	window.createWindow(L"Dickbutt!", glm::vec2(400, 360), glm::vec2(100, 100), L"Resources/favicon.ico", L"Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
+	window.createWindow("Dickbutt!", glm::vec2(400, 360), glm::vec2(100, 100), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
 	window.InitOpenGL();
 
 	float VertexPositions[] =

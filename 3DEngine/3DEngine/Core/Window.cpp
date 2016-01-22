@@ -1,4 +1,5 @@
 #include "Window.h"
+#include "../lib/Helper.hpp"
 
 Window::Window() {
 	_instanceHandle				= (HINSTANCE)GetModuleHandle(NULL);
@@ -11,19 +12,24 @@ Window::Window() {
 
 Window::~Window() {}
 
-int Window::createWindow(LPCWSTR windowName, glm::vec2 size, glm::vec2 position, LPCWSTR icon, LPCWSTR cursor, int style, WNDPROC messageCallback) {
+int Window::createWindow(const char* windowName, glm::vec2 size, glm::vec2 position, const char* icon, const char* cursor, int style, WNDPROC messageCallback) {
+	const wchar_t* tempWindowName = Engine::GetLCWSTR(windowName);
+	const wchar_t* tempWindowClassName = Engine::GetLCWSTR("DickbuttEngine");
+	const wchar_t* tempCursor = Engine::GetLCWSTR(cursor);
+	const wchar_t* tempIcon = Engine::GetLCWSTR(icon);
+	
 	_windowInfo.cbSize			= sizeof(WNDCLASSEX);
 	_windowInfo.style			= CS_HREDRAW | CS_VREDRAW;
 	_windowInfo.lpfnWndProc		= messageCallback;
 	_windowInfo.cbClsExtra		= 0;
 	_windowInfo.cbWndExtra		= 0;
 	_windowInfo.hInstance		= _instanceHandle;
-	_windowInfo.hIcon			= (HICON)LoadImage(_instanceHandle, icon, IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
-	_windowInfo.hCursor = (HCURSOR)LoadImage(NULL, cursor, IMAGE_ICON, ::GetSystemMetrics(SM_CXCURSOR), ::GetSystemMetrics(SM_CYCURSOR), LR_LOADFROMFILE);;
+	_windowInfo.hIcon			= (HICON)LoadImage(_instanceHandle, tempIcon, IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
+	_windowInfo.hCursor			= (HCURSOR)LoadImage(NULL, tempCursor, IMAGE_ICON, ::GetSystemMetrics(SM_CXCURSOR), ::GetSystemMetrics(SM_CYCURSOR), LR_LOADFROMFILE);;
 	_windowInfo.hbrBackground	= (HBRUSH)(COLOR_WINDOW + 1);
 	_windowInfo.lpszMenuName	= NULL;
-	_windowInfo.lpszClassName = (LPCWSTR)"3DGameEngine";
-	_windowInfo.hIconSm = (HICON)LoadImage(_instanceHandle, (LPCWSTR)icon, IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
+	_windowInfo.lpszClassName	= tempWindowClassName;
+	_windowInfo.hIconSm			= (HICON)LoadImage(_instanceHandle, tempIcon, IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 
 	if (!RegisterClassEx(&_windowInfo)) {
 		MessageBox(NULL, L"Window registration failed!", L"ERROR!", MB_ICONERROR | MB_OK);
@@ -47,9 +53,9 @@ int Window::createWindow(LPCWSTR windowName, glm::vec2 size, glm::vec2 position,
 		return -1;
 	}
 
-	_windowHandle = CreateWindowEx(	NULL,							/*The extended window style of the window being created.*/
-		(LPCWSTR)"3DGameEngine",					/*A null-terminated string or a class atom created by a previous call to the RegisterClass or RegisterClassEx function.*/
-									windowName,						/*The window name. If the window style specifies a title bar, the window title pointed to by lpWindowName is displayed in the title bar.*/
+	_windowHandle = CreateWindowEx(NULL,							/*The extended window style of the window being created.*/
+									tempWindowClassName,			/*A null-terminated string or a class atom created by a previous call to the RegisterClass or RegisterClassEx function.*/
+									tempWindowName,					/*The window name. If the window style specifies a title bar, the window title pointed to by lpWindowName is displayed in the title bar.*/
 									windowStyle,					/*The style of the window being created.*/
 									position.x, position.y,			/*Window position.*/
 									size.x, size.y,					/*Window size.*/
@@ -59,7 +65,7 @@ int Window::createWindow(LPCWSTR windowName, glm::vec2 size, glm::vec2 position,
 									this);							/*Pointer to a value to be passed to the window through the CREATESTRUCT structure (lpCreateParams member) pointed to by the lParam param of the WM_CREATE message.*/
 
 	if (_windowHandle == NULL) {
-		MessageBox(NULL, (LPCWSTR)"Window creation failed!", (LPCWSTR)"ERROR!", MB_ICONERROR | MB_OK);
+		MessageBox(NULL, L"Window creation failed!", L"ERROR!", MB_ICONERROR | MB_OK);
 		return -1;
 	}
 
