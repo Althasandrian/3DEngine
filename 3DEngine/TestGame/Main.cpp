@@ -4,14 +4,13 @@
 int main()
 {
 	ResourceManager resman;
-	resman.LoadResource("test.txt");
-	std::string res = resman.LoadResource("test.txt")->UID;
+	std::string res = resman.LoadResource("test.txt")->filepath;
 	std::cout << res << std::endl;
-	std::cout << resman.GetResourceUsers("name") << std::endl;
+	std::cout << resman.GetResourceUsers(res) << std::endl;
 	resman.UnLoadResource(res);
-	std::cout << resman.GetResourceUsers("name2") << std::endl;
+	std::cout << resman.GetResourceUsers(res) << std::endl;
 	resman.UnLoadResource(res);
-	std::cout << resman.GetResourceUsers("name") << std::endl;
+	std::cout << resman.GetResourceUsers(res) << std::endl;
 	system("pause");
 	return 0;
 }

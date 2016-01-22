@@ -9,12 +9,12 @@
 class ResourceManager
 {
 public:
-	ResourceManager();
-	~ResourceManager();
+	ResourceManager() {}
+	~ResourceManager() {}
 
 	Resource* LoadResource(std::string filepath);
-	void UnLoadResource(std::string name);
-	int GetResourceUsers(std::string name);
+	void UnLoadResource(std::string filepath);
+	int GetResourceUsers(std::string filepath);
 private:
 	std::vector<Resource*> _resources;
 	std::vector<Resource*>::iterator _it;

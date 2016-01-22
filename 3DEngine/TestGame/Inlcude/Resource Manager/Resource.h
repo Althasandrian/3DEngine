@@ -15,8 +15,6 @@ public:
 	Resource() {};
 	~Resource(){};
 
-
-	std::string UID;
 	std::string filepath;
 	TYPE type;
 	std::string scope; 
