@@ -84,6 +84,12 @@
   <ItemGroup>
     <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Rendering\OpenGLControl.cpp" />
+    <ClCompile Include="Rendering\Renderer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Rendering\OpenGLControl.h" />
+    <ClInclude Include="Rendering\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Component.hpp" />

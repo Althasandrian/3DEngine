@@ -1,6 +1,7 @@
 #include "Resource Manager\ResourceManager.h"
 #include "Resource Manager\Resource.h"
 #include <string>
+
 int main()
 {
 	ResourceManager resman;
