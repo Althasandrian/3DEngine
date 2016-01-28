@@ -14,7 +14,7 @@ Window::~Window() {}
 
 int Window::createWindow(const char* windowName, glm::vec2 size, glm::vec2 position, const char* icon, const char* cursor, int style, WNDPROC messageCallback) {
 	const wchar_t* tempWindowName = Engine::GetLCWSTR(windowName);
-	const wchar_t* tempWindowClassName = Engine::GetLCWSTR("DickbuttEngine");
+	const wchar_t* tempWindowClassName = Engine::GetLCWSTR(windowName);
 	const wchar_t* tempCursor = Engine::GetLCWSTR(cursor);
 	const wchar_t* tempIcon = Engine::GetLCWSTR(icon);
 	
@@ -72,11 +72,12 @@ int Window::createWindow(const char* windowName, glm::vec2 size, glm::vec2 posit
 	ShowWindow(_windowHandle, _cmdShow);
 	UpdateWindow(_windowHandle);
 
-#ifndef _DEBUG
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
+#ifdef _DEBUG
+	ShowWindow(GetConsoleWindow(), SW_SHOW);
 #endif
 
 	confineMouse();
+	
 
 	return 1;
 }

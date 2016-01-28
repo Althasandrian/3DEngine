@@ -82,10 +82,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Component.hpp" />
+    <ClInclude Include="Core\Entity.hpp" />
+    <ClInclude Include="Core\EntityManager.hpp" />
+    <ClInclude Include="Core\Window.h" />
     <ClInclude Include="lib\Helper.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Cursor.ico" />
+    <Image Include="Resources\favicon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="glew32.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

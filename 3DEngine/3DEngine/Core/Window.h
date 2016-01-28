@@ -11,6 +11,8 @@
 #define ENGINE_BORDERLESS	0x00000010
 #define ENGINE_FULLSCREEN	0x00000100
 
+class Renderer;
+
 class Window
 {
 public:
@@ -76,10 +78,12 @@ public:
 	void Resize();
 
 	//Toivottavasti turhia t‰‰ll‰.
-	HDC hdc() { return _deviceContextHandle; }
 	void confineMouse();
 	void releaseMouse();
 
+	friend HDC GetHDC(Window window);
+	friend HGLRC GetHGLRC(Window window);
+	friend HWND GetHWND(Window window);
 private:
 	HINSTANCE	_instanceHandle;			/*!< A handle to the current instance of the application.*/
 	HINSTANCE	_previousInstanceHandle;	/*!< A handle to the previous instance of the application.*/
@@ -94,5 +98,19 @@ private:
 	WNDCLASSEX	_windowInfo;				/*!< Contains window class information. It is used with the RegisterClassEx and GetClassInfoEx functions.*/
 
 	GLuint		_pixelFormat;				/*!< Contains the pixel format after searching for a match.*/
+};
+
+class Renderer {
+public:
+	Renderer() {}
+	~Renderer() {}
+
+	friend HDC GetHDC(Window window) { return window._deviceContextHandle; }
+	friend HGLRC GetHGLRC(Window window) { return window._glRenderingContextHandle; }
+	friend HWND GetHWND(Window window) { return window._windowHandle; }
+
+	void Update(Window window) { wglMakeCurrent(GetHDC(window), GetHGLRC(window)); }
+	void Draw(Window window) { SwapBuffers(GetHDC(window)); }
+private:
 };
 #endif /*End Window_h*/
