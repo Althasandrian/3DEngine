@@ -58,7 +58,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
-	</ItemGroup>
     <ClInclude Include="Rendering\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
