@@ -6,11 +6,11 @@ bool OpenGLControl::InitGLEW(HINSTANCE hInstance)
 
 	RegisterSimpleOpenGLClass(hInstance);
 
-	HWND hWndFake = CreateWindow(SIMPLE_OPENGL_CLASS_NAME, "FAKE", WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_CLIPCHILDREN,
+	/*HWND hWndFake = CreateWindow(SIMPLE_OPENGL_CLASS_NAME, "FAKE", WS_OVERLAPPEDWINDOW | WS_MAXIMIZE | WS_CLIPCHILDREN,
 		0, 0, CW_USEDEFAULT, CW_USEDEFAULT, NULL,
 		NULL, hInstance, NULL);
 	hDC = GetDC(hWndFake);
-
+*/
 	PIXELFORMATDESCRIPTOR pfd;
 	memset(&pfd, 0, sizeof(PIXELFORMATDESCRIPTOR));
 	pfd.nSize = sizeof(PIXELFORMATDESCRIPTOR);
@@ -34,16 +34,16 @@ bool OpenGLControl::InitGLEW(HINSTANCE hInstance)
 
 	if (!bGlewInitialized)
 	{
-		if (GlewInit() != GLEW_OK)
+		if (glewInit() != GLEW_OK)
 		{
-			MessageBox(*hWnd, "Couldn't initialize GLEW", "Fatal Error", MB_ICONERROR);
+			MessageBox(*hWnd, L"Couldn't initialize GLEW", L"Fatal Error", MB_ICONERROR);
 			bResult = false;
 		}
 		bGlewInitialized = true;
 	}
 	wglMakeCurrent(NULL, NULL);
 	wglDeleteContext(hRCFake);
-	DestroyWindow(hWndFake);
+	/*DestroyWindow(hWndFake);*/
 
 	return bResult;
 

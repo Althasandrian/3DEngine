@@ -6,6 +6,7 @@
 #include <glm\glm.hpp>
 #include <gl\GL.h>
 
+class Window;
 
 class Renderer
 {

@@ -29,22 +29,22 @@ void Renderer::initScene(LPVOID lpParam)
 
 void renderScene(LPVOID lpParam)
 {
-	// Typecast lpParam to COpenGLControl pointer
-	OpenGLControl* oglControl = (OpenGLControl*)lpParam;
+	//// Typecast lpParam to COpenGLControl pointer
+	//OpenGLControl* oglControl = (OpenGLControl*)lpParam;
 
-	// We just clear color
-	glClear(GL_COLOR_BUFFER_BIT);
+	//// We just clear color
+	//glClear(GL_COLOR_BUFFER_BIT);
 
-	glEnableVertexAttribArray(0);
-	// Triangle render
-	glBindBuffer(GL_ARRAY_BUFFER, uiVBO[0]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	//glEnableVertexAttribArray(0);
+	//// Triangle render
+	//glBindBuffer(GL_ARRAY_BUFFER, uiVBO[0]);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	//glDrawArrays(GL_TRIANGLES, 0, 3);
 
-	// Quad render using triangle strip
-	glBindBuffer(GL_ARRAY_BUFFER, uiVBO[1]);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	//// Quad render using triangle strip
+	//glBindBuffer(GL_ARRAY_BUFFER, uiVBO[1]);
+	//glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 0, 0);
+	//glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 
-	oglControl->swapBuffers();
+	//oglControl->swapBuffers();
 }

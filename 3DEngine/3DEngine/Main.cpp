@@ -7,7 +7,6 @@
 #include <string>
 
 Window window;
-Renderer rend;
 std::vector<Entity> entities;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -21,7 +20,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 		window.releaseMouse();
 		break;
 	case WM_SIZE:
-		rend.Resize(hwnd);
+		window.Resize();
 		break;
 	case WM_CLOSE:
 		window.releaseMouse();
@@ -59,7 +58,6 @@ int main(int argc, char** argv) {
 
 	while (window.IsOpen()) {
 
-		rend.Update(window);
 
 		glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -68,8 +66,6 @@ int main(int argc, char** argv) {
 		glEnableVertexAttribArray(0);
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
-
-		rend.Draw(window);
 
 		window.getMessage();
 	}

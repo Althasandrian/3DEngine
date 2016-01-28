@@ -1,6 +1,6 @@
 #ifndef OPENGLCONTROL_H
 #define OPENGLCONTROL_H
-
+#define SIMPLE_OPENGL_CLASS_NAME "Simple_openGL_class"
 #include <Windows.h>
 #include <glew.h>
 #include <glm\glm.hpp>
@@ -16,7 +16,7 @@ public:
 	void Render(LPVOID lpParam);
 	void releaseOpenGLControl(LPVOID lpParam);
 
-	static void RegisterSimpleOpenGLClass(HINSTANCE hInstance);
+	static void RegisterSimpleOpenGLClass(HINSTANCE hInstance){}
 	static void UnregisterSimpleOpenGLClass(HINSTANCE hInstance);
 
 	void MakeCurrent();
@@ -30,7 +30,7 @@ private:
 	HWND* hWnd;
 	HGLRC hRC;
 	static bool bClassregistered;
-	static bool bGlewInitialized;
+	bool bGlewInitialized = false;
 	int iMajorVesion, iMinorVersion;
 
 	void (*InitScene)(LPVOID lpParam), (*RenderScene)(LPVOID lpParam), (*ReleaseScene)(LPVOID lpParam);
