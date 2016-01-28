@@ -9,16 +9,20 @@
 class ResourceManager
 {
 public:
-	ResourceManager() {}
-	~ResourceManager() {}
+	ResourceManager()
+	{
 
+	}
+	~ResourceManager() {}
+	static ResourceManager* GetInstance();
 	Resource* LoadResource(std::string filepath);
-	void UnLoadResource(std::string filepath);
-	int GetResourceUsers(std::string filepath);
+	void UnLoadResource(int ID);
+	int GetResourceUsers(int ID);
 private:
 	std::vector<Resource*> _resources;
 	std::vector<Resource*>::iterator _it;
-	//int _resourceUsers;
+	int ID_generator = 0;
+	static ResourceManager* Instance;
 
 };
 

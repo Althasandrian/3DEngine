@@ -18,9 +18,13 @@ public:
 	std::string filepath;
 	TYPE type;
 	std::string scope; 
+	int ID;
 	std::vector<int> resourceUsers;
+	void setTextData(std::string readFile){ textData = readFile; }
+	std::string getTextData(){ return textData; }
 private:
-
+	std::string textData;
+	
 };
 
 #endif
