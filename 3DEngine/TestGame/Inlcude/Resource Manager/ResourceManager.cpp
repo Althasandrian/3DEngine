@@ -6,7 +6,10 @@ ResourceManager* ResourceManager::Instance = nullptr;
 ResourceManager* ResourceManager::GetInstance()
 {
 	if (Instance == nullptr)
+	{
+		std::cout << "Creating a new resource manager. " << std::endl;
 		Instance = new ResourceManager;
+	}
 	return Instance;
 }
 Resource* ResourceManager::LoadResource(std::string filepath)
@@ -33,7 +36,7 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 		res->type = Text;
 		res->ID = ++ID_generator;
 		res->resourceUsers.push_back(1);
-		_resources.push_back(res);
+
 
 		std::ifstream file(filepath,std::ifstream::binary);
 		if (file.is_open())
@@ -60,17 +63,31 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 			res->setTextData( readFile);//
 
 		}
+		_resources.push_back(res);
 		return res;
 	}
 	else if (filepath.substr(filepath.size() - 4) == ".img")
 	{
 		std::cout << "An image file" << std::endl;
 		std::cout << "Loading resource" << std::endl;
+
 		Resource * res = new Resource();
 		res->filepath = filepath;
 		res->type = Image;
 		res->ID = ++ID_generator;
 		res->resourceUsers.push_back(1);
+
+		std::ifstream file(filepath, std::ifstream::binary);
+		if (file.is_open())
+		{
+			// Get size of file///////////
+			file.seekg(0, file.end);	//
+			int size = file.tellg();	//
+			file.seekg(0, file.beg);	//
+
+			
+			off_t start, length;
+		}
 		_resources.push_back(res);
 		return res;
 	}
@@ -78,11 +95,15 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 	{
 		std::cout << "An audio file" << std::endl;
 		std::cout << "Loading Resource" << std::endl;
+
+
 		Resource *res = new Resource();
 		res->filepath = filepath;
 		res->type = Audio;
 		res->ID = ++ID_generator;
 		res->resourceUsers.push_back(1);
+
+
 		_resources.push_back(res);
 		return res;
 	}
@@ -90,11 +111,14 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 	{
 		std::cout << "a video file" << std::endl;
 		std::cout << "Loading Resource" << std::endl;
+
 		Resource *res = new Resource();
 		res->filepath = filepath;
 		res->type = Video;
 		res->ID = ++ID_generator;
 		res->resourceUsers.push_back(1);
+
+
 		_resources.push_back(res);
 		return res;
 	}
