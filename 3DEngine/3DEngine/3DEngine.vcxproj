@@ -88,13 +88,13 @@
     <ClCompile Include="Rendering\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Time.hpp" />
     <ClInclude Include="Rendering\OpenGLControl.h" />
     <ClInclude Include="Rendering\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Component.hpp" />
     <ClInclude Include="Core\Entity.hpp" />
-    <ClInclude Include="Core\EntityManager.hpp" />
     <ClInclude Include="Core\Window.h" />
     <ClInclude Include="lib\Helper.hpp" />
   </ItemGroup>

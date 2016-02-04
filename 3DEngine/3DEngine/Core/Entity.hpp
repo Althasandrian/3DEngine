@@ -2,67 +2,50 @@
 #define Entity_h
 
 #include <iostream>
-#include "EntityManager.hpp"
 #include <typeindex>
 #include <memory>
 #include <map>
+namespace Engine {
+	class Component;
 
+	class Entity
+	{
+	public:
+		Entity();
+		~Entity();
 
-class Component;
+		// Component //
+		template<typename T> void AddComponent(std::shared_ptr<T> component);
+		template<typename T> std::shared_ptr<T> GetComponent();
+		template<typename T> void RemoveComponent();
 
-class Entity
-{
-public:
-	Entity();
-	~Entity();
+	private:
+		std::map<const std::type_info*, std::shared_ptr<Component>> _components;
+	};
 
-	unsigned GetID() { return _uniqueID; }
+	Entity::Entity() {}
 
-	template<typename T>
-	void AddComponent(T* component);
+	Entity::~Entity() {
 
-	template<typename T>
-	T* GetComponent();
-
-	template<typename T>
-	void RemoveComponent();
-private:
-	unsigned _uniqueID;
-	std::map<std::type_index, Component*> _components;
-};
-
-Entity::Entity() {
-	_uniqueID = Engine::EntityManager::GetID();
-}
-
-Entity::~Entity() {
-
-}
-
-template<typename T>
-void Entity::AddComponent(T* component) {
-	_components[std::type_index(typeid(*component))] = component;
-}
-
-template<typename T>
-T* Entity::GetComponent() {
-	std::type_index index(typeid(T));
-	if (_components.count(std::type_index(typeid(T))) != 0) {
-		return static_cast<T*>(_components[index]);
 	}
-	else {
+
+	template<typename T> void Entity::AddComponent(std::shared_ptr<T> component) {
+		_components[&typeid(*component)] = component;
+	}
+
+	template<typename T> std::shared_ptr<T> Entity::GetComponent() {
+		if (_components.count(&typeid(T)) != 0) {
+			return std::static_pointer_cast<T>(_components[&typeid(T)]);
+		}
 		return nullptr;
 	}
-}
 
-template<typename T>
-void Entity::RemoveComponent() {
-	std::type_index index(typeid(T));
-	if (_components.count(std::type_index(typeid(T))) != 0) {
-		auto it = _components.find(std::type_index(typeid(T)));
-		delete it->second;
-		_components.erase(it);
+	template<typename T> void Entity::RemoveComponent() {
+		if (_components.count(&typeid(T)) != 0) {
+			auto it = _components.find(typeid(T));
+			delete it->second;
+			_components.erase(it);
+		}
 	}
 }
-
 #endif

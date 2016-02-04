@@ -1,29 +1,29 @@
 #include "Core\Window.h"
-#include "Core\EntityManager.hpp"
 #include "Core\Entity.hpp"
 #include "Core\Component.hpp"
+#include <memory>
 #include <iostream>
 #include <vector>
 #include <string>
+#include "Core\Time.hpp"
 
 Window window;
-std::vector<Entity> entities;
+std::vector<Engine::Entity> entities;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
 	switch (msg)
 	{
 	case WM_SETFOCUS:
-		window.confineMouse();
+		
 		break;
 	case WM_KILLFOCUS:
-		window.releaseMouse();
+
 		break;
 	case WM_SIZE:
 		window.Resize();
 		break;
 	case WM_CLOSE:
-		window.releaseMouse();
 		DestroyWindow(hwnd);
 		break;
 	case WM_DESTROY:
@@ -37,27 +37,33 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int main(int argc, char** argv) {
 
-	window.createWindow("Dickbutt!", glm::vec2(400, 360), glm::vec2(100, 100), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
+#ifndef _DEBUG
+	ShowWindow(GetConsoleWindow(), SW_HIDE);
+#endif
+
+	window.createWindow("Dickbutt!", glm::vec2(1920, 1200), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_BORDERLESS, WndProc);
 	window.InitOpenGL();
 
 	float VertexPositions[] =
 	{
-		0.0f, 0.5f, 0.0f, 1.0f,
-		-0.5f, -0.5f, 0.0f, 1.0f,
-		0.5f, -0.5f, 0.0f, 1.0f,
+		0.0f, 1.0f, 0.0f, 1.0f,
+		-1.0f, -1.0f, 0.0f, 1.0f,
+		1.0f, -1.0f, 0.0f, 1.0f,
 	};
 
-	Entity asd;
-	asd.AddComponent(new testiComp());
-	asd.AddComponent(new toinentesti());
+	Engine::Time timer;
 
-	testiComp* dick = asd.GetComponent<testiComp>();
-	toinentesti* butt = asd.GetComponent<toinentesti>();
+	Engine::Entity asd;
 
-	asd.RemoveComponent<toinentesti>();
+	asd.AddComponent(std::make_shared<Engine::Transformable>());
+	asd.AddComponent(std::make_shared<Engine::Renderable>());
+	std::shared_ptr<Engine::Transformable> das = asd.GetComponent<Engine::Transformable>();
+
+	SetCursorPos(window.GetSize().x / 2, window.GetSize().y/2);
 
 	while (window.IsOpen()) {
 
+		timer.Update();
 
 		glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -67,9 +73,16 @@ int main(int argc, char** argv) {
 
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
 
+		glPushMatrix();
+		glTranslatef(0.0f, 0.0f, 0.0f);
+		glRotatef(1, 0, 0, 1.0);
+
+		SwapBuffers(window.GetHDC());
+
 		window.getMessage();
 	}
 
 	window.Uninit();
+
 	return 0;
 }

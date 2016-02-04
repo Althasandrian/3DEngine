@@ -18,20 +18,16 @@
     <ClCompile Include="Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-
-	
     <ClCompile Include="Core\Window.cpp">
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="Rendering\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Rendering\OpenGLControl.cpp">
-
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-
     <ClInclude Include="lib\Helper.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -41,10 +37,10 @@
     <ClInclude Include="Core\Window.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\EntityManager.hpp">
+    <ClInclude Include="Core\Component.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Component.hpp">
+    <ClInclude Include="Core\Time.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -64,6 +60,5 @@
     <ClInclude Include="Rendering\OpenGLControl.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-
   </ItemGroup>
 </Project>

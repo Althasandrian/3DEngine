@@ -1,58 +1,26 @@
 #pragma once
 
-class Component
-{
-public:
-	Component();
-	virtual ~Component();
-	
-private:
+namespace Engine {
 
-};
+	// Base Component
+	class Component {
+	public:
+		Component() = default;
+		virtual ~Component() = default;
+		//virtual std::ofstream& Serialize(std::ofstream& os) = 0; //Onkohan t‰‰ virtual vai ei?
+	};
 
-Component::Component()
-{
-}
+	class Renderable : public Component {
+	public:
+		Renderable() = default;
+		virtual ~Renderable() = default;
+		//std::ofstream& Serialize(std::ofstream& os) {}
+	};
 
-Component::~Component()
-{
-}
-
-
-class testiComp : public Component
-{
-public:
-	testiComp();
-	~testiComp();
-std::string asd;
-private:
-	
-};
-
-testiComp::testiComp()
-{
-	asd = "testi";
-}
-
-testiComp::~testiComp()
-{
-}
-
-class toinentesti : public Component
-{
-public:
-	toinentesti();
-	~toinentesti();
-std::string debug;
-private:
-	
-};
-
-toinentesti::toinentesti()
-{
-	debug = "kakkaa";
-}
-
-toinentesti::~toinentesti()
-{
+	class Transformable : public Component {
+	public:
+		Transformable() = default;
+		virtual ~Transformable() = default;
+		//std::ofstream& Serialize(std::ofstream& os) {}
+	};
 }

@@ -53,7 +53,7 @@ int Window::createWindow(const char* windowName, glm::vec2 size, glm::vec2 posit
 		return -1;
 	}
 
-	_windowHandle = CreateWindowEx(NULL,							/*The extended window style of the window being created.*/
+	_windowHandle = CreateWindowEx(	NULL,							/*The extended window style of the window being created.*/
 									tempWindowClassName,			/*A null-terminated string or a class atom created by a previous call to the RegisterClass or RegisterClassEx function.*/
 									tempWindowName,					/*The window name. If the window style specifies a title bar, the window title pointed to by lpWindowName is displayed in the title bar.*/
 									windowStyle,					/*The style of the window being created.*/
@@ -71,13 +71,6 @@ int Window::createWindow(const char* windowName, glm::vec2 size, glm::vec2 posit
 
 	ShowWindow(_windowHandle, _cmdShow);
 	UpdateWindow(_windowHandle);
-
-#ifdef _DEBUG
-	ShowWindow(GetConsoleWindow(), SW_SHOW);
-#endif
-
-	confineMouse();
-	
 
 	return 1;
 }
