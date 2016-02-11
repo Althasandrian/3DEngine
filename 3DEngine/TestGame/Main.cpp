@@ -1,6 +1,6 @@
-#include "Resource Manager\ResourceManager.h"
+#include "Include\Resource Manager\ResourceManager.h"
 #include <string>
-
+#include "Include\Lodepng\lodepng.h"
 int main()
 {
 	ResourceManager *resman = ResourceManager::GetInstance();
@@ -13,7 +13,7 @@ int main()
 	std::cout << resman->GetResourceUsers(res) << std::endl;
 	resman->UnLoadResource(res);
 	std::cout << resman->GetResourceUsers(res) << std::endl;
-	std::vector<char> resvec = res3->getImageData();
+	std::vector<unsigned char> resvec = res3->getImageData();
 	resman->UnLoadResource(res);
 	std::cout << resman->GetResourceUsers(res) << std::endl;
 	system("pause");

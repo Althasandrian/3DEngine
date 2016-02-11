@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir)Inlcude;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\tonilyy\Documents\GitHub\3DEngine\3DEngine\TestGame\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -78,12 +78,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Inlcude\Resource Manager\ResourceManager.cpp" />
+    <ClCompile Include="Include\Lodepng\lodepng.cpp" />
+    <ClCompile Include="Include\Resource Manager\ResourceManager.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Inlcude\Resource Manager\Resource.h" />
-    <ClInclude Include="Inlcude\Resource Manager\ResourceManager.h" />
+    <ClInclude Include="Include\Lodepng\lodepng.h" />
+    <ClInclude Include="Include\Resource Manager\Resource.h" />
+    <ClInclude Include="Include\Resource Manager\ResourceManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
