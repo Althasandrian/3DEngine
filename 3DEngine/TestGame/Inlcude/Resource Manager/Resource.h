@@ -21,9 +21,12 @@ public:
 	int ID;
 	std::vector<int> resourceUsers;
 	void setTextData(std::string readFile){ textData = readFile; }
+	void setImageData(std::vector<char> imageFile) { std::cout << "setting image data" << std::endl; imageData = imageFile; }
 	std::string getTextData(){ return textData; }
+	std::vector<char> getImageData(){ return imageData; }
 private:
 	std::string textData;
+	std::vector<char> imageData;
 	
 };
 
