@@ -195,7 +195,7 @@ Resource* ResourceManager::LoadAudioResource(std::string filepath)
 	res->ID = ++ID_generator;
 	res->resourceUsers.push_back(1);
 
-
+	irrklang::createIrrKlangDevice();
 
 	_resources.push_back(res);
 	return res;
