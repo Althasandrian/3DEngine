@@ -9,6 +9,7 @@ ResourceManager* ResourceManager::GetInstance()
 	{
 		std::cout << "Creating a new resource manager. " << std::endl;
 		Instance = new ResourceManager;
+
 	}
 	return Instance;
 }
@@ -195,8 +196,9 @@ Resource* ResourceManager::LoadAudioResource(std::string filepath)
 	res->ID = ++ID_generator;
 	res->resourceUsers.push_back(1);
 
-	irrklang::createIrrKlangDevice();
+	irrklang::ISound* audioFile = soundEngine->play3D("asd.vaw", irrklang::vec3df(1, 1, 1));
 
+	res->setAudioData(audioFile);
 	_resources.push_back(res);
 	return res;
 }

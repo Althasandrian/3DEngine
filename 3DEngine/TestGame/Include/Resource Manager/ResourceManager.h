@@ -15,7 +15,6 @@ public:
 	void UnLoadResource(int ID);
 	int GetResourceUsers(int ID);
 	irrklang::ISoundEngine* soundEngine = irrklang::createIrrKlangDevice();
-	irrklang::ISound* lol = soundEngine->play3D("asd.vaw", irrklang::vec3df(1, 1, 1));
 private:
 
 	ResourceManager(){}
