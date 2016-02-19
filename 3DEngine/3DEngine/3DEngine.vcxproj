@@ -82,20 +82,18 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\Rendering\Renderer.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />
     <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Lodepng\lodepng.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Rendering\OpenGLControl.cpp" />
-    <ClCompile Include="Rendering\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\Rendering\Renderer.h" />
     <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\ResourceManager.h" />
     <ClInclude Include="Core\Time.hpp" />
     <ClInclude Include="Lodepng\lodepng.h" />
-    <ClInclude Include="Rendering\OpenGLControl.h" />
-    <ClInclude Include="Rendering\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Component.hpp" />

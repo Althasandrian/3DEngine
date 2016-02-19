@@ -6,6 +6,7 @@
 #include <vector>
 #include <string>
 #include "Core\Time.hpp"
+#include "Core\Rendering\Renderer.h"
 
 Window window;
 std::vector<Engine::Entity> entities;
@@ -44,40 +45,19 @@ int main(int argc, char** argv) {
 	window.createWindow("Dickbutt!", glm::vec2(600, 400), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
 	window.InitOpenGL();
 
-	float VertexPositions[] =
-	{
-		0.0f, 1.0f, 0.0f, 1.0f,
-		-1.0f, -1.0f, 0.0f, 1.0f,
-		1.0f, -1.0f, 0.0f, 1.0f,
-	};
-
 	Engine::Time timer;
-
-	Engine::Entity asd;
-
-	asd.AddComponent(std::make_shared<Engine::Transformable>());
-	asd.AddComponent(std::make_shared<Engine::Renderable>());
-	std::shared_ptr<Engine::Transformable> das = asd.GetComponent<Engine::Transformable>();
-
-	SetCursorPos(window.GetSize().x / 2, window.GetSize().y/2);
+	std::vector<Engine::Renderable*> renderables;
+	renderables.push_back(new Engine::Renderable());
+	for (unsigned i = 0; i < renderables.size(); i++) {
+		renderables[i]->Init();
+	}
+	Engine::Renderer::GetInstance()->Renderende(&window);
 
 	while (window.IsOpen()) {
 
 		timer.Update();
 
-		glClearColor(0.0f, 0.5f, 0.0f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-		glVertexAttribPointer(0, 4, GL_FLOAT, 0, 0, VertexPositions);
-		glEnableVertexAttribArray(0);
-
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 3);
-
-		glPushMatrix();
-		glTranslatef(0.0f, 0.0f, 0.0f);
-		glRotatef(1, 0, 0, 1.0);
-
-		SwapBuffers(window.GetHDC());
+		Engine::Renderer::GetInstance()->Draw(renderables);
 
 		window.getMessage();
 	}
