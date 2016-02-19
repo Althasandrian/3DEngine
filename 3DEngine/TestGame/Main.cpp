@@ -1,6 +1,7 @@
 #include "Include\Resource Manager\ResourceManager.h"
 #include <string>
 #include "Include\Lodepng\lodepng.h"
+
 int main()
 {
 	ResourceManager *resman = ResourceManager::GetInstance();

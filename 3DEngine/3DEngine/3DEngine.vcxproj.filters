@@ -20,10 +20,7 @@
     </ClCompile>
     <ClCompile Include="Core\Window.cpp">
     </ClCompile>
-    <ClCompile Include="Rendering\Renderer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Rendering\OpenGLControl.cpp">
+    <ClCompile Include="Core\Rendering\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -43,6 +40,9 @@
     <ClInclude Include="Core\Time.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Rendering\Renderer.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Cursor.ico">
@@ -54,11 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="glew32.dll" />
-    <ClInclude Include="Rendering\Renderer.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Rendering\OpenGLControl.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
+    <None Include="Core\Rendering\Shaders\Minimal.frag" />
+    <None Include="Core\Rendering\Shaders\Minimal.vert" />
   </ItemGroup>
 </Project>

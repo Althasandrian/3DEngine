@@ -84,13 +84,11 @@
   <ItemGroup>
     <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Rendering\OpenGLControl.cpp" />
-    <ClCompile Include="Rendering\Renderer.cpp" />
+    <ClCompile Include="Core\Rendering\Renderer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Time.hpp" />
-    <ClInclude Include="Rendering\OpenGLControl.h" />
-    <ClInclude Include="Rendering\Renderer.h" />
+    <ClInclude Include="Core\Rendering\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Component.hpp" />
@@ -103,6 +101,8 @@
     <Image Include="Resources\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Core\Rendering\Shaders\Minimal.frag" />
+    <None Include="Core\Rendering\Shaders\Minimal.vert" />
     <None Include="glew32.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
