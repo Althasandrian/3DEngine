@@ -1,4 +1,7 @@
 #pragma once
+#include <glm\glm.hpp>
+#include <glm\gtx\transform.hpp>
+#include <glm\gtc\matrix_transform.hpp>
 
 namespace Engine {
 
@@ -19,25 +22,27 @@ namespace Engine {
 			_shaderAttribID = 0;
 
 			float VertexPositions[] = {
-				0.0f, 1.0f, 0.0f,
 				-1.0f, -1.0f, 0.0f,
+				0.0f, 1.0f, 0.0f,
 				1.0f, -1.0f, 0.0f };
 
-			glGenBuffers(1, &_vbo);
+			glGenBuffers(1, &_vertexBufferObject);
 
-			glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+			glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
 
 			glBufferData(GL_ARRAY_BUFFER, sizeof(VertexPositions), VertexPositions, GL_STATIC_DRAW);
 
 			glVertexAttribPointer(_shaderAttribID, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 			glEnableVertexAttribArray(_shaderAttribID);
+
+			projectionMatrix = glm::perspective(120.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 		}
 
 		void Draw() {
 			glEnableVertexAttribArray(_shaderAttribID);
 
-			glBindBuffer(GL_ARRAY_BUFFER, _vbo);
+			glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
 
 			glDrawArrays(GL_TRIANGLES, 0, (sizeof(VertexPositions) / 3) / sizeof(GLfloat));
 		}
@@ -46,7 +51,10 @@ namespace Engine {
 		float VertexPositions[9];
 		char* _vertexData;
 		GLuint _shaderAttribID;
-		GLuint _vbo;
+		GLuint _vertexBufferObject;
+
+		glm::mat4 projectionMatrix;
+
 		//std::ofstream& Serialize(std::ofstream& os) {}
 	};
 

@@ -17,7 +17,6 @@ namespace Engine
 		const char* vertData =	"#version 140									\n"
 								"in  vec3 in_Position;							\n"
 								"in  vec3 in_Color;								\n"
-								"uniform mat4 mvp;								\n"
 								"out vec3 ex_Color;								\n"
 								"void main(void)								\n"
 								"{												\n"
@@ -52,7 +51,7 @@ namespace Engine
 
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		for (int i = 0; i < renderables.size(); i++) {
+		for (unsigned i = 0; i < renderables.size(); i++) {
 			renderables[i]->Draw();
 		}
 		

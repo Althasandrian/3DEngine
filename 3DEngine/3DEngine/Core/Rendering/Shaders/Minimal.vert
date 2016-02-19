@@ -1,5 +1,3 @@
-// Vertex Shader – file "minimal.vert"
-
 #version 140
 
 in  vec3 in_Position;
