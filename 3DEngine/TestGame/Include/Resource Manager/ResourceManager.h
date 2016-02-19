@@ -21,6 +21,10 @@ private:
 
 	ResourceManager(){}
 	~ResourceManager() {}
+
+	ResourceManager(ResourceManager const&);
+	void operator=(ResourceManager const&);
+
 	std::vector<Resource*> _resources;
 	std::vector<Resource*>::iterator _it;
 	int ID_generator = 0;
