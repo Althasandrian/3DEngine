@@ -37,11 +37,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 int main(int argc, char** argv) {
 
-#ifndef _DEBUG
-	ShowWindow(GetConsoleWindow(), SW_HIDE);
+#ifdef _DEBUG
+	ShowWindow(GetConsoleWindow(), SW_SHOW);
 #endif
 
-	window.createWindow("Dickbutt!", glm::vec2(1920, 1200), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_BORDERLESS, WndProc);
+	window.createWindow("Dickbutt!", glm::vec2(600, 400), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
 	window.InitOpenGL();
 
 	float VertexPositions[] =

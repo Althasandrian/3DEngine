@@ -6,8 +6,9 @@ int main()
 	ResourceManager *resman = ResourceManager::GetInstance();
 
 	int res = resman->LoadResource("Resources/Test.txt")->ID;
-	//int res2 = resman->LoadResource("Resources/BigBadBoss.png")->ID;
+	Resource* res2 = resman->LoadResource("Resources/bossMusic.wav");
 	Resource* res3 = resman->LoadResource("Resources/BigBadBoss.png");
+
 	std::cout << res << std::endl;
 	std::cout << res << std::endl;
 	std::cout << resman->GetResourceUsers(res) << std::endl;

@@ -1,6 +1,7 @@
 #include "ResourceManager.h"
 #include <string>
 #include <fstream>
+#include <Windows.h>
 ResourceManager* ResourceManager::Instance = nullptr;
 
 ResourceManager* ResourceManager::GetInstance()
@@ -46,23 +47,32 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 		return res;
 	}
 	//AudioFile
-	else if (filepath.substr(filepath.size() - 4) == ".aud")
+	else if (filepath.substr(filepath.size() - 4) == ".wav")
 	{
 		std::cout << "An audio file" << std::endl;
 
 		Resource *res = new Resource();
 		res = ResourceManager::LoadAudioResource(filepath);
 
-
 		return res;
 	}
-	//VideoFile
-	else if (filepath.substr(filepath.size() - 4) == ".vid")
+	//FontFile
+	else if (filepath.substr(filepath.size() - 4) == ".ttf")
 	{
-		std::cout << "a video file" << std::endl;
+		std::cout << "a Font file" << std::endl;
 
+		
+			unsigned size = strlen(filepath.c_str()) + 1; // +1 to include NULL
+			wchar_t* wc = new wchar_t[size];
+			unsigned outSize;
+			mbstowcs_s(&outSize, wc, size, filepath.c_str(), size - 1);
+			
+		
+
+		AddFontResourceEx(wc , FR_PRIVATE,0);
+		
 		Resource *res = new Resource();
-		res = ResourceManager::LoadVideoResource(filepath);
+		res = ResourceManager::LoadFontResource(filepath);
 		return res;
 	}
 	//UnknownFile
@@ -175,13 +185,9 @@ Resource* ResourceManager::LoadImageResource(std::string filepath)
 
 		std::vector<unsigned char> imgfile;
 		unsigned error = lodepng::decode(imgfile,width,height,filepath);
-		/*for (size_t i = 0; i < size + 1; i++)
-		{
-			imgfile.push_back(buffer[i]);
-		}
-		res->setImageData(imgfile);*/
+
 		res->setImageData(imgfile);
-		//off_t start, length;
+
 	}
 	_resources.push_back(res);
 	return res;
@@ -195,20 +201,20 @@ Resource* ResourceManager::LoadAudioResource(std::string filepath)
 	res->type = Audio;
 	res->ID = ++ID_generator;
 	res->resourceUsers.push_back(1);
-
-	irrklang::ISound* audioFile = soundEngine->play3D("asd.vaw", irrklang::vec3df(1, 1, 1));
+	
+	irrklang::ISoundSource* audioFile = soundEngine->addSoundSourceFromFile(filepath.c_str());
 
 	res->setAudioData(audioFile);
 	_resources.push_back(res);
 	return res;
 }
-Resource* ResourceManager::LoadVideoResource(std::string filepath)
+Resource* ResourceManager::LoadFontResource(std::string filepath)
 {
 	std::cout << "Loading Resource" << std::endl;
 
 	Resource *res = new Resource();
 	res->filepath = filepath;
-	res->type = Video;
+	res->type = Font;
 	res->ID = ++ID_generator;
 	res->resourceUsers.push_back(1);
 

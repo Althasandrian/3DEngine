@@ -82,11 +82,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioSystem.cpp" />
     <ClCompile Include="Include\Lodepng\lodepng.cpp" />
     <ClCompile Include="Include\Resource Manager\ResourceManager.cpp" />
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioSystem.h" />
     <ClInclude Include="Include\Lodepng\lodepng.h" />
     <ClInclude Include="Include\Resource Manager\Resource.h" />
     <ClInclude Include="Include\Resource Manager\ResourceManager.h" />
