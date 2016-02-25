@@ -3,6 +3,7 @@
 
 #include "..\Window.h"
 #include "..\Component.hpp"
+#include "ShaderProgram.h"
 
 #include <vector>
 
@@ -32,7 +33,7 @@ namespace Engine
 
 		Window* _window;
 
-
+		GLSLProgram _GLSLP;
 		GLuint _shaderProgram;
 		GLuint _vertexShader;
 		GLuint _fragmentShader;

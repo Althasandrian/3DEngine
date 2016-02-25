@@ -35,8 +35,6 @@ namespace Engine {
 			glVertexAttribPointer(_shaderAttribID, 3, GL_FLOAT, GL_FALSE, 0, 0);
 
 			glEnableVertexAttribArray(_shaderAttribID);
-
-			projectionMatrix = glm::perspective(120.0f, 4.0f / 3.0f, 0.1f, 100.0f);
 		}
 
 		void Draw() {
@@ -45,6 +43,8 @@ namespace Engine {
 			glBindBuffer(GL_ARRAY_BUFFER, _vertexBufferObject);
 
 			glDrawArrays(GL_TRIANGLES, 0, (sizeof(VertexPositions) / 3) / sizeof(GLfloat));
+
+			glDisableVertexAttribArray(_shaderAttribID);
 		}
 
 	private:
@@ -52,8 +52,6 @@ namespace Engine {
 		char* _vertexData;
 		GLuint _shaderAttribID;
 		GLuint _vertexBufferObject;
-
-		glm::mat4 projectionMatrix;
 
 		//std::ofstream& Serialize(std::ofstream& os) {}
 	};
