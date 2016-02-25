@@ -204,7 +204,7 @@ Resource* ResourceManager::LoadAudioResource(std::string filepath)
 	
 	irrklang::ISoundSource* audioFile = soundEngine->addSoundSourceFromFile(filepath.c_str());
 
-	res->setAudioData(audioFile);
+	res->setAudioData(/*audioFile*/);
 	_resources.push_back(res);
 	return res;
 }

@@ -17,7 +17,7 @@ void AudioSystem::audioPlay()
 
 void AudioSystem::audioPause()
 {
-	audio->setIsPaused(true);
+	sound->setIsPaused(true);
 }
 
 void AudioSystem::includeAudio(std::string filepath)
@@ -29,3 +29,8 @@ void AudioSystem::setPosition(irrklang::vec3df pos)
 {
 	position = pos;
 }
+void AudioSystem::setVolume()
+{
+	sound->setVolume(volume);
+}
+

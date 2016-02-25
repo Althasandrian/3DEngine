@@ -6,6 +6,7 @@ class AudioSystem
 {
 public:
 	AudioSystem(irrklang::ISoundEngine* engine);
+	AudioSystem() {}
 	~AudioSystem();
 
 	void audioPlay();
@@ -19,6 +20,7 @@ private:
 	irrklang::ISoundSource* soundSource;
 	irrklang::ISound* sound;
 	irrklang::vec3df position;
+	int volume;
 };
 
 
