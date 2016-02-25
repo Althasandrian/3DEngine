@@ -12,7 +12,7 @@ public:
 	void audioPause();
 	void includeAudio(std::string filepath);
 	void setPosition(irrklang::vec3df pos);
-
+	void setVolume();
 
 private:
 	irrklang::ISoundEngine* soundEngine;
