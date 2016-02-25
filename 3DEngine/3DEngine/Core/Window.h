@@ -44,7 +44,7 @@ public:
 	int getMessage();
 
 
-	bool IsOpen() { return IsWindow(_windowHandle); }
+	bool IsOpen() { return IsWindow(_windowHandle) != 0; }
 	//! Checks if the window is still open.
 	/*!
 	\return Return true if still open, false if closed.

@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\Rendering\Renderer.cpp" />
     <ClCompile Include="Core\Rendering\Shader.cpp" />
     <ClCompile Include="Core\Rendering\ShaderProgram.cpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\EntityManager.hpp" />
     <ClInclude Include="Core\Rendering\Renderer.h" />
     <ClInclude Include="Core\Rendering\Shader.h" />
     <ClInclude Include="Core\Rendering\ShaderProgram.h" />

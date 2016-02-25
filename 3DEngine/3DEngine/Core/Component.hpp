@@ -1,4 +1,5 @@
 #pragma once
+
 #include <glm\glm.hpp>
 #include <glm\gtx\transform.hpp>
 #include <glm\gtc\matrix_transform.hpp>
@@ -11,6 +12,13 @@ namespace Engine {
 		Component() = default;
 		virtual ~Component() = default;
 		//virtual std::ofstream& Serialize(std::ofstream& os) = 0; //Onkohan t‰‰ virtual vai ei?
+	};
+
+	class Transformable : public Component {
+	public:
+		Transformable() = default;
+		virtual ~Transformable() = default;
+		//std::ofstream& Serialize(std::ofstream& os) {}
 	};
 
 	class Renderable : public Component {
@@ -56,10 +64,24 @@ namespace Engine {
 		//std::ofstream& Serialize(std::ofstream& os) {}
 	};
 
-	class Transformable : public Component {
+	class Texture : public Component {
 	public:
-		Transformable() = default;
-		virtual ~Transformable() = default;
+		Texture() = default;
+		virtual ~Texture() = default;
+		//std::ofstream& Serialize(std::ofstream& os) {}
+	};
+
+	class Colour : public Component {
+	public:
+		Colour() = default;
+		virtual ~Colour() = default;
+		//std::ofstream& Serialize(std::ofstream& os) {}
+	};
+
+	class Audio : public Component {
+	public:
+		Audio() = default;
+		virtual ~Audio() = default;
 		//std::ofstream& Serialize(std::ofstream& os) {}
 	};
 }

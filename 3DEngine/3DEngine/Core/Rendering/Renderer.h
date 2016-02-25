@@ -9,8 +9,6 @@
 
 namespace Engine
 {
-	typedef void(*DrawCallback)(void);
-
 	class Renderer
 	{
 	public:
@@ -19,7 +17,6 @@ namespace Engine
 			return &instance;
 		};
 
-		void RegisterDraw(DrawCallback draw) { _draw = draw; };
 		void Renderende(Window* window);
 		void Draw(std::vector<Engine::Renderable*> renderables);
 	private:
@@ -28,8 +25,6 @@ namespace Engine
 
 		Renderer(Renderer const&);
 		void operator=(Renderer const&);
-
-		DrawCallback _draw;
 
 		Window* _window;
 

@@ -5,6 +5,7 @@
 #include <typeindex>
 #include <memory>
 #include <map>
+
 namespace Engine {
 	class Component;
 
@@ -23,9 +24,9 @@ namespace Engine {
 		std::map<const std::type_info*, std::shared_ptr<Component>> _components;
 	};
 
-	Entity::Entity() {}
+	inline Entity::Entity() {}
 
-	Entity::~Entity() {
+	inline Entity::~Entity() {
 
 	}
 

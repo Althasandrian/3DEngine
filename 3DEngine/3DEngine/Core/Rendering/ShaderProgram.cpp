@@ -18,6 +18,8 @@ namespace Engine {
 		glAttachShader(_programHandle, _shaders[shaderType]->GetShaderID());
 
 		glLinkProgram(_programHandle);
+
+		return true;
 	}
 
 	void GLSLProgram::Use() {
