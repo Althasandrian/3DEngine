@@ -202,9 +202,9 @@ Resource* ResourceManager::LoadAudioResource(std::string filepath)
 	res->ID = ++ID_generator;
 	res->resourceUsers.push_back(1);
 	
-	irrklang::ISoundSource* audioFile = soundEngine->addSoundSourceFromFile(filepath.c_str());
 
-	res->setAudioData(/*audioFile*/);
+	irrklang::ISoundSource* audioFile = soundEngine->addSoundSourceFromFile(filepath.c_str());
+	res->setAudioData(audioFile);
 	_resources.push_back(res);
 	return res;
 }

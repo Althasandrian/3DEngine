@@ -17,6 +17,7 @@ public:
 	void UnLoadResource(int ID);
 	int GetResourceUsers(int ID);
 	irrklang::ISoundEngine* soundEngine = irrklang::createIrrKlangDevice();
+
 private:
 
 	ResourceManager(){}

@@ -20,9 +20,10 @@ void AudioSystem::audioPause()
 	sound->setIsPaused(true);
 }
 
-void AudioSystem::includeAudio(std::string filepath)
+void AudioSystem::includeAudio(std::string filePath)
 {
-	soundSource = soundEngine->addSoundSourceFromFile(filepath.c_str());
+	
+	soundSource = soundEngine->addSoundSourceFromFile(filePath.c_str());
 }
 
 void AudioSystem::setPosition(irrklang::vec3df pos)

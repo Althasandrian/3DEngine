@@ -22,10 +22,11 @@ public:
 	int ID;	
 	std::vector<int> resourceUsers;
 
+
 	void setTextData(std::string readFile){ textData = readFile; }
 	void setImageData(std::vector<unsigned char> imageFile) { std::cout << "setting image data" << std::endl; imageData = imageFile; }
-	void setAudioData(/*irrklang::ISoundSource* audioFile*/) { std::cout << "Setting audio data " << std::endl; audio->includeAudio(filepath); /*audioData = audioFile;*/ }
-
+	void setAudioData(irrklang::ISoundSource* audioFile) { std::cout << "Setting audio data " << std::endl; audioData = audioFile; }
+	void setAudioEngine(irrklang::ISoundEngine* engine) { }
 	std::string getTextData(){ return textData; }
 	std::vector<unsigned char> getImageData(){ return imageData; }
 
@@ -33,7 +34,8 @@ public:
 private:
 	std::string textData;
 	std::vector<unsigned char> imageData;
-	irrklang::ISoundSource* audioData;
+	irrklang::ISoundSource* audioData;	
+	irrklang::ISoundEngine* engine;
 	AudioSystem* audio;
 };
 

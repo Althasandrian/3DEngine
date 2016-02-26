@@ -23,5 +23,4 @@ private:
 	int volume;
 };
 
-
 #endif // !AUDIOSYSTEM_H
