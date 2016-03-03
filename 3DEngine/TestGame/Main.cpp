@@ -9,7 +9,7 @@ int main()
 	int res = resman->LoadResource("Resources/Test.txt")->ID;
 	Resource* res2 = resman->LoadResource("Resources/bossMusic.wav");
 	Resource* res3 = resman->LoadResource("Resources/BigBadBoss.png");
-
+//	res2->getAudioData()->audioPlay();
 	std::cout << res << std::endl;
 	std::cout << res << std::endl;
 	std::cout << resman->GetResourceUsers(res) << std::endl;

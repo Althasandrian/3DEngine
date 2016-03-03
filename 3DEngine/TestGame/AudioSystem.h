@@ -5,7 +5,6 @@
 class AudioSystem
 {
 public:
-	AudioSystem(irrklang::ISoundEngine* engine);
 	AudioSystem() {}
 	~AudioSystem();
 
@@ -14,6 +13,7 @@ public:
 	void includeAudio(std::string filepath);
 	void setPosition(irrklang::vec3df pos);
 	void setVolume();
+	void AudioSystem::setEngine(irrklang::ISoundEngine* engine);
 
 private:
 	irrklang::ISoundEngine* soundEngine;

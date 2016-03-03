@@ -1,9 +1,5 @@
 #include "AudioSystem.h"
 
-AudioSystem::AudioSystem(irrklang::ISoundEngine* engine)
-{
-	soundEngine = engine;
-}
 
 AudioSystem::~AudioSystem()
 {
@@ -19,7 +15,10 @@ void AudioSystem::audioPause()
 {
 	sound->setIsPaused(true);
 }
-
+void AudioSystem::setEngine(irrklang::ISoundEngine* engine)
+{
+	soundEngine = engine;
+}
 void AudioSystem::includeAudio(std::string filePath)
 {
 	
