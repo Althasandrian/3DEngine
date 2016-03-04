@@ -36,7 +36,6 @@ private:
 	std::string textData;
 	std::vector<unsigned char> imageData;
 	irrklang::ISoundSource* audioData;	
-	//irrklang::ISoundEngine* engine;
 	AudioSystem* audio = new AudioSystem;
 };
 

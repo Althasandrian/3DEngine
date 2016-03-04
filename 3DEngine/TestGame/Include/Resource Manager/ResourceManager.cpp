@@ -30,8 +30,12 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 		}
 	}
 	//TextFile
-	if (filepath.substr(filepath.size() - 4) == ".txt")
-	{
+	if (filepath.substr(filepath.size() - 4) == ".txt" || filepath.substr(filepath.size() - 3) == ".vs" || filepath.substr(filepath.size() - 3) == ".fs")
+	{ 
+		if (filepath.substr(filepath.size() - 3) == ".vs" || filepath.substr(filepath.size() - 3) == ".fs")
+		{
+			// load shader file
+		}
 		std::cout << "A text file" << std::endl;
 		Resource* res = new Resource(); 
 		res = ResourceManager::LoadTextResource(filepath);
@@ -66,8 +70,6 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 			wchar_t* wc = new wchar_t[size];
 			unsigned outSize;
 			mbstowcs_s(&outSize, wc, size, filepath.c_str(), size - 1);
-			
-		
 
 		AddFontResourceEx(wc , FR_PRIVATE,0);
 		
@@ -206,9 +208,6 @@ Resource* ResourceManager::LoadAudioResource(std::string filepath)
 	res->setAudioEngine(soundEngine);
 	
 	res->setAudio(filepath);
-	//irrklang::ISoundSource* audioFile = soundEngine->addSoundSourceFromFile(filepath.c_str());
-	//res->setAudioData
-	//res->setAudioData(audioFile);
 	_resources.push_back(res);
 	return res;
 }

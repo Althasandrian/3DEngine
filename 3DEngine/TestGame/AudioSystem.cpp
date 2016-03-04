@@ -21,7 +21,6 @@ void AudioSystem::setEngine(irrklang::ISoundEngine* engine)
 }
 void AudioSystem::includeAudio(std::string filePath)
 {
-	
 	soundSource = soundEngine->addSoundSourceFromFile(filePath.c_str());
 }
 
