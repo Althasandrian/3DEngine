@@ -18,7 +18,7 @@ namespace Engine {
 		~GLSLProgram();
 		
 		bool AttachShader(const char* source, GLenum shaderType);
-		void Use();
+		void Use(float windowRatio);
 
 		int GetHandle();
 		bool IsLinked();
@@ -37,7 +37,17 @@ namespace Engine {
 		int _getUniformLocation(const char* name);
 		bool _fileExists(const char* fileName);
 		std::unordered_map<GLenum, Shader*> _shaders;
+		glm::mat4 MVP;
 	};
+
+	template<class T> void GLSLProgram::SetUniform(const char* name, T tempType) {
+		glUseProgram(_programHandle);
+
+		GLint location = glGetUniformLocation(_programHandle, name);
+		glUniformMatrix4fv(location, 1, false, glm::value_ptr(tempType));
+
+		glUseProgram(0);
+	}
 }
 
 #endif

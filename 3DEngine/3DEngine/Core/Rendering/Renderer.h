@@ -28,6 +28,8 @@ namespace Engine
 
 		Window* _window;
 
+		GLuint ProgramID;
+
 		GLSLProgram _GLSLP;
 		GLuint _shaderProgram;
 		GLuint _vertexShader;

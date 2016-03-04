@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
 	sad->AddComponent(std::make_shared<Engine::Transformable>());
 
 	std::shared_ptr<Engine::Entity> das = std::make_shared<Engine::Entity>();
-	das->AddComponent(std::make_shared<Engine::Transformable>());
+	das->AddComponent(std::make_shared<Engine::Renderable>());
 	
 	EM->AddEntity(asd);
 	EM->AddEntity(sad);
@@ -85,6 +85,6 @@ int main(int argc, char** argv) {
 	}
 
 	window.Uninit();
-
+	
 	return 0;
-}
+} 
