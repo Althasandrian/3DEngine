@@ -6,7 +6,7 @@ int main()
 {
 	ResourceManager *resman = ResourceManager::GetInstance();
 
-	int res = resman->LoadResource("Resources/Test.txt")->ID;
+	int res = resman->LoadResource("Resources/Test.vs")->ID;
 	Resource* res2 = resman->LoadResource("Resources/bossMusic.wav");
 	Resource* res3 = resman->LoadResource("Resources/BigBadBoss.png");
 	res2->getAudioData()->audioPlay();

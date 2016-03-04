@@ -34,6 +34,7 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 	{ 
 		if (filepath.substr(filepath.size() - 3) == ".vs" || filepath.substr(filepath.size() - 3) == ".fs")
 		{
+			std::cout << "Loading shader file" << std::endl;
 			// load shader file
 		}
 		std::cout << "A text file" << std::endl;
