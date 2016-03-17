@@ -1,0 +1,17 @@
+#version 330
+
+in vec3 in_Position;
+in vec3 in_Color;
+in vec3 in_TexCoord;
+
+out vec3 ex_Color;
+
+uniform mat4 trans;
+uniform mat4 view;
+uniform mat4 proj;
+
+void main()
+{
+    gl_Position = proj * view * trans * vec4(in_Position, 1.0);
+	ex_Color = in_Color;
+}

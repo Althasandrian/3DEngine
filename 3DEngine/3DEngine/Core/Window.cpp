@@ -147,16 +147,12 @@ void Window::SetSize(glm::vec2 newSize) {
 	RECT rect;
 	GetWindowRect(_windowHandle, &rect);
 	SetWindowPos(_windowHandle, NULL, rect.left, rect.top, newSize.x, newSize.y, SWP_SHOWWINDOW);
-
-	confineMouse();
 }
 
 void Window::SetPosition(glm::vec2 newPosition) {
 	RECT rect;
 	GetWindowRect(_windowHandle, &rect);
 	SetWindowPos(_windowHandle, NULL, newPosition.x, newPosition.y, rect.right - rect.left, rect.bottom - rect.top, SWP_SHOWWINDOW);
-
-	confineMouse();
 }
 
 glm::vec2 Window::GetSize() {
@@ -176,23 +172,4 @@ void Window::Resize() {
 	GetWindowRect(_windowHandle, &rect);
 	glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
 	//glFrustum(left * ratio, right * ratio, bottom, top, nearClip, farClip);
-}
-
-
-//Additional functions
-void Window::confineMouse() {
-	RECT rect;
-	GetClientRect(_windowHandle, &rect);
-
-	POINT pt = { rect.left, rect.top };
-	POINT pt2 = { rect.right, rect.bottom };
-	ClientToScreen(_windowHandle, &pt);
-	ClientToScreen(_windowHandle, &pt2);
-	SetRect(&rect, pt.x, pt.y, pt2.x, pt2.y);
-
-	ClipCursor(&rect);
-}
-
-void Window::releaseMouse() {
-	ClipCursor(NULL);
 }

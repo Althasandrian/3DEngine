@@ -52,7 +52,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -70,7 +70,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -83,10 +83,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Core\AudioSystem.cpp" />
-    <ClCompile Include="Core\EntityManager.cpp" />
-    <ClCompile Include="Core\Rendering\Renderer.cpp" />
-    <ClCompile Include="Core\Rendering\Shader.cpp" />
-    <ClCompile Include="Core\Rendering\ShaderProgram.cpp" />
+    <ClCompile Include="Core\Input\Input.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />
     <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Lodepng\lodepng.cpp" />
@@ -94,18 +91,18 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\AudioSystem.h" />
-    <ClInclude Include="Core\EntityManager.hpp" />
-    <ClInclude Include="Core\Rendering\Renderer.h" />
-    <ClInclude Include="Core\Rendering\Shader.h" />
-    <ClInclude Include="Core\Rendering\ShaderProgram.h" />
+    <ClInclude Include="Core\Input\Input.h" />
+    <ClInclude Include="Core\Managers\EntityManager.hpp" />
     <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\ResourceManager.h" />
+    <ClInclude Include="Core\Managers\StateManager.hpp" />
+    <ClInclude Include="Core\Managers\SystemManager.hpp" />
+    <ClInclude Include="Core\Shaders\ShaderProgram.hpp" />
+    <ClInclude Include="Core\Systems\RenderingSystem.hpp" />
     <ClInclude Include="Core\Time.hpp" />
     <ClInclude Include="Lodepng\lodepng.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\Component.hpp" />
-    <ClInclude Include="Core\Entity.hpp" />
     <ClInclude Include="Core\Window.h" />
     <ClInclude Include="lib\Helper.hpp" />
   </ItemGroup>
@@ -114,6 +111,8 @@
     <Image Include="Resources\favicon.ico" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Core\Shaders\Frag.txt" />
+    <None Include="Core\Shaders\Vert.txt" />
     <None Include="glew32.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

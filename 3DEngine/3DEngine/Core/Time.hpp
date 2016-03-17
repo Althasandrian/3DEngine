@@ -1,5 +1,6 @@
-#ifndef TuomasSaatana_hpp
-#define TuomasSaatana_hpp
+#ifndef Engine_Time_hpp
+#define Engine_Time_hpp
+
 #include <chrono>
 
 namespace Engine
@@ -11,27 +12,30 @@ namespace Engine
 	public:
 		Time();
 		~Time();
-		void Update();
+		DeltaTime Update();
 		DeltaTime GetDeltaTime();
 	private:
 		std::chrono::time_point<std::chrono::system_clock> _start;
 		std::chrono::time_point<std::chrono::system_clock> _end;
+		DeltaTime _deltaTime;
 	};
 
-	Time::Time() {
+	inline Time::Time() {
 		_start = std::chrono::system_clock::now();
 	}
 
-	Time::~Time()
+	inline Time::~Time()
 	{}
 
-	void Time::Update() {
+	inline DeltaTime Time::Update() {
 		_start = _end;
 		_end = std::chrono::system_clock::now();
+		_deltaTime = std::chrono::duration<double>(_end - _start).count();
+		return _deltaTime;
 	}
 
-	DeltaTime Time::GetDeltaTime() {
-		return std::chrono::duration<double>(_end - _start).count();
+	inline DeltaTime Time::GetDeltaTime() {
+		return _deltaTime;
 	}
 }
 #endif /*END TIME_H*/
