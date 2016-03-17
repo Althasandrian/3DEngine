@@ -1,5 +1,5 @@
-#ifndef Window_h
-#define Window_h
+#ifndef Engine_Window_h
+#define Engine_Window_h
 
 #include <Windows.h>
 #include <glew.h>
@@ -76,10 +76,6 @@ public:
 	*/
 
 	void Resize();
-
-	//Toivottavasti turhia t‰‰ll‰.
-	void confineMouse();
-	void releaseMouse();
 
 	HDC GetHDC() { return _deviceContextHandle; }
 	HGLRC GetHGLRC() { return _glRenderingContextHandle; }
