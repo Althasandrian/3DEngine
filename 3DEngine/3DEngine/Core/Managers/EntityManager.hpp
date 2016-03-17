@@ -42,7 +42,7 @@ namespace Engine																											//
 																													//		//
 		virtual void Update(DeltaTime deltaTime) = 0;																//		//
 																													//		//
-		template <typename T> void AddComponent();																	//		//
+		template <typename T, typename ...args> void AddComponent(args&&... param);									//		//
 		template <typename T> void RemoveComponent();																//		//
 																													//		//
 		template <typename T> std::shared_ptr<Component> GetComponent();											//		//
@@ -56,11 +56,11 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	// DEFINITIONS - Entity																							//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
-	template <typename T> void Entity::AddComponent() {																//		//
+	template <typename T, typename ...args> void Entity::AddComponent(args&&... param) {							//		//
 		for (auto it : _components) {																				//		//
 			if (std::dynamic_pointer_cast<T>(it) != nullptr) { return; }											//		//
 		}																											//		//
-		_components.push_back(std::make_shared<T>());																//		//
+		_components.push_back(std::make_shared<T>(param...));														//		//
 		_components.back()->Init();																					//		//
 	}																												//		//
 																													//		//
@@ -110,7 +110,7 @@ namespace Engine																											//
 
 		std::shared_ptr<Entity> GetEntity(std::string name);
 
-		template <typename T> void AddComponent(std::string name);
+		template <typename T, typename ...args> void AddComponent(std::string name, args&&... param);
 
 		template <typename T> std::vector<std::shared_ptr<Component>> GetComponents();
 		template <typename T> std::vector<std::shared_ptr<Component>> GetComponents(std::string name);
@@ -157,8 +157,8 @@ namespace Engine																											//
 		return _entities.find(name)->second;
 	}
 
-	template <typename T> void EntityManager::AddComponent(std::string name) {
-		GetEntity(name)->AddComponent<T>();
+	template <typename T, typename ...args> void EntityManager::AddComponent(std::string name, args&&... param) {
+		GetEntity(name)->AddComponent<T>(param...);
 	}
 
 	template <typename T> std::vector<std::shared_ptr<Component>> EntityManager::GetComponents() {
