@@ -8,36 +8,29 @@ namespace Engine {
 	class Renderable : public Component
 	{
 	public:
-		Renderable();
+		Renderable(std::vector<float> data);
 		virtual ~Renderable();
 
 		void Init();
 		void Cleanup();
 
 		void Update(DeltaTime deltaTime);
+		std::vector<float> GetVertexData();
 	private:
-		float _vertexData;
+		std::vector<float> _vertexData;
 	};
 
-	Renderable::Renderable() {
+	Renderable::Renderable(std::vector<float> data) { _vertexData = data; }
 
-	}
+	Renderable::~Renderable() {}
 
-	Renderable::~Renderable() {
+	void Renderable::Init() {}
 
-	}
+	void Renderable::Cleanup() {}
 
-	void Renderable::Init() {
+	void Renderable::Update(DeltaTime deltaTime) {}
 
-	}
-
-	void Renderable::Cleanup() {
-
-	}
-
-	void Renderable::Update(DeltaTime deltaTime) {
-
-	}
+	std::vector<float> Renderable::GetVertexData() { return _vertexData; }
 
 };
 

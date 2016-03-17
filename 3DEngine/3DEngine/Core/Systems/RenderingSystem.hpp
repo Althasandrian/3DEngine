@@ -10,6 +10,9 @@
 #include <Core\Managers\SystemManager.hpp>
 #include <Core\Shaders\ShaderProgram.hpp>
 
+#include <Core/Components/Renderable.hpp>
+#include <Core/Components/Color.hpp>
+
 namespace Engine
 {
 	class RenderingSystem : public System
@@ -34,6 +37,12 @@ namespace Engine
 		glm::mat4 trans;
 		glm::mat4 view;
 		glm::mat4 proj;
+
+		long long unsigned int _size;
+		long long unsigned int _elemSize;
+		std::vector<float> vertices;
+		std::vector<float> colors;
+		std::vector<GLuint> elements;
 	};
 
 	inline void RenderingSystem::Init() {
@@ -43,50 +52,21 @@ namespace Engine
 		_default->CompileShader("Core/Shaders/Vert.txt", GL_VERTEX_SHADER);
 		_default->CompileShader("Core/Shaders/Frag.txt", GL_FRAGMENT_SHADER);
 
-		float vertices[] = {
-			-0.5f,  0.5f,  -0.5f,
-			 0.5f,  0.5f,  -0.5f,
-			 0.5f, -0.5f,  -0.5f,
-			-0.5f, -0.5f,  -0.5f,
-			-0.5f,  0.5f,   0.5f,
-			 0.5f,  0.5f,   0.5f,
-			 0.5f, -0.5f,   0.5f,
-			-0.5f, -0.5f,   0.5f,
-		};
+		vertices = std::static_pointer_cast<Renderable>(_entityManager->GetComponents<Renderable>("player").back())->GetVertexData();
 
-		float colors[] = {
-			1.0f, 0.0f, 0.0f,
-			0.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 1.0f,
-			1.0f, 1.0f, 0.0f,
-			1.0f, 1.0f, 0.0f,
-			0.0f, 0.0f, 1.0f,
-			0.0f, 1.0f, 0.0f,
-			1.0f, 0.0f, 0.0f
-		};
-
-		GLuint elements[] = {
-			0, 1, 2,
-			2, 3, 0,
-			0, 1, 4,
-			1, 5, 4,
-			1, 2, 5,
-			5, 2, 6,
-			2, 3, 6,
-			6, 3, 7,
-			0, 3, 7,
-			7, 0, 4,
-			4, 5, 6,
-			6, 7, 4 };
+		colors = std::static_pointer_cast<Color>(_entityManager->GetComponents<Color>("player").back())->GetColorData();
 
 		glEnable(GL_DEPTH_TEST);
 
 		glUseProgram(_default->GetProgramID());
 
+		_size = vertices.size() * sizeof(float);
+		_elemSize = elements.size();
+
 		GLuint vertex;
 		glGenBuffers(1, &vertex);
 		glBindBuffer(GL_ARRAY_BUFFER, vertex);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(float), &vertices[0], GL_STATIC_DRAW);
 
 		GLint posAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Position");
 		glEnableVertexAttribArray(posAttrib);
@@ -96,7 +76,7 @@ namespace Engine
 		GLuint color;
 		glGenBuffers(1, &color);
 		glBindBuffer(GL_ARRAY_BUFFER, color);
-		glBufferData(GL_ARRAY_BUFFER, sizeof(colors), colors, GL_STATIC_DRAW);
+		glBufferData(GL_ARRAY_BUFFER, colors.size() * sizeof(float), &colors[0], GL_STATIC_DRAW);
 
 		GLint colAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Color");
 		glEnableVertexAttribArray(colAttrib);
@@ -106,7 +86,7 @@ namespace Engine
 		GLuint ebo;
 		glGenBuffers(1, &ebo);
 		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-		glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(elements), elements, GL_STATIC_DRAW);
+		glBufferData(GL_ELEMENT_ARRAY_BUFFER, _elemSize*sizeof(GLuint), &elements[0], GL_STATIC_DRAW);
 
 		//trans = glm::translate(trans, glm::vec3(0.5f, -1.0f, -0.5f));
 
@@ -154,7 +134,8 @@ namespace Engine
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			glDrawElements(GL_TRIANGLES, 36, GL_UNSIGNED_INT, 0);
+			//glDrawArrays(GL_TRIANGLES, 0, _size);
+			glDrawElements(GL_TRIANGLES, _elemSize*sizeof(GLuint), GL_UNSIGNED_INT, (void*)0);
 
 			SwapBuffers(_window->GetHDC());
 
