@@ -5,8 +5,8 @@
 #include <iostream>
 #include <vector>
 #include "Resource.h"
-#include "Lodepng\lodepng.h"
-#include "irrKlang\irrKlang.h"
+#include "..\Lodepng\lodepng.h"
+#include "..\..\Dependencies\include\irrKlang\irrKlang.h"
 
 class ResourceManager
 {
@@ -17,10 +17,15 @@ public:
 	void UnLoadResource(int ID);
 	int GetResourceUsers(int ID);
 	irrklang::ISoundEngine* soundEngine = irrklang::createIrrKlangDevice();
+
 private:
 
 	ResourceManager(){}
 	~ResourceManager() {}
+
+	ResourceManager(ResourceManager const&);
+	void operator=(ResourceManager const&);
+
 	std::vector<Resource*> _resources;
 	std::vector<Resource*>::iterator _it;
 	int ID_generator = 0;

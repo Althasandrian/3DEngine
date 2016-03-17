@@ -82,6 +82,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Core\AudioSystem.cpp" />
     <ClCompile Include="Core\EntityManager.cpp" />
     <ClCompile Include="Core\Rendering\Renderer.cpp" />
     <ClCompile Include="Core\Rendering\Shader.cpp" />
@@ -92,6 +93,7 @@
     <ClCompile Include="Main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Core\AudioSystem.h" />
     <ClInclude Include="Core\EntityManager.hpp" />
     <ClInclude Include="Core\Rendering\Renderer.h" />
     <ClInclude Include="Core\Rendering\Shader.h" />

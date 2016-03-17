@@ -8,7 +8,6 @@
 #include "Core\Time.hpp"
 #include "Core\Rendering\Renderer.h"
 #include "Core\EntityManager.hpp"
-
 Window window;
 std::vector<Engine::Entity> entities;
 std::vector<Engine::Renderable*> renderables;
