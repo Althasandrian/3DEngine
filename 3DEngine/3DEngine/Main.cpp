@@ -18,17 +18,38 @@ float movX = 0.0f, movY = 0.0f, movZ = 0.0f;
 #include <Core\Systems\RenderingSystem.hpp>
 
 
-class asdasdasd : public Engine::Entity
+class player : public Engine::Entity
 {
 public:
-	asdasdasd() {};
-	virtual ~asdasdasd() {};
+	player(){};
+	virtual ~player(){};
 
-	virtual void Init() { std::cout << "init" << std::endl; };
-	virtual void Cleanup() { std::cout << "cleanup" << std::endl; };
+	void Init(){};
+	void Cleanup(){};
+	void Update(Engine::DeltaTime dt){ };
 
-	virtual void Update(Engine::DeltaTime deltaTime) { std::cout << "update" << std::endl; };
+	
 };
+class Transformable : public Engine::Component
+{
+public:
+	Transformable(){};
+	virtual ~Transformable(){};
+	
+	void Init()
+	{
+		std::cout << "Setting Position" << std::endl;
+		position = glm::vec3(0.0f, 0.0f, 0.0f);
+	};
+	void Cleanup(){};
+	void Update(Engine::DeltaTime dt){};
+	
+private:
+
+	glm::vec3 position;
+
+};
+player* player1 = new player;
 
 Window window;
 
@@ -52,12 +73,13 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 int main(int argc, char** argv) {
+	player1->AddComponent<Transformable>();
 
 #ifdef _DEBUG
 	ShowWindow(GetConsoleWindow(), SW_SHOW);
 #endif
 
-	window.createWindow("Dickbutt!", glm::vec2(600, 400), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_FULLSCREEN, WndProc);
+	window.createWindow("Dickbutt!", glm::vec2(600, 400), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
 	window.InitOpenGL();
 
 	Engine::SystemManager* SM = Engine::SystemManager::GetInstance();

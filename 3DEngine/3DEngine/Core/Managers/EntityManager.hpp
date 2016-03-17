@@ -85,7 +85,7 @@ namespace Engine																											//
 		return nullptr;																								//		//
 	}																												//		//
 																													//		//
-	std::vector<std::shared_ptr<Component>> Entity::GetComponents() {												//		//
+	inline std::vector<std::shared_ptr<Component>> Entity::GetComponents() {										//		//
 		return _components;																							//		//
 	}																												//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
