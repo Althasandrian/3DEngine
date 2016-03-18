@@ -19,6 +19,7 @@ float movX = 0.0f, movY = 0.0f, movZ = 0.0f;
 
 #include <Core/Components/Renderable.hpp>
 #include <Core/Components/Color.hpp>
+#include <Core/Components/temp.hpp>
 
 
 class player : public Engine::Entity
@@ -32,25 +33,6 @@ public:
 	void Update(Engine::DeltaTime dt){ };
 
 	
-};
-class Transformable : public Engine::Component
-{
-public:
-	Transformable(){};
-	virtual ~Transformable(){};
-	
-	void Init()
-	{
-		std::cout << "Setting Position" << std::endl;
-		position = glm::vec3(0.0f, 0.0f, 0.0f);
-	};
-	void Cleanup(){};
-	void Update(Engine::DeltaTime dt){};
-	
-private:
-
-	glm::vec3 position;
-
 };
 
 Window window;
@@ -79,7 +61,7 @@ int main(int argc, char** argv) {
 	EM->AddEntity("player", std::make_shared<player>());
 	//EM->AddComponent<Transformable>("player", glm::vec3(1.0f, 1.0f, 1.0f));
 
-	std::vector<float> vertices = {
+	std::vector<GLfloat> vertices = {
 		0.437500f, -0.765625f, 0.164062f,
 		-0.437500f, -0.765625f, 0.164062f,
 		0.500000f, -0.687500f, 0.093750f,
@@ -589,7 +571,7 @@ int main(int argc, char** argv) {
 		-0.859375f, 0.382812f, 0.382813f
 	};
 
-	std::vector<float> colors = {
+	std::vector<GLfloat> colors = {
 		1.0f, 0.0f, 0.0f,
 		0.0f, 1.0f, 0.0f,
 		0.0f, 0.0f, 1.0f,
@@ -2926,7 +2908,7 @@ int main(int argc, char** argv) {
 
 	EM->AddComponent<Engine::Renderable>("player", vertices);
 	EM->AddComponent<Engine::Color>("player", vertices);
-	EM->AddComponent<Engine::Element>("player", elements);
+	EM->AddComponent<Engine::Elements>("player", elements);
 
 #ifdef _DEBUG
 	ShowWindow(GetConsoleWindow(), SW_SHOW);

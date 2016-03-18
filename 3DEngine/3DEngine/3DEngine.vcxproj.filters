@@ -79,6 +79,9 @@
     <ClInclude Include="Core\Components\Color.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Core\Components\Transformable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Cursor.ico">
@@ -92,5 +95,6 @@
     <None Include="glew32.dll" />
     <None Include="Core\Shaders\Frag.txt" />
     <None Include="Core\Shaders\Vert.txt" />
+    <None Include="Core\Systems\Buffer.hpp" />
   </ItemGroup>
 </Project>

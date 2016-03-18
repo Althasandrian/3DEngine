@@ -93,6 +93,7 @@
     <ClInclude Include="Core\AudioSystem.h" />
     <ClInclude Include="Core\Components\Color.hpp" />
     <ClInclude Include="Core\Components\Renderable.hpp" />
+    <ClInclude Include="Core\Components\Transformable.hpp" />
     <ClInclude Include="Core\Input\Input.h" />
     <ClInclude Include="Core\Managers\EntityManager.hpp" />
     <ClInclude Include="Core\Resource.h" />
@@ -115,6 +116,7 @@
   <ItemGroup>
     <None Include="Core\Shaders\Frag.txt" />
     <None Include="Core\Shaders\Vert.txt" />
+    <None Include="Core\Systems\Buffer.hpp" />
     <None Include="glew32.dll" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

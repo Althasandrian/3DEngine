@@ -1,36 +1,31 @@
 #ifndef Engine_Color_hpp
 #define Engine_Color_hpp
 
-#include <Core\Managers\EntityManager.hpp>
+#include <Core/Managers/EntityManager.hpp>
 
 namespace Engine {
 
 	class Color : public Component
 	{
 	public:
-		Color(std::vector<float> data);
-		virtual ~Color();
+		Color(std::vector<GLfloat> data) { _colorData = data; };
+		virtual ~Color() {};
 
-		void Init();
-		void Cleanup();
+		virtual void Init() override;
+		virtual void Cleanup() override;
 
-		void Update(DeltaTime deltaTime);
-		std::vector<float> GetColorData();
+		virtual void Update(DeltaTime deltaTime) override;
+
+		std::vector<GLfloat> GetColorData() { return _colorData; };
 	private:
-		std::vector<float> _colorData;
+		std::vector<GLfloat> _colorData;
 	};
-
-	Color::Color(std::vector<float> data) { _colorData = data; }
-
-	Color::~Color() {}
 
 	void Color::Init() {}
 
 	void Color::Cleanup() {}
 
 	void Color::Update(DeltaTime deltaTime) {}
-
-	std::vector<float> Color::GetColorData() { return _colorData; }
 
 };
 
