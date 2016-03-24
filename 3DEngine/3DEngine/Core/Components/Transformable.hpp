@@ -1,6 +1,9 @@
 #ifndef Engine_Transformable_hpp
 #define Engine_Transformable_hpp
 
+#include <glm\glm.hpp>
+#include <glew.h>
+
 #include <Core/Managers/EntityManager.hpp>
 
 namespace Engine
@@ -8,7 +11,7 @@ namespace Engine
 	class Transformable : public Component
 	{
 	public:
-		Transformable(glm::vec3 pos = 0, glm::vec3 rot = 0, glm::vec3 scale = 0) 
+		Transformable(glm::vec3 pos = glm::vec3(0), glm::vec3 rot = glm::vec3(0), glm::vec3 scale = glm::vec3(0))
 		: _position(pos), _rotation(rot), _scale(scale) {};
 		virtual ~Transformable() {};
 

@@ -85,6 +85,7 @@
     <ClCompile Include="Core\AudioSystem.cpp" />
     <ClCompile Include="Core\Input\Input.cpp" />
     <ClCompile Include="Core\ResourceManager.cpp" />
+    <ClCompile Include="Core\Systems\Buffer.cpp" />
     <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Lodepng\lodepng.cpp" />
     <ClCompile Include="Main.cpp" />

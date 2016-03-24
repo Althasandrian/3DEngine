@@ -10,7 +10,7 @@ namespace Engine {
 	public:
 		Renderable(std::vector<GLfloat> vertexData, std::vector<GLuint> indiceData)
 			: _vertexData(vertexData), _indiceData(indiceData) {};
-		virtual ~Renderable();
+		virtual ~Renderable() {};
 
 		virtual void Init() override;
 		virtual void Cleanup() override;

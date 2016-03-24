@@ -45,7 +45,7 @@ namespace Engine																											//
 		template <typename T, typename ...args> void AddComponent(args&&... param);									//		//
 		template <typename T> void RemoveComponent();																//		//
 																													//		//
-		template <typename T> std::shared_ptr<Component> GetComponent();											//		//
+		template <typename T> std::shared_ptr<T> GetComponent();											//		//
 		std::vector<std::shared_ptr<Component>> GetComponents();													//		//
 																													//		//
 	protected:																										//		//
@@ -76,13 +76,13 @@ namespace Engine																											//
 		}																											//		//
 	}																												//		//
 																													//		//
-	template <typename T> std::shared_ptr<Component> Entity::GetComponent() {										//		//
-		for (auto it : _components) {																				//		//
+	template <typename T> std::shared_ptr<T> Entity::GetComponent() {												//		//
+		for (auto it : _components) {										//		//
 			if (std::dynamic_pointer_cast<T>(it) != nullptr) {														//		//
-				return it;																							//		//
+				return std::static_pointer_cast<T>(it);																							//		//
 			}																										//		//
 		}																											//		//
-		return nullptr;																								//		//
+		return std::shared_ptr<T>();																								//		//
 	}																												//		//
 																													//		//
 	inline std::vector<std::shared_ptr<Component>> Entity::GetComponents() {										//		//
@@ -112,8 +112,8 @@ namespace Engine																											//
 
 		template <typename T, typename ...args> void AddComponent(std::string name, args&&... param);
 
-		template <typename T> std::vector<std::shared_ptr<Component>> GetComponents();
-		template <typename T> std::vector<std::shared_ptr<Component>> GetComponents(std::string name);
+		template <typename T> std::vector<std::shared_ptr<T>> GetComponents();
+		template <typename T> std::vector<std::shared_ptr<T>> GetComponents(std::string name);
 
 		std::vector<std::shared_ptr<Component>> GetComponents();
 		std::vector<std::shared_ptr<Component>> GetComponents(std::string name);
@@ -161,17 +161,17 @@ namespace Engine																											//
 		GetEntity(name)->AddComponent<T>(param...);
 	}
 
-	template <typename T> std::vector<std::shared_ptr<Component>> EntityManager::GetComponents() {
-		std::vector <std::shared_ptr<Component>> tempCompVec;
+	template <typename T> std::vector<std::shared_ptr<T>> EntityManager::GetComponents() {
+		std::vector<std::shared_ptr<T>> tempVec;
 		for (auto it : _entities) {
-			tempCompVec.push_back(it.second->GetComponent<T>());
+			tempVec.push_back(std::static_pointer_cast<T>(it.second->GetComponent<T>()));
 		}
-		return tempCompVec;
+		return tempVec;
 	}
 
-	template <typename T> std::vector<std::shared_ptr<Component>> EntityManager::GetComponents(std::string name) {
-		std::vector <std::shared_ptr<Component>> tempCompVec;
-		tempCompVec.push_back(_entities.find(name)->second->GetComponent<T>());
+	template <typename T> std::vector<std::shared_ptr<T>> EntityManager::GetComponents(std::string name) {
+		std::vector<std::shared_ptr<T>> tempCompVec;
+		tempCompVec.push_back(std::static_pointer_cast<T>(_entities.find(name)->second->GetComponent<T>()));
 		return tempCompVec;
 	}
 

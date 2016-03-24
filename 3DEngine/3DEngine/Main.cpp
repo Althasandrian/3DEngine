@@ -19,7 +19,6 @@ float movX = 0.0f, movY = 0.0f, movZ = 0.0f;
 
 #include <Core/Components/Renderable.hpp>
 #include <Core/Components/Color.hpp>
-#include <Core/Components/temp.hpp>
 
 
 class player : public Engine::Entity
@@ -2906,9 +2905,8 @@ int main(int argc, char** argv) {
 		505, 323, 391
 	};
 
-	EM->AddComponent<Engine::Renderable>("player", vertices);
+	EM->AddComponent<Engine::Renderable>("player", vertices, elements);
 	EM->AddComponent<Engine::Color>("player", vertices);
-	EM->AddComponent<Engine::Elements>("player", elements);
 
 #ifdef _DEBUG
 	ShowWindow(GetConsoleWindow(), SW_SHOW);
