@@ -5,7 +5,6 @@
 #include <iostream>
 #include <vector>
 #include "Resource.h"
-#include "..\Lodepng\lodepng.h"
 #include "..\..\Dependencies\include\irrKlang\irrKlang.h"
 
 class ResourceManager

@@ -2,6 +2,7 @@
 #include <string>
 #include <fstream>
 #include <Windows.h>
+#include "..\Lodepng\lodepng.h"
 ResourceManager* ResourceManager::Instance = nullptr;
 
 ResourceManager* ResourceManager::GetInstance()
@@ -170,28 +171,11 @@ Resource* ResourceManager::LoadImageResource(std::string filepath)
 	res->ID = ++ID_generator;
 	res->resourceUsers.push_back(1);
 	
-	std::ifstream file(filepath, std::ifstream::binary);
-	if (file.is_open())
-	{
-		// Get size of file///////////
-		file.seekg(0, file.end);	//
-		int size = file.tellg();	//
-		file.seekg(0, file.beg);	//
+	std::vector<unsigned char> image;
+	unsigned error = lodepng::decode(image,width,height,filepath);
 
-		// Allocate buffer//////////////
-		char* buffer = new char[size];//
+	res->setImageData(image, width, height);
 
-		// Read file//////////////////
-		file.read(buffer, size);	// 
-		buffer[size] = NULL;		//
-		file.close();				//
-
-		std::vector<unsigned char> imgfile;
-		unsigned error = lodepng::decode(imgfile,width,height,filepath);
-
-		res->setImageData(imgfile);
-
-	}
 	_resources.push_back(res);
 	return res;
 }

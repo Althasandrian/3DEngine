@@ -24,7 +24,7 @@ public:
 
 
 	void setTextData(std::string readFile){ textData = readFile; }
-	void setImageData(std::vector<unsigned char> imageFile) { std::cout << "setting image data" << std::endl; imageData = imageFile; }
+	void setImageData(std::vector<unsigned char> imageFile, unsigned width, unsigned height) { std::cout << "setting image data" << std::endl; imageData = imageFile; iHeight = height; iWidth = width; }
 	void setAudioData(irrklang::ISoundSource* audioFile) { std::cout << "Setting audio data " << std::endl; audioData = audioFile; }
 	void setAudioEngine(irrklang::ISoundEngine* engine) {  audio->setEngine(engine); }
 	void setAudio(std::string filename){ audio->includeAudio(filename); }
@@ -37,6 +37,7 @@ private:
 	std::vector<unsigned char> imageData;
 	irrklang::ISoundSource* audioData;	
 	AudioSystem* audio = new AudioSystem;
+	int iHeight, iWidth;
 };
 
 #endif
