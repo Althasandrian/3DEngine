@@ -18,8 +18,8 @@ namespace Engine																					//
 	//--------------------------------------------------------------------------------------//		//
 	struct System																			//		//
 	{																						//		//
-		System() : _paused(false) {};														//		//
-		virtual ~System() {};																//		//
+		System() : _paused(false) { std::cout << "System:  Construct()" << std::endl; };														//		//
+		virtual ~System() { std::cout << "System:  Destruct()" << std::endl; };																//		//
 																							//		//
 		virtual void Init() = 0;															//		//
 		virtual void Cleanup() = 0;															//		//

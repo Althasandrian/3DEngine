@@ -20,8 +20,10 @@ namespace Engine
 	class RenderingSystem : public System
 	{
 	public:
-		RenderingSystem(Window* window) : _window(window), System() {};
-		virtual ~RenderingSystem() {};
+		RenderingSystem(Window* window) : _window(window), System() {
+			std::cout << "Rendering:  Construct()" << std::endl;
+		};
+		virtual ~RenderingSystem() { std::cout << "Rendering:  Destruct()" << std::endl; };
 
 		void Init();
 		void Cleanup();
@@ -86,25 +88,32 @@ namespace Engine
 		glUseProgram(0);
 
 		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
+
+		std::cout << "Rendering:  Init()" << std::endl;
 	};
 
 	inline void RenderingSystem::Cleanup() {
+		std::cout << "Rendering:  Cleanup()" << std::endl;
 	};
 
 	inline void RenderingSystem::Pause() {
 		if (!_paused) {
 			_paused = true;
 		}
+		std::cout << "Rendering:  Pause()" << std::endl;
 	};
 
 	inline void RenderingSystem::Resume() {
 		if (_paused) {
 			_paused = false;
 		}
+		std::cout << "Rendering:  Resume()" << std::endl;
 	};
 
 	inline void RenderingSystem::Update(DeltaTime deltaTime) {
 		if (!_paused) {
+
+			GLAssert();
 
 			glUseProgram(_default->GetProgramID());
 
@@ -112,11 +121,17 @@ namespace Engine
 
 			size_t _elemSize;
 
-			for each (std::shared_ptr<Renderable> renderable in renderables) {
-				_elemSize = renderable->GetIndiceData().size();
-				_vertexBuffer.BindBufferData(renderable->GetVertexData().size() * sizeof(float), &renderable->GetVertexData()[0]);
-				_indiceBuffer.BindBufferData(renderable->GetIndiceData().size() * sizeof(int), &renderable->GetIndiceData()[0]);
+			for (auto it = renderables.begin(); it != renderables.end(); it++) {
+				_elemSize = it->get()->GetIndiceData().size();
+				_vertexBuffer.BindBufferData(it->get()->GetVertexData().size(), &it->get()->GetVertexData()[0].x);
+				_indiceBuffer.BindBufferData(it->get()->GetIndiceData().size(), &it->get()->GetIndiceData()[0].x);
 			}
+
+			//for each (std::shared_ptr<Renderable> renderable in renderables) {
+			//	_elemSize = renderable->GetIndiceData().size();
+			//	_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
+			//	_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
+			//}
 
 			trans = glm::rotate(trans, rotX * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 			trans = glm::rotate(trans, rotY * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -130,12 +145,13 @@ namespace Engine
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			//glDrawArrays(GL_TRIANGLES, 0, _size);
-			glDrawElements(GL_TRIANGLES, _elemSize*sizeof(GLuint), GL_UNSIGNED_INT, (void*)0);
+			glDrawElements(GL_TRIANGLES, _elemSize * sizeof(int), GL_UNSIGNED_INT, (void*)0);
 
 			SwapBuffers(_window->GetHDC());
 
 			glUseProgram(0);
 		}
+		std::cout << "Rendering:  Update()" << std::endl;
 	};
 }
 
