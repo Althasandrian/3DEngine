@@ -3,6 +3,8 @@
 #include <fstream>
 #include <Windows.h>
 #include "..\Lodepng\lodepng.h"
+#include <..\Dependencies\include\tiny_obj_loader\tiny_obj_loader.h>
+
 ResourceManager* ResourceManager::Instance = nullptr;
 
 ResourceManager* ResourceManager::GetInstance()
@@ -233,6 +235,11 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 	std::vector< glm::vec3 > temp_vertices;
 	std::vector< glm::vec2 > temp_uvs;
 	std::vector< glm::vec3 > temp_normals;
+
+	//------------------------------//
+	// Mites olis se tinyobjloader? //
+	// Laitoin sen jo includeihin.  //
+	//------------------------------//
 
 	FILE * file = fopen(filepath.c_str(), "r");
 	if (file == NULL){
