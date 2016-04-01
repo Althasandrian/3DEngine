@@ -26283,157 +26283,6 @@ int main(int argc, char** argv) {
 		glm::uvec3(8729, 8739, 8738)
 	};
 
-	//std::vector<glm::fvec3> vertices = {
-	//	glm::uvec3(0.000000f, 0.000000f, 0.000000f),
-	//	glm::uvec3(-1.000000f, -6.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, -6.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, -6.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, -6.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, -4.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, -4.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, -4.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, -4.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, 4.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, 4.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, 4.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, 4.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, 6.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, 6.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, 6.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, 6.000000f, 1.000000f),
-	//	glm::uvec3(-6.000000f, -1.000000f, 1.000000f),
-	//	glm::uvec3(-6.000000f, -1.000000f, -1.000000f),
-	//	glm::uvec3(-4.000000f, -1.000000f, -1.000000f),
-	//	glm::uvec3(-4.000000f, -1.000000f, 1.000000f),
-	//	glm::uvec3(-6.000000f, 1.000000f, 1.000000f),
-	//	glm::uvec3(-6.000000f, 1.000000f, -1.000000f),
-	//	glm::uvec3(-4.000000f, 1.000000f, -1.000000f),
-	//	glm::uvec3(-4.000000f, 1.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, -1.000000f, 6.000000f),
-	//	glm::uvec3(-1.000000f, -1.000000f, 4.000000f),
-	//	glm::uvec3(1.000000f, -1.000000f, 4.000000f),
-	//	glm::uvec3(1.000000f, -1.000000f, 6.000000f),
-	//	glm::uvec3(-1.000000f, 1.000000f, 6.000000f),
-	//	glm::uvec3(-1.000000f, 1.000000f, 4.000000f),
-	//	glm::uvec3(1.000000f, 1.000000f, 4.000000f),
-	//	glm::uvec3(1.000000f, 1.000000f, 6.000000f),
-	//	glm::uvec3(-1.000000f, -1.000000f, -4.000000f),
-	//	glm::uvec3(-1.000000f, -1.000000f, -6.000000f),
-	//	glm::uvec3(1.000000f, -1.000000f, -6.000000f),
-	//	glm::uvec3(1.000000f, -1.000000f, -4.000000f),
-	//	glm::uvec3(-1.000000f, 1.000000f, -4.000000f),
-	//	glm::uvec3(-1.000000f, 1.000000f, -6.000000f),
-	//	glm::uvec3(1.000000f, 1.000000f, -6.000000f),
-	//	glm::uvec3(1.000000f, 1.000000f, -4.000000f),
-	//	glm::uvec3(4.000000f, -1.000000f, 1.000000f),
-	//	glm::uvec3(4.000000f, -1.000000f, -1.000000f),
-	//	glm::uvec3(6.000000f, -1.000000f, -1.000000f),
-	//	glm::uvec3(6.000000f, -1.000000f, 1.000000f),
-	//	glm::uvec3(4.000000f, 1.000000f, 1.000000f),
-	//	glm::uvec3(4.000000f, 1.000000f, -1.000000f),
-	//	glm::uvec3(6.000000f, 1.000000f, -1.000000f),
-	//	glm::uvec3(6.000000f, 1.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, -1.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, -1.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, -1.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, -1.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, 1.000000f, 1.000000f),
-	//	glm::uvec3(-1.000000f, 1.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, 1.000000f, -1.000000f),
-	//	glm::uvec3(1.000000f, 1.000000f, 1.000000f)
-	//};
-
-	//for (size_t i = 0; i < vertices.size(); i++) {
-	//	vertices[i] *= 0.125f;
-	//}
-
-	//std::vector<glm::uvec3> elements = {
-	//	glm::uvec3(6, 2, 1),
-	//	glm::uvec3(7, 3, 2),
-	//	glm::uvec3(8, 4, 3),
-	//	glm::uvec3(5, 1, 4),
-	//	glm::uvec3(2, 3, 4),
-	//	glm::uvec3(7, 6, 5),
-	//	glm::uvec3(14, 10, 9),
-	//	glm::uvec3(15, 11, 10),
-	//	glm::uvec3(16, 12, 11),
-	//	glm::uvec3(13, 9, 12),
-	//	glm::uvec3(10, 11, 12),
-	//	glm::uvec3(15, 14, 13),
-	//	glm::uvec3(22, 18, 17),
-	//	glm::uvec3(23, 19, 18),
-	//	glm::uvec3(24, 20, 19),
-	//	glm::uvec3(21, 17, 20),
-	//	glm::uvec3(18, 19, 20),
-	//	glm::uvec3(23, 22, 21),
-	//	glm::uvec3(30, 26, 25),
-	//	glm::uvec3(31, 27, 26),
-	//	glm::uvec3(32, 28, 27),
-	//	glm::uvec3(29, 25, 28),
-	//	glm::uvec3(26, 27, 28),
-	//	glm::uvec3(31, 30, 29),
-	//	glm::uvec3(38, 34, 33),
-	//	glm::uvec3(39, 35, 34),
-	//	glm::uvec3(40, 36, 35),
-	//	glm::uvec3(37, 33, 36),
-	//	glm::uvec3(34, 35, 36),
-	//	glm::uvec3(39, 38, 37),
-	//	glm::uvec3(46, 42, 41),
-	//	glm::uvec3(47, 43, 42),
-	//	glm::uvec3(48, 44, 43),
-	//	glm::uvec3(45, 41, 44),
-	//	glm::uvec3(42, 43, 44),
-	//	glm::uvec3(47, 46, 45),
-	//	glm::uvec3(54, 50, 49),
-	//	glm::uvec3(55, 51, 50),
-	//	glm::uvec3(56, 52, 51),
-	//	glm::uvec3(53, 49, 52),
-	//	glm::uvec3(50, 51, 52),
-	//	glm::uvec3(55, 54, 53),
-	//	glm::uvec3(5, 6, 1),
-	//	glm::uvec3(6, 7, 2),
-	//	glm::uvec3(7, 8, 3),
-	//	glm::uvec3(8, 5, 4),
-	//	glm::uvec3(1, 2, 4),
-	//	glm::uvec3(8, 7, 5),
-	//	glm::uvec3(13, 14, 9),
-	//	glm::uvec3(14, 15, 10),
-	//	glm::uvec3(15, 16, 11),
-	//	glm::uvec3(16, 13, 12),
-	//	glm::uvec3(9, 10, 12),
-	//	glm::uvec3(16, 15, 13),
-	//	glm::uvec3(21, 22, 17),
-	//	glm::uvec3(22, 23, 18),
-	//	glm::uvec3(23, 24, 19),
-	//	glm::uvec3(24, 21, 20),
-	//	glm::uvec3(17, 18, 20),
-	//	glm::uvec3(24, 23, 21),
-	//	glm::uvec3(29, 30, 25),
-	//	glm::uvec3(30, 31, 26),
-	//	glm::uvec3(31, 32, 27),
-	//	glm::uvec3(32, 29, 28),
-	//	glm::uvec3(25, 26, 28),
-	//	glm::uvec3(32, 31, 29),
-	//	glm::uvec3(37, 38, 33),
-	//	glm::uvec3(38, 39, 34),
-	//	glm::uvec3(39, 40, 35),
-	//	glm::uvec3(40, 37, 36),
-	//	glm::uvec3(33, 34, 36),
-	//	glm::uvec3(40, 39, 37),
-	//	glm::uvec3(45, 46, 41),
-	//	glm::uvec3(46, 47, 42),
-	//	glm::uvec3(47, 48, 43),
-	//	glm::uvec3(48, 45, 44),
-	//	glm::uvec3(41, 42, 44),
-	//	glm::uvec3(48, 47, 45),
-	//	glm::uvec3(53, 54, 49),
-	//	glm::uvec3(54, 55, 50),
-	//	glm::uvec3(55, 56, 51),
-	//	glm::uvec3(56, 53, 52),
-	//	glm::uvec3(49, 50, 52),
-	//	glm::uvec3(56, 55, 53)
-	//};
-
 	window.createWindow("Dickbutt!", glm::vec2(600, 400), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
 	window.InitOpenGL();
 
@@ -26451,14 +26300,16 @@ int main(int argc, char** argv) {
 
 		Engine::DeltaTime dt = timer.Update();
 
+		int asd = 1;
 		Inputs::Input* inp = nullptr;
+		if (inp->getKeyDown(VK_SHIFT)) { asd = -1; };
 		if (inp->getKeyDown(VK_LEFT)) { movX = -0.1f; }
 		if (inp->getKeyDown(VK_RIGHT)) { movX = 0.1f; }
 		if (inp->getKeyDown(VK_UP)) { movY = 0.1f; }
 		if (inp->getKeyDown(VK_DOWN)) { movY = -0.1f; }
-		if (inp->getKeyDown('Z')) { rotZ += dt*10.0f; }
-		if (inp->getKeyDown('X')) { rotX += dt*10.0f; }
-		if (inp->getKeyDown('Y')) { rotY += dt*10.0f; }
+		if (inp->getKeyDown('Z')) { rotZ += asd*dt*10.0f; }
+		if (inp->getKeyDown('X')) { rotX += asd*dt*10.0f; }
+		if (inp->getKeyDown('Y')) { rotY += asd*dt*10.0f; }
 		if (inp->getKeyDown('S')) { rotX = 0.0f; rotY = 0.0f; rotZ = 0.0f;	}
 		if (!inp->getKeyDown(VK_LEFT) && !inp->getKeyDown(VK_RIGHT) && !inp->getKeyDown(VK_UP) && !inp->getKeyDown(VK_DOWN)){ movX = 0.0f; movY = 0.0f; }
 
