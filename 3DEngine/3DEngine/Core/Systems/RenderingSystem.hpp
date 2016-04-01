@@ -114,8 +114,8 @@ namespace Engine
 
 			for each (std::shared_ptr<Renderable> renderable in renderables) {
 				_elemSize = renderable->GetIndiceData().size();
-				_vertexBuffer.BindBufferData(renderable->GetVertexData().size() * sizeof(float), &renderable->GetVertexData()[0]);
-				_indiceBuffer.BindBufferData(renderable->GetIndiceData().size() * sizeof(int), &renderable->GetIndiceData()[0]);
+				_vertexBuffer.BindBufferData(renderable->GetVertexData().size() * sizeof(glm::vec3), &renderable->GetVertexData()[0]);
+				_indiceBuffer.BindBufferData(renderable->GetIndiceData().size() * sizeof(glm::vec3), &renderable->GetIndiceData()[0]);
 			}
 
 			trans = glm::rotate(trans, rotX * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -130,7 +130,7 @@ namespace Engine
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			//glDrawArrays(GL_TRIANGLES, 0, _size);
-			glDrawElements(GL_TRIANGLES, _elemSize*sizeof(GLuint), GL_UNSIGNED_INT, (void*)0);
+			glDrawElements(GL_TRIANGLES, _elemSize*sizeof(glm::vec3), GL_UNSIGNED_INT, (void*)0);
 
 			SwapBuffers(_window->GetHDC());
 

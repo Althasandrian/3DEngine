@@ -8,7 +8,7 @@ namespace Engine {
 	class Renderable : public Component
 	{
 	public:
-		Renderable(std::vector<GLfloat> vertexData, std::vector<GLuint> indiceData)
+		Renderable(std::vector<glm::vec3> vertexData, std::vector<glm::vec3> indiceData)
 			: _vertexData(vertexData), _indiceData(indiceData) {};
 		virtual ~Renderable() {};
 
@@ -17,11 +17,11 @@ namespace Engine {
 
 		virtual void Update(DeltaTime deltaTime) override;
 
-		std::vector<GLfloat> GetVertexData() { return _vertexData; };
-		std::vector<GLuint> GetIndiceData() { return _indiceData; };
+		std::vector<glm::vec3> GetVertexData() { return _vertexData; };
+		std::vector<glm::vec3> GetIndiceData() { return _indiceData; };
 	private:
-		std::vector<GLfloat> _vertexData;
-		std::vector<GLuint> _indiceData;
+		std::vector<glm::vec3> _vertexData;
+		std::vector<glm::vec3> _indiceData;
 	};
 
 	void Renderable::Init() {}
