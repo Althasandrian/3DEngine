@@ -3,12 +3,14 @@
 #include <iostream>
 #include "AudioSystem.h"
 #include "..\..\Dependencies\include\irrKlang\irrKlang.h"
+#include "glm\glm.hpp"
 enum TYPE
 {
 	Text = 1,
 	Audio = 2,
 	Image = 3,
 	Font = 4,
+	OBJ = 5,
 };
 class Resource
 {
@@ -22,6 +24,9 @@ public:
 	int ID;	
 	std::vector<int> resourceUsers;
 
+	std::vector < glm::vec3 >  _vertices;
+	std::vector < glm::vec2 >  _uvs;
+	std::vector < glm::vec3 >  _normals;
 
 	void setTextData(std::string readFile){ textData = readFile; }
 	void setImageData(std::vector<unsigned char> imageFile, unsigned width, unsigned height) { std::cout << "setting image data" << std::endl; imageData = imageFile; iHeight = height; iWidth = width; }

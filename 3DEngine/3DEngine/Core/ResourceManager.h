@@ -35,6 +35,7 @@ private:
 	Resource* LoadImageResource(std::string filepath);
 	Resource* LoadAudioResource(std::string filepath);
 	Resource* LoadFontResource(std::string filepath);
+	Resource* LoadObjectResource(std::string filepath);
 	void dropSoundEngine() { soundEngine->drop(); } //ft snoop dogg
 
 };
