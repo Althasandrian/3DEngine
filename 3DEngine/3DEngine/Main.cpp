@@ -66,17 +66,17 @@ int main(int argc, char** argv) {
 	Engine::SystemManager* SM = Engine::SystemManager::GetInstance();
 	SM->AddSystem<Engine::RenderingSystem, Window*>(&window);
 
-	EM->AddEntity("player2", std::make_shared<player>());
+	//EM->AddEntity("player2", std::make_shared<player>());
 	EM->AddEntity("player1", std::make_shared<player>());
 
-	Resource* asd = ResourceManager::GetInstance()->LoadResource("Resources/Dickbutt.obj");
-	Resource* sad = ResourceManager::GetInstance()->LoadResource("Resources/asdasd.obj");
+	Resource* asd = ResourceManager::GetInstance()->LoadResource("Resources/test.obj");
+	//Resource* sad = ResourceManager::GetInstance()->LoadResource("Resources/asdasd.obj");
 
 	EM->AddComponent<Engine::Renderable>("player1", asd->_vertices, asd->_indices);
 	EM->AddComponent<Engine::Color>("player1", asd->_vertices);
 
-	EM->AddComponent<Engine::Renderable>("player2", sad->_vertices, sad->_indices);
-	EM->AddComponent<Engine::Color>("player2", sad->_vertices);
+	//EM->AddComponent<Engine::Renderable>("player2", sad->_vertices, sad->_indices);
+	//EM->AddComponent<Engine::Color>("player2", sad->_vertices);
 
 	Engine::Time timer;
 

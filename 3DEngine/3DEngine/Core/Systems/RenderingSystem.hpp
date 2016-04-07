@@ -116,26 +116,26 @@ namespace Engine
 
 			size_t _elemSize = 0;
 
+			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
 			for (auto it = renderables.begin(); it != renderables.end(); it++) {
 				_elemSize += it->get()->GetIndiceData().size();
 				_vertexBuffer.BindBufferData(it->get()->GetVertexData().size(), &it->get()->GetVertexData()[0].x);
 				_indiceBuffer.BindBufferData(it->get()->GetIndiceData().size(), &it->get()->GetIndiceData()[0].x);
-				std::cout << _elemSize << std::endl;
+
+
+				trans = glm::rotate(trans, rotX * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+				trans = glm::rotate(trans, rotY * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+				trans = glm::rotate(trans, rotZ * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+
+				trans = glm::translate(trans, glm::vec3(movX, movY, movZ));
+
+				GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
+				glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+
+				//glDrawArrays(GL_TRIANGLES, 0, _size);
+				glDrawElements(GL_TRIANGLES, _elemSize * sizeof(int), GL_UNSIGNED_INT, (void*)0);
 			}
-
-			trans = glm::rotate(trans, rotX * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			trans = glm::rotate(trans, rotY * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			trans = glm::rotate(trans, rotZ * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-
-			trans = glm::translate(trans, glm::vec3(movX, movY, movZ));
-
-			GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
-			glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
-
-			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-			//glDrawArrays(GL_TRIANGLES, 0, _size);
-			glDrawElements(GL_TRIANGLES, _elemSize * sizeof(int), GL_UNSIGNED_INT, (void*)0);
 
 			SwapBuffers(_window->GetHDC());
 

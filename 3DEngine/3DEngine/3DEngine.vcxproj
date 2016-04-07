@@ -105,6 +105,7 @@
     <ClInclude Include="Core\Systems\RenderingSystem.hpp" />
     <ClInclude Include="Core\Time.hpp" />
     <ClInclude Include="Lodepng\lodepng.h" />
+    <ClInclude Include="SceneSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Window.h" />
