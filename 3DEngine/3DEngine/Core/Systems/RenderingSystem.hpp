@@ -3,13 +3,14 @@
 
 #include <chrono>
 
-#include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
-#include <glm\gtc\type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-#include <Core\Managers\SystemManager.hpp>
-#include <Core\Shaders\ShaderProgram.hpp>
+#include <Core/Shaders/ShaderProgram.hpp>
+#include <Core/Managers/SystemManager.hpp>
 
+#include <Core/Components/Transformable.hpp>
 #include <Core/Components/Renderable.hpp>
 #include <Core/Components/Color.hpp>
 
@@ -43,6 +44,7 @@ namespace Engine
 		Buffer _vertexBuffer;
 		Buffer _indiceBuffer;
 
+		glm::mat4 rotate;
 		glm::mat4 trans;
 		glm::mat4 view;
 		glm::mat4 proj;
@@ -113,36 +115,47 @@ namespace Engine
 			glUseProgram(_default->GetProgramID());
 			GLAssert();
 
-			std::vector<std::shared_ptr<Renderable>> renderables = _entityManager->GetComponents<Renderable>();
+			std::vector<std::shared_ptr<Entity>> _entities = _entityManager->GetEntities();
 
 			size_t _elemSize = 0;
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			for (auto it = renderables.begin(); it != renderables.end(); it++) {
-				_elemSize += it->get()->GetIndiceData().size();
-				_vertexBuffer.BindBufferData(it->get()->GetVertexData().size(), &it->get()->GetVertexData()[0].x);
-				_indiceBuffer.BindBufferData(it->get()->GetIndiceData().size(), &it->get()->GetIndiceData()[0].x);
+			for (auto it = _entities.begin(); it != _entities.end(); it++) {
 
-				GLAssert();
+				auto renderable = it->get()->GetComponent<Renderable>();
+				auto transformable = it->get()->GetComponent<Transformable>();
 
-				trans = glm::rotate(trans, rotX * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-				trans = glm::rotate(trans, rotY * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-				trans = glm::rotate(trans, rotZ * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+				if (renderable != nullptr && transformable != nullptr) {
+					trans = glm::mat4(1);
+					rotate = glm::mat4(1);
+					_elemSize += renderable->GetIndiceData().size();
+					_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
+					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
 
-				trans = glm::translate(trans, glm::vec3(movX, movY, movZ));
+					GLAssert();
 
-				GLAssert();
+					rotate = glm::rotate(rotate, transformable->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
+					rotate = glm::rotate(rotate, transformable->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
+					rotate = glm::rotate(rotate, transformable->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-				GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
-				glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+					trans = glm::translate(trans, *transformable->GetPosition());
 
-				GLAssert();
+					trans = trans * rotate;
 
-				//glDrawArrays(GL_TRIANGLES, 0, _size);
-				glDrawElements(GL_TRIANGLES, _elemSize * sizeof(glm::uvec3), GL_UNSIGNED_INT, (void*)0);
+					GLAssert();
 
-				GLAssert();
+					GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
+					glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+
+					GLAssert();
+
+					//glDrawArrays(GL_TRIANGLES, 0, _size);
+					glDrawElements(GL_TRIANGLES, _elemSize * sizeof(glm::uvec3), GL_UNSIGNED_INT, (void*)0);
+
+					GLAssert();
+
+				}
 			}
 
 			SwapBuffers(_window->GetHDC());

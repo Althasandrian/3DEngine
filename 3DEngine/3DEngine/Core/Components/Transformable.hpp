@@ -20,14 +20,19 @@ namespace Engine
 
 		virtual void Update(DeltaTime deltaTime) override;
 
-		void SetPosition(glm::vec3 position) { _position = position; }
-		void Move(glm::vec3 move) { _position += move; }
+		void SetPosition(glm::vec3 position) { _position = position; };
+		void Move(glm::vec3 move) { _position += move; };
 
-		void SetRotation(glm::vec3 rotation) { _rotation = rotation; }
-		void Rotate(glm::vec3 rotate) { _rotation += rotate; }
+		void SetRotation(glm::vec3 rotation) { _rotation = rotation; };
+		void Rotate(glm::vec3 rotate) { _rotation += rotate; };
 
-		void Scale(GLfloat scale) { _scale *= glm::vec3(scale); }
-		void Scale(glm::vec3 scale) { _scale *= scale; }
+		void Scale(GLfloat scale) { _scale *= glm::vec3(scale); };
+		void Scale(glm::vec3 scale) { _scale *= scale; };
+
+		glm::vec3 * const GetPosition()	{ return &_position; };
+		glm::vec3 * const GetRotation()	{ return &_rotation; };
+		glm::vec3 * const GetScale()	{ return &_scale; };
+
 	private:
 		glm::vec3 _position;
 		glm::vec3 _rotation;

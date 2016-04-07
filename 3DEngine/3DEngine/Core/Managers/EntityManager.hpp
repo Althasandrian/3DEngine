@@ -101,7 +101,7 @@ namespace Engine																											//
 			return &EnMan;
 		}
 
-		void AddEntity(std::string name, std::shared_ptr<Entity> entity);
+		std::shared_ptr<Entity> AddEntity(std::string name, std::shared_ptr<Entity> entity);
 		void RemoveEntity(std::string name);
 
 		void Update(DeltaTime deltaTime);
@@ -109,6 +109,7 @@ namespace Engine																											//
 		void Clear();
 
 		std::shared_ptr<Entity> GetEntity(std::string name);
+		std::vector<std::shared_ptr<Entity>> GetEntities();
 
 		template <typename T, typename ...args> void AddComponent(std::string name, args&&... param);
 
@@ -130,9 +131,10 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	// DEFINITIONS - EntityManager																					//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
-	inline void EntityManager::AddEntity(std::string name, std::shared_ptr<Entity> entity) {
+	inline std::shared_ptr<Entity> EntityManager::AddEntity(std::string name, std::shared_ptr<Entity> entity) {
 		_entities.insert(std::make_pair(name, entity));
 		entity->Init();
+		return entity;
 	}
 
 	inline void EntityManager::RemoveEntity(std::string name) {
@@ -155,6 +157,14 @@ namespace Engine																											//
 
 	inline std::shared_ptr<Entity> EntityManager::GetEntity(std::string name) {
 		return _entities.find(name)->second;
+	}
+
+	inline std::vector<std::shared_ptr<Entity>> EntityManager::GetEntities() {
+		std::vector<std::shared_ptr<Entity>> temp;
+		for (auto it : _entities) {
+			temp.push_back(it.second);
+		}
+		return temp;
 	}
 
 	template <typename T, typename ...args> void EntityManager::AddComponent(std::string name, args&&... param) {
