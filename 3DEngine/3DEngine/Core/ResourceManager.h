@@ -19,8 +19,8 @@ public:
 
 private:
 
-	ResourceManager(){}
-	~ResourceManager() {}
+	ResourceManager() {};
+	~ResourceManager() {};
 
 	ResourceManager(ResourceManager const&);
 	void operator=(ResourceManager const&);
@@ -36,7 +36,7 @@ private:
 	Resource* LoadAudioResource(std::string filepath);
 	Resource* LoadFontResource(std::string filepath);
 	Resource* LoadObjectResource(std::string filepath);
-	void dropSoundEngine() { soundEngine->drop(); } //ft snoop dogg
+	void dropSoundEngine() { soundEngine->drop(); }; //ft snoop dogg
 
 };
 
