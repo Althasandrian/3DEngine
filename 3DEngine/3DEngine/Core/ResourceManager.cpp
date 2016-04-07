@@ -69,7 +69,7 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 	//FontFile
 	else if (filepath.substr(filepath.size() - 4) == ".ttf")
 	{
-		std::cout << "a Font file" << std::endl;
+		std::cout << "a font file" << std::endl;
 
 		
 			unsigned size = strlen(filepath.c_str()) + 1; // +1 to include NULL

@@ -139,6 +139,9 @@ namespace Engine
 					rotate = glm::rotate(rotate, transformable->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
 					rotate = glm::rotate(rotate, transformable->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
 
+					GLAssert();
+
+
 					trans = glm::translate(trans, *transformable->GetPosition());
 
 					trans = trans * rotate;
@@ -156,6 +159,9 @@ namespace Engine
 					GLAssert();
 
 				}
+
+				GLAssert();
+
 			}
 
 			SwapBuffers(_window->GetHDC());
