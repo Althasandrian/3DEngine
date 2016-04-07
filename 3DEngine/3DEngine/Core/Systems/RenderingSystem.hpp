@@ -111,6 +111,7 @@ namespace Engine
 			GLAssert();
 
 			glUseProgram(_default->GetProgramID());
+			GLAssert();
 
 			std::vector<std::shared_ptr<Renderable>> renderables = _entityManager->GetComponents<Renderable>();
 
@@ -123,6 +124,8 @@ namespace Engine
 				_vertexBuffer.BindBufferData(it->get()->GetVertexData().size(), &it->get()->GetVertexData()[0].x);
 				_indiceBuffer.BindBufferData(it->get()->GetIndiceData().size(), &it->get()->GetIndiceData()[0].x);
 
+				GLAssert();
+
 
 				trans = glm::rotate(trans, rotX * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
 				trans = glm::rotate(trans, rotY * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -130,16 +133,26 @@ namespace Engine
 
 				trans = glm::translate(trans, glm::vec3(movX, movY, movZ));
 
+
+				GLAssert();
+
 				GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
 				glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 
+				GLAssert();
+
 				//glDrawArrays(GL_TRIANGLES, 0, _size);
-				glDrawElements(GL_TRIANGLES, _elemSize * sizeof(int), GL_UNSIGNED_INT, (void*)0);
+				glDrawElements(GL_TRIANGLES, _elemSize * sizeof(glm::uvec3), GL_UNSIGNED_INT, (void*)0);
+
+				GLAssert();
+
 			}
 
 			SwapBuffers(_window->GetHDC());
+			GLAssert();
 
 			glUseProgram(0);
+			GLAssert();
 		}
 	};
 }

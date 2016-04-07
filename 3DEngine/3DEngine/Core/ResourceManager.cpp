@@ -251,12 +251,13 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 	std::cout << "# of shapes    : " << shapes.size() << std::endl;
 	std::cout << "# of materials : " << materials.size() << std::endl;
 	for (size_t i = 0; i < shapes.size(); i++) {
+		size_t offset = res->_vertices.size();
 		for (size_t j = 0; j < shapes[i].mesh.positions.size() / 3; j++)
 		{
 			res->_vertices.push_back(glm::vec3(shapes[i].mesh.positions[3 * j + 0], shapes[i].mesh.positions[3 * j + 1], shapes[i].mesh.positions[3 * j + 2]));
 		}
 		for (size_t j = 0; j < shapes[i].mesh.indices.size() / 3; j++) {
-			res->_indices.push_back(glm::uvec3(shapes[i].mesh.indices[3 * j + 0], shapes[i].mesh.indices[3 * j + 1], shapes[i].mesh.indices[3 * j + 2]));
+			res->_indices.push_back(glm::uvec3(shapes[i].mesh.indices[3 * j + 0] + offset, shapes[i].mesh.indices[3 * j + 1] + offset, shapes[i].mesh.indices[3 * j + 2] + offset));
 		}
 	}
 

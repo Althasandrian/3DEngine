@@ -9,11 +9,12 @@ namespace Engine
 	class Buffer
 	{
 	public:
-		Buffer() : _bufferID(0), _bufferSize(0), _bufferType(GL_NONE) {};
+		Buffer() : _bufferID(0), _bufferSize(1), _bufferType(GL_NONE) {};
 		~Buffer() {};
 
 		void CreateBuffer(GLenum bufferType);
 		void BindBufferData(GLuint size, void* data);
+		void Resize(GLuint size);
 
 	private:
 		//void Resize(GLuint size);
