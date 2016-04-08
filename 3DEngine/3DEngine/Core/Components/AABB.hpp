@@ -17,7 +17,7 @@ namespace Engine {
 
 		virtual void Update(DeltaTime deltaTime) override;
 
-		void CreateAABB(std::vector<glm::vec3> vertexData);
+		void UpdateAABB();
 	private:
 		std::vector<glm::vec3> _AABBVetrexData;
 	};
@@ -28,19 +28,19 @@ namespace Engine {
 
 	inline void AABB::Update(DeltaTime deltaTime) {}
 
-	inline void AABB::CreateAABB(std::vector<glm::vec3> vertexData) {
-		//// min = minium coordinate of the box
-		//// max = maxium coordinate of the box
-		//Point min = V[0];
-		//Point max = V[0];
-		//for (i = 1; i < n; ++i)
-		//{
-		//	if (V[i].x < min.x) min.x = V[i].x;
-		//	if (V[i].y < min.y) min.y = V[i].y;
-		//	if (V[i].z < min.z) min.z = V[i].z;
-		//	if (V[i].x > max.x) max.x = V[i].x;
-		//	if (V[i].y > max.y) max.y = V[i].y;
-		//	if (V[i].z > max.z) max.z = V[i].z;
+	inline void AABB::UpdateAABB() {
+
+
+		//glm::vec3 min = vertexData[0];
+		//glm::vec3 max = vertexData[0];
+
+		//for (size_t i = 0; i < vertexData.size(); i++) {
+		//	if (vertexData[i].x < min.x) { min.x = vertexData[i].x; }
+		//	if (vertexData[i].y < min.y) { min.y = vertexData[i].y; }
+		//	if (vertexData[i].z < min.z) { min.z = vertexData[i].z; }
+		//	if (vertexData[i].x < max.x) { max.x = vertexData[i].x; }
+		//	if (vertexData[i].y < max.y) { max.y = vertexData[i].y; }
+		//	if (vertexData[i].z < max.z) { max.z = vertexData[i].z; }
 		//}
 	}
 };

@@ -80,8 +80,8 @@ int main(int argc, char** argv) {
 	EM->AddComponent<Engine::Renderable>("player3", das->_vertices, das->_indices);
 	EM->AddComponent<Engine::Transformable>("player3", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	
-	player3->AddChild(player1);
 	player1->AddChild(player2);
+	player3->AddChild(player1);
 
 	std::shared_ptr<Engine::Transformable> trans = player3->GetComponent<Engine::Transformable>();
 

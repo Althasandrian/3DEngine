@@ -121,6 +121,7 @@ namespace Engine
 					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
 					GLAssert();
 
+					//Parent-Child Tranformation
 					std::vector<std::shared_ptr<Entity>> parents;
 					auto parent = it->get()->GetParent();
 					if (parent != nullptr) {

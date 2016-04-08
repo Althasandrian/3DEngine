@@ -32,7 +32,7 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	// STRUCT - Entity																								//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
-	struct Entity																									//		//
+	struct Entity : std::enable_shared_from_this<Entity>															//		//
 	{																												//		//
 		Entity() : _parent(nullptr) {};																				//		//
 		virtual ~Entity() {};																						//		//
@@ -101,7 +101,7 @@ namespace Engine																											//
 																													//		//
 	inline void Entity::AddChild(std::shared_ptr<Entity> child) {													//		//
 		_children.push_back(child);																					//		//
-		child->_parent = std::make_shared<Entity>(*this);															//		//
+		child->_parent = std::shared_ptr<Entity>(shared_from_this());															//		//
 	};																												//		//
 																													//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
