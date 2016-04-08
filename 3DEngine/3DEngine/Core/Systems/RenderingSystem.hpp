@@ -21,10 +21,8 @@ namespace Engine
 	class RenderingSystem : public System
 	{
 	public:
-		RenderingSystem(Window* window) : _window(window), System() {
-			std::cout << "Rendering:  Construct()" << std::endl;
-		};
-		virtual ~RenderingSystem() { std::cout << "Rendering:  Destruct()" << std::endl; };
+		RenderingSystem(Window* window) : _window(window), System() {};
+		virtual ~RenderingSystem() {};
 
 		void Init();
 		void Cleanup();
@@ -117,8 +115,6 @@ namespace Engine
 
 			std::vector<std::shared_ptr<Entity>> _entities = _entityManager->GetEntities();
 
-			size_t _elemSize = 0;
-
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 			for (auto it = _entities.begin(); it != _entities.end(); it++) {
@@ -129,7 +125,7 @@ namespace Engine
 				if (renderable != nullptr && transformable != nullptr) {
 					trans = glm::mat4(1);
 					rotate = glm::mat4(1);
-					_elemSize += renderable->GetIndiceData().size();
+
 					_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
 					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
 
@@ -154,7 +150,7 @@ namespace Engine
 					GLAssert();
 
 					//glDrawArrays(GL_TRIANGLES, 0, _size);
-					glDrawElements(GL_TRIANGLES, _elemSize * sizeof(glm::uvec3), GL_UNSIGNED_INT, (void*)0);
+					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * sizeof(glm::uvec3), GL_UNSIGNED_INT, (void*)0);
 
 					GLAssert();
 

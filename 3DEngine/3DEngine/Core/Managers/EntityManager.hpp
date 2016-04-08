@@ -45,10 +45,13 @@ namespace Engine																											//
 		template <typename T, typename ...args> void AddComponent(args&&... param);									//		//
 		template <typename T> void RemoveComponent();																//		//
 																													//		//
-		template <typename T> std::shared_ptr<T> GetComponent();											//		//
+		template <typename T> std::shared_ptr<T> GetComponent();													//		//
 		std::vector<std::shared_ptr<Component>> GetComponents();													//		//
 																													//		//
+		std::string GetName() { return _name; }
+		void SetName(const char* name) { _name = name; }
 	protected:																										//		//
+		std::string _name;
 		std::vector<std::shared_ptr<Component>> _components;														//		//
 	};																												//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
@@ -133,6 +136,7 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	inline std::shared_ptr<Entity> EntityManager::AddEntity(std::string name, std::shared_ptr<Entity> entity) {
 		_entities.insert(std::make_pair(name, entity));
+		entity->SetName(name.c_str());
 		entity->Init();
 		return entity;
 	}

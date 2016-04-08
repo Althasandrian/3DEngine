@@ -2,6 +2,9 @@
 // transition between scenes
 // 
 //
+
+//Systeemit ei singletoneja
+
 #ifndef SCENESYSTEM_H
 #define SCENESYSTEM_H
 
