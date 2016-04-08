@@ -55,7 +55,14 @@ namespace Engine
 	};
 
 	inline void Update(DeltaTime deltaTime) {
-
+		std::vector<std::shared_ptr<Entity>> entities = _entityManager->GetEntities();
+		for (auto it = entities.begin(); it != entities.end(); it++) {
+			auto transformable = it->get()->GetComponent<Transformable>();
+			auto renderable = it->get()->GetComponent<Renderable>();
+			if (transformable != nullptr && renderable != nullptr) {
+				//calculate aabb using vertexData, rotation & scale
+			}
+		}
 	};
 
 	inline void UpdateAABB() {
