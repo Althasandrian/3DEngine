@@ -92,6 +92,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Scene.h">
+	  <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Components\AABB.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

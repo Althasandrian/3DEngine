@@ -65,21 +65,29 @@ int main(int argc, char** argv) {
 
 	std::shared_ptr<Engine::Entity> player2 = EM->AddEntity("player2", std::make_shared<player>());
 	std::shared_ptr<Engine::Entity> player1 = EM->AddEntity("player1", std::make_shared<player>());
+	std::shared_ptr<Engine::Entity> player3 = EM->AddEntity("player3", std::make_shared<player>());
 
 	Resource* sad = ResourceManager::GetInstance()->LoadResource("Resources/test.obj");
 	Resource* asd = ResourceManager::GetInstance()->LoadResource("Resources/asdasd.obj");
+	Resource* das = ResourceManager::GetInstance()->LoadResource("Resources/Dickbutt.obj");
 
-	EM->AddComponent<Engine::Renderable>("player2", asd->_vertices, asd->_indices);
-	EM->AddComponent<Engine::Transformable>("player2", glm::vec3(1.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	EM->AddComponent<Engine::Renderable>("player2", sad->_vertices, sad->_indices);
+	EM->AddComponent<Engine::Transformable>("player2", glm::vec3(5.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 
-	EM->AddComponent<Engine::Renderable>("player1", sad->_vertices, sad->_indices);
-	EM->AddComponent<Engine::Transformable>("player1", glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	EM->AddComponent<Engine::Renderable>("player1", asd->_vertices, asd->_indices);
+	EM->AddComponent<Engine::Transformable>("player1", glm::vec3(-5.0f, 0.0f, -5.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+
+	EM->AddComponent<Engine::Renderable>("player3", das->_vertices, das->_indices);
+	EM->AddComponent<Engine::Transformable>("player3", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	
+	player3->AddChild(player1);
 	player1->AddChild(player2);
 
-	std::shared_ptr<Engine::Transformable> trans = player1->GetComponent<Engine::Transformable>();
+	std::shared_ptr<Engine::Transformable> trans = player3->GetComponent<Engine::Transformable>();
 
 	Engine::Time timer;
+
+	float precision = 1.0;
 
 	while (window.IsOpen()) {
 
@@ -87,13 +95,14 @@ int main(int argc, char** argv) {
 		float direction = 1.0f;
 		Inputs::Input* inp = nullptr;
 		if (inp->getKeyDown(VK_SHIFT)) { direction = -1.0f; };
-		if (inp->getKeyDown(VK_LEFT)) { trans->Move(glm::vec3(dt*-5.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown(VK_RIGHT)) { trans->Move(glm::vec3(dt*5.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown(VK_UP)) { trans->Move(glm::vec3(0.0f, 0.0f, dt*-5.0f)); }
-		if (inp->getKeyDown(VK_DOWN)) { trans->Move(glm::vec3(0.0f, 0.0f, dt*5.0f)); }
-		if (inp->getKeyDown('X')) { trans->Rotate(glm::vec3(direction*dt*1.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown('Y')) { trans->Rotate(glm::vec3(0.0f, direction*dt*1.0f, 0.0f)); }
-		if (inp->getKeyDown('Z')) { trans->Rotate(glm::vec3(0.0f, 0.0f, direction*dt*1.0f)); }
+		if (inp->getKeyDown(VK_CONTROL)) { precision += 0.125f*direction; };
+		if (inp->getKeyDown(VK_LEFT)) { trans->Move(glm::vec3(precision*dt*-5.0f, 0.0f, 0.0f)); }
+		if (inp->getKeyDown(VK_RIGHT)) { trans->Move(glm::vec3(precision*dt*5.0f, 0.0f, 0.0f)); }
+		if (inp->getKeyDown(VK_UP)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*dt*-5.0f)); }
+		if (inp->getKeyDown(VK_DOWN)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*dt*5.0f)); }
+		if (inp->getKeyDown('X')) { trans->Rotate(glm::vec3(precision*direction*dt*1.0f, 0.0f, 0.0f)); }
+		if (inp->getKeyDown('Y')) { trans->Rotate(glm::vec3(0.0f, precision*direction*dt*1.0f, 0.0f)); }
+		if (inp->getKeyDown('Z')) { trans->Rotate(glm::vec3(0.0f, 0.0f, precision*direction*dt*1.0f)); }
 
 		EM->Update(dt);
 		SM->Update(dt);

@@ -59,12 +59,6 @@ namespace Engine
 		_default->CompileShader("Core/Shaders/Vert.txt", GL_VERTEX_SHADER);
 		_default->CompileShader("Core/Shaders/Frag.txt", GL_FRAGMENT_SHADER);
 
-		//std::static_pointer_cast<Renderable>(_entityManager->GetComponents<Renderable>("player").back())->GetVertexData();
-
-		//std::static_pointer_cast<Color>(_entityManager->GetComponents<Color>("player").back())->GetColorData();
-
-		//std::static_pointer_cast<Renderable>(_entityManager->GetComponents<Renderable>("player").back())->GetIndiceData();
-
 		glEnable(GL_DEPTH_TEST);
 
 		glUseProgram(_default->GetProgramID());
@@ -127,16 +121,26 @@ namespace Engine
 					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
 					GLAssert();
 
+					std::vector<std::shared_ptr<Entity>> parents;
 					auto parent = it->get()->GetParent();
 					if (parent != nullptr) {
-						auto parentTrans = parent->GetComponent<Transformable>();
-						if (parentTrans != nullptr) {
-							trans = glm::translate(trans, *parentTrans->GetPosition());
+						parents.push_back(parent);
+						while (parent->GetParent() != nullptr) {
+							parent = parent->GetParent();
+							parents.push_back(parent);
+						}
 
-							trans = glm::rotate(trans, parentTrans->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
-							trans = glm::rotate(trans, parentTrans->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
-							trans = glm::rotate(trans, parentTrans->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
-							GLAssert();
+						for (int i = parents.size()-1; i >= 0; --i) {
+							std::cout << i << std::endl;
+							auto parentTrans = parents[i]->GetComponent<Transformable>();
+							if (parentTrans != nullptr) {
+								trans = glm::translate(trans, *parentTrans->GetPosition());
+
+								trans = glm::rotate(trans, parentTrans->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
+								trans = glm::rotate(trans, parentTrans->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
+								trans = glm::rotate(trans, parentTrans->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
+								GLAssert();
+							}
 						}
 					}
 
@@ -154,7 +158,7 @@ namespace Engine
 					glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 					GLAssert();
 
-					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * sizeof(glm::uvec3), GL_UNSIGNED_INT, (void*)0);
+					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
 					GLAssert();
 
 				}
