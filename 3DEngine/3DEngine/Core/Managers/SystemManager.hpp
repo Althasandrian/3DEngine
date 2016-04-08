@@ -73,7 +73,7 @@ namespace Engine																					//
 		}																					//		//
 		_systems.push_back(std::make_shared<T>(param...));									//		//
 		_systems.back()->Init();															//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	template <typename T> void SystemManager::RemoveSystem() {								//		//
 		for (auto it = _systems.begin(); it != _systems.end();) {							//		//
@@ -85,7 +85,7 @@ namespace Engine																					//
 				it++;																		//		//
 			}																				//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	template <typename T> void SystemManager::PauseSystem() {								//		//
 		for (auto it : _systems) {															//		//
@@ -93,7 +93,7 @@ namespace Engine																					//
 				it->Pause();																//		//
 			}																				//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	template <typename T> void SystemManager::ResumeSystem() {								//		//
 		for (auto it : _systems) {															//		//
@@ -101,20 +101,20 @@ namespace Engine																					//
 				it->Resume();																//		//
 			}																				//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	inline void SystemManager::Clear() {													//		//
 		while (!_systems.empty()) {															//		//
 			_systems.back()->Cleanup();														//		//
 			_systems.pop_back();															//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	inline void SystemManager::Update(DeltaTime deltaTime) {								//		//
 		for (auto it : _systems) {															//		//
 			it->Update(deltaTime);															//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 	//--------------------------------------------------------------------------------------//		//
 																									//
 }																									//

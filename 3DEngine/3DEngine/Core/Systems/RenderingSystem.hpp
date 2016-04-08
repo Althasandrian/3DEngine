@@ -107,9 +107,6 @@ namespace Engine
 
 	inline void RenderingSystem::Update(DeltaTime deltaTime) {
 		if (!_paused) {
-
-			GLAssert();
-
 			glUseProgram(_default->GetProgramID());
 			GLAssert();
 
@@ -128,36 +125,39 @@ namespace Engine
 
 					_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
 					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
-
 					GLAssert();
+
+					auto parent = it->get()->GetParent();
+					if (parent != nullptr) {
+						auto parentTrans = parent->GetComponent<Transformable>();
+						if (parentTrans != nullptr) {
+							trans = glm::translate(trans, *parentTrans->GetPosition());
+
+							trans = glm::rotate(trans, parentTrans->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
+							trans = glm::rotate(trans, parentTrans->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
+							trans = glm::rotate(trans, parentTrans->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
+							GLAssert();
+						}
+					}
 
 					rotate = glm::rotate(rotate, transformable->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
 					rotate = glm::rotate(rotate, transformable->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
 					rotate = glm::rotate(rotate, transformable->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
-
 					GLAssert();
-
 
 					trans = glm::translate(trans, *transformable->GetPosition());
 
 					trans = trans * rotate;
-
 					GLAssert();
 
 					GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
 					glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
-
 					GLAssert();
 
-					//glDrawArrays(GL_TRIANGLES, 0, _size);
 					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * sizeof(glm::uvec3), GL_UNSIGNED_INT, (void*)0);
-
 					GLAssert();
 
 				}
-
-				GLAssert();
-
 			}
 
 			SwapBuffers(_window->GetHDC());

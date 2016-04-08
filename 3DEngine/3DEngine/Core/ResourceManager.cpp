@@ -248,8 +248,6 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 		std::cout << err << std::endl;
 	}
 
-	std::cout << "# of shapes    : " << shapes.size() << std::endl;
-	std::cout << "# of materials : " << materials.size() << std::endl;
 	for (size_t i = 0; i < shapes.size(); i++) {
 		size_t offset = res->_vertices.size();
 		for (size_t j = 0; j < shapes[i].mesh.positions.size() / 3; j++)

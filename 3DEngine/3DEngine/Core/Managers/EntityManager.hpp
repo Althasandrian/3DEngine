@@ -34,25 +34,32 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	struct Entity																									//		//
 	{																												//		//
-		Entity() {};																								//		//
+		Entity() : _parent(nullptr) {};																				//		//
 		virtual ~Entity() {};																						//		//
 																													//		//
-		virtual void Init() = 0;																					//		//
-		virtual void Cleanup() = 0;																					//		//
+		virtual void Init() {};																						//		//
+		virtual void Cleanup() {};																					//		//
 																													//		//
-		virtual void Update(DeltaTime deltaTime) = 0;																//		//
+		virtual void Update(DeltaTime deltaTime) {};																//		//
 																													//		//
 		template <typename T, typename ...args> void AddComponent(args&&... param);									//		//
 		template <typename T> void RemoveComponent();																//		//
 																													//		//
+		void AddChild(std::shared_ptr<Entity> child);																//		//
+																													//		//
 		template <typename T> std::shared_ptr<T> GetComponent();													//		//
 		std::vector<std::shared_ptr<Component>> GetComponents();													//		//
 																													//		//
-		std::string GetName() { return _name; }
-		void SetName(const char* name) { _name = name; }
+		std::string GetName() { return _name; };																	//		//
+		void SetName(const char* name) { _name = name; };															//		//
+																													//		//
+		std::shared_ptr<Entity> GetParent() { return _parent; };													//		//
+																													//		//
 	protected:																										//		//
-		std::string _name;
+		std::string _name;																							//		//
 		std::vector<std::shared_ptr<Component>> _components;														//		//
+		std::vector<std::shared_ptr<Entity>> _children;																//		//
+		std::shared_ptr<Entity> _parent;																			//		//
 	};																												//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
 																															//
@@ -65,7 +72,7 @@ namespace Engine																											//
 		}																											//		//
 		_components.push_back(std::make_shared<T>(param...));														//		//
 		_components.back()->Init();																					//		//
-	}																												//		//
+	};																												//		//
 																													//		//
 	template <typename T> void Entity::RemoveComponent() {															//		//
 		for (auto it = _components.begin(); it != _components.end();) {												//		//
@@ -77,20 +84,26 @@ namespace Engine																											//
 				it++;																								//		//
 			}																										//		//
 		}																											//		//
-	}																												//		//
+	};																												//		//
 																													//		//
 	template <typename T> std::shared_ptr<T> Entity::GetComponent() {												//		//
-		for (auto it : _components) {										//		//
+		for (auto it : _components) {																				//		//
 			if (std::dynamic_pointer_cast<T>(it) != nullptr) {														//		//
-				return std::static_pointer_cast<T>(it);																							//		//
+				return std::static_pointer_cast<T>(it);																//		//
 			}																										//		//
 		}																											//		//
-		return std::shared_ptr<T>();																								//		//
-	}																												//		//
+		return std::shared_ptr<T>();																				//		//
+	};																												//		//
 																													//		//
 	inline std::vector<std::shared_ptr<Component>> Entity::GetComponents() {										//		//
 		return _components;																							//		//
-	}																												//		//
+	};																												//		//
+																													//		//
+	inline void Entity::AddChild(std::shared_ptr<Entity> child) {													//		//
+		_children.push_back(child);																					//		//
+		child->_parent = std::make_shared<Entity>(*this);															//		//
+	};																												//		//
+																													//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
 																															//
 	//--------------------------------------------------------------------------------------------------------------//		//
