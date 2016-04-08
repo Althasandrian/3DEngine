@@ -92,6 +92,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\AudioSystem.h" />
+    <ClInclude Include="Core\Components\AABB.hpp" />
     <ClInclude Include="Core\Components\Color.hpp" />
     <ClInclude Include="Core\Components\Renderable.hpp" />
     <ClInclude Include="Core\Components\Transformable.hpp" />
