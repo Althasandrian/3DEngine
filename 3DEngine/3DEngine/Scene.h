@@ -12,10 +12,10 @@ public:
 	Scene(){}
 	~Scene(){}
 
-	virtual void update();
-	virtual void draw();
-	void load();
-	void unload();
+	virtual void update() {};
+	virtual void draw() {};
+	void load() {};
+	void unload() {};
 
 	int id;
 	std::string name;

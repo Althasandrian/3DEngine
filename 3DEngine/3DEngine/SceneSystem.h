@@ -29,7 +29,7 @@ protected:
 private:
 	std::vector<Scene*> sceneList;
 	Scene* currentScene;
-	void setScene(Scene* scene);
+	void setScene(Scene* scene) {};
 
 };
 
