@@ -13,6 +13,7 @@
 #include <Core/Components/Transformable.hpp>
 #include <Core/Components/Renderable.hpp>
 #include <Core/Components/Color.hpp>
+#include <Core/Components/AABB.hpp>
 
 #include <Core/Systems/Buffer.hpp>
 
@@ -42,6 +43,7 @@ namespace Engine
 		Buffer _vertexBuffer;
 		Buffer _indiceBuffer;
 
+		glm::mat4 scale;
 		glm::mat4 rotate;
 		glm::mat4 trans;
 		glm::mat4 view;
@@ -110,12 +112,14 @@ namespace Engine
 
 			for (auto it = _entities.begin(); it != _entities.end(); it++) {
 
-				auto renderable = it->get()->GetComponent<Renderable>();
-				auto transformable = it->get()->GetComponent<Transformable>();
+				std::shared_ptr<AABB> aabb = it->get()->GetComponent<AABB>();
+				std::shared_ptr<Renderable> renderable = it->get()->GetComponent<Renderable>();
+				std::shared_ptr<Transformable> transformable = it->get()->GetComponent<Transformable>();
 
 				if (renderable != nullptr && transformable != nullptr) {
 					trans = glm::mat4(1);
 					rotate = glm::mat4(1);
+					scale = glm::mat4(1);
 
 					_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
 					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
@@ -132,7 +136,6 @@ namespace Engine
 						}
 
 						for (int i = parents.size()-1; i >= 0; --i) {
-							std::cout << i << std::endl;
 							auto parentTrans = parents[i]->GetComponent<Transformable>();
 							if (parentTrans != nullptr) {
 								trans = glm::translate(trans, *parentTrans->GetPosition());
@@ -140,10 +143,12 @@ namespace Engine
 								trans = glm::rotate(trans, parentTrans->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
 								trans = glm::rotate(trans, parentTrans->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
 								trans = glm::rotate(trans, parentTrans->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
+
 								GLAssert();
 							}
 						}
 					}
+					scale = glm::scale(scale, *transformable->GetScale());
 
 					rotate = glm::rotate(rotate, transformable->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
 					rotate = glm::rotate(rotate, transformable->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
@@ -152,7 +157,7 @@ namespace Engine
 
 					trans = glm::translate(trans, *transformable->GetPosition());
 
-					trans = trans * rotate;
+					trans = trans * rotate * scale;
 					GLAssert();
 
 					GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
@@ -162,6 +167,18 @@ namespace Engine
 					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
 					GLAssert();
 
+					if (aabb != nullptr) {
+						_vertexBuffer.BindBufferData(aabb->GetVertexData().size(), &aabb->GetVertexData()[0].x);
+						_indiceBuffer.BindBufferData(aabb->GetIndiceData().size(), &aabb->GetIndiceData()[0].x);
+						
+						trans = glm::translate(glm::mat4(1), *transformable->GetPosition());
+
+						GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
+						glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+						GLAssert();
+
+						glDrawElements(GL_LINE_LOOP, aabb->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
+					}
 				}
 			}
 

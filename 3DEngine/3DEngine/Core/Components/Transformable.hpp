@@ -12,7 +12,7 @@ namespace Engine
 	{
 	public:
 		Transformable(glm::vec3 pos = glm::vec3(0), glm::vec3 rot = glm::vec3(0), glm::vec3 scale = glm::vec3(0))
-		: _position(pos), _rotation(rot), _scale(scale) {};
+		: _position(pos), _rotation(glm::radians(rot)), _scale(scale) {};
 		virtual ~Transformable() {};
 
 		virtual void Init() override;
@@ -23,8 +23,8 @@ namespace Engine
 		void SetPosition(glm::vec3 position) { _position = position; };
 		void Move(glm::vec3 move) { _position += move; };
 
-		void SetRotation(glm::vec3 rotation) { _rotation = rotation; };
-		void Rotate(glm::vec3 rotate) { _rotation += rotate; };
+		void SetRotation(glm::vec3 rotation) { _rotation = glm::radians(rotation); };
+		void Rotate(glm::vec3 rotate) { _rotation += glm::radians(rotate); };
 
 		void Scale(GLfloat scale) { _scale *= glm::vec3(scale); };
 		void Scale(glm::vec3 scale) { _scale *= scale; };

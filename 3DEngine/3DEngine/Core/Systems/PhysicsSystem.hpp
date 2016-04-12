@@ -32,14 +32,12 @@ namespace Engine
 		virtual void Resume() override;
 
 		virtual void Update(DeltaTime deltaTime) override;
-
-		void UpdateAABB();
 	private:
 		EntityManager* _entityManager;
 	};
 
 	inline void PhysicsSystem::Init() {
-
+		_entityManager = EntityManager::GetInstance();
 	};
 
 	inline void PhysicsSystem::Cleanup() {
@@ -54,19 +52,50 @@ namespace Engine
 
 	};
 
-	inline void Update(DeltaTime deltaTime) {
+	inline void PhysicsSystem::Update(DeltaTime deltaTime) {
 		std::vector<std::shared_ptr<Entity>> entities = _entityManager->GetEntities();
 		for (auto it = entities.begin(); it != entities.end(); it++) {
 			auto transformable = it->get()->GetComponent<Transformable>();
 			auto renderable = it->get()->GetComponent<Renderable>();
+			auto aabb = it->get()->GetComponent<AABB>();
+
 			if (transformable != nullptr && renderable != nullptr) {
-				//calculate aabb using vertexData, rotation & scale
+				glm::mat4 scale = glm::mat4(1);
+				glm::mat4 rotation = glm::mat4(1);
+				glm::mat4 position = glm::mat4(1);
+
+				std::vector<glm::vec3> vertexData = renderable->GetVertexData();
+				std::vector<glm::vec4> transVertDat;
+
+				scale = glm::scale(scale, *transformable->GetScale());
+
+				rotation = glm::rotate(rotation, transformable->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+				glm::mat4 trans;
+
+				trans = rotation * scale;
+
+				for (auto jt = vertexData.begin(); jt != vertexData.end(); jt++) {
+					transVertDat.push_back(glm::vec4(*jt, 1) * trans);
+				}
+
+				glm::vec3 min = glm::vec3(transVertDat[0].x, transVertDat[0].y, transVertDat[0].z);
+				glm::vec3 max = glm::vec3(transVertDat[0].x, transVertDat[0].y, transVertDat[0].z);
+
+				for (size_t i = 0; i < transVertDat.size(); i++) {
+					if (transVertDat[i].x < min.x) { min.x = transVertDat[i].x; }
+					if (transVertDat[i].y < min.y) { min.y = transVertDat[i].y; }
+					if (transVertDat[i].z < min.z) { min.z = transVertDat[i].z; }
+					if (transVertDat[i].x > max.x) { max.x = transVertDat[i].x; }
+					if (transVertDat[i].y > max.y) { max.y = transVertDat[i].y; }
+					if (transVertDat[i].z > max.z) { max.z = transVertDat[i].z; }
+				}
+
+				aabb->UpdateAABB(min, max);
 			}
 		}
-	};
-
-	inline void UpdateAABB() {
-
 	};
 }
 
