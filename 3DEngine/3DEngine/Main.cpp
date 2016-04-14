@@ -71,6 +71,7 @@ int main(int argc, char** argv) {
 	std::shared_ptr<Engine::Entity> player1 = EM->AddEntity("player", std::make_shared<player>());
 	std::shared_ptr<Engine::Entity> test = EM->AddEntity("box", std::make_shared<player>());
 
+
 	Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/Monkey.obj");
 	Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/Box.obj");
 
