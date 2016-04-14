@@ -16,7 +16,7 @@ public:
 	virtual void draw();
 	void load();
 	void unload();
-	int id;
+	int sceneId;
 protected:
 private:
 //	Engine::EntityManager* em = Engine::EntityManager::GetInstance();

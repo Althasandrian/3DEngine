@@ -101,7 +101,7 @@ namespace Engine																											//
 																													//		//
 	inline void Entity::AddChild(std::shared_ptr<Entity> child) {													//		//
 		_children.push_back(child);																					//		//
-		child->_parent = std::shared_ptr<Entity>(shared_from_this());															//		//
+		child->_parent = std::shared_ptr<Entity>(shared_from_this());												//		//
 	};																												//		//
 																													//		//
 	//--------------------------------------------------------------------------------------------------------------//		//

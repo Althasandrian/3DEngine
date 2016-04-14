@@ -2,20 +2,23 @@
 
 void Scene::update(Engine::DeltaTime dt) 
 {
-	for (auto i = 0; i < entities.size(); i++)
+	for (auto it : entities)
 	{
-		entities.at(i).Update(dt);
+		it.Update(dt);
 	}
 }
 void Scene::draw() 
 {
-	
+	//virtual??
 }
 void Scene::load() 
 {
-
+	//load entities
+	//load textures
+	//load audio
+	//load other possible stuff
 }
 void Scene::unload() 
 {
-
+	//unload above mentioned stuff
 }

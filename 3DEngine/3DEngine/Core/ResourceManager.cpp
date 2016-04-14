@@ -21,19 +21,27 @@ ResourceManager* ResourceManager::GetInstance()
 }
 Resource* ResourceManager::LoadResource(std::string filepath)
 {
-
-	for ( _it = _resources.begin(); _it != _resources.end(); _it++)
+	for (auto i : _resources)
 	{
+		if (i->filepath == filepath)
 		{
-			if ((*_it)->filepath== filepath)
-
-			{
-				std::cout << "resource already loaded" << std::endl;
-				(*_it)->resourceUsers.push_back(1);
-				return *_it;
-			}
+			std::cout << "resource already loaded" << std::endl;
+			i->resourceUsers.push_back(1);
+			return i;
 		}
 	}
+	//for ( _it = _resources.begin(); _it != _resources.end(); _it++)
+	//{
+	//	{
+	//		if ((*_it)->filepath== filepath)
+
+	//		{
+	//			std::cout << "resource already loaded" << std::endl;
+	//			(*_it)->resourceUsers.push_back(1);
+	//			return *_it;
+	//		}
+	//	}
+	//}
 	//TextFile
 	if (filepath.substr(filepath.size() - 4) == ".txt" || filepath.substr(filepath.size() - 3) == ".vs" || filepath.substr(filepath.size() - 3) == ".fs")
 	{ 
@@ -247,6 +255,7 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 	if (!err.empty()) {
 		std::cout << err << std::endl;
 	}
+
 
 	for (size_t i = 0; i < shapes.size(); i++) {
 		size_t offset = res->_vertices.size();
