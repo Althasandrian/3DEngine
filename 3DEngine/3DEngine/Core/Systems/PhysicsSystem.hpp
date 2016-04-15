@@ -78,7 +78,7 @@ namespace Engine
 				trans = rotation * scale;
 
 				for (auto jt = vertexData.begin(); jt != vertexData.end(); jt++) {
-					transVertDat.push_back(glm::vec4(*jt, 1) * trans);
+					transVertDat.push_back(trans * glm::vec4(*jt, 1));
 				}
 
 				glm::vec3 min = glm::vec3(transVertDat[0].x, transVertDat[0].y, transVertDat[0].z);

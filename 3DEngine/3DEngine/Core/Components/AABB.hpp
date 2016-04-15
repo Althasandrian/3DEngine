@@ -21,14 +21,9 @@ namespace Engine {
 
 		std::vector<glm::vec3> GetVertexData() { return _AABBVetrexData; };
 		std::vector<glm::uvec3> GetIndiceData() { return _AABBIndiceData; };
-		glm::mat4 GetTransform() { return transform; }
 	private:
 		std::vector<glm::vec3> _AABBVetrexData;
 		std::vector<glm::uvec3> _AABBIndiceData;
-
-		glm::vec3 size;
-		glm::vec3 center;
-		glm::mat4 transform;
 	};
 
 	inline void AABB::Init() {
@@ -61,10 +56,6 @@ namespace Engine {
 		_AABBVetrexData.push_back(glm::vec3(max.x, min.y, min.z));
 		_AABBVetrexData.push_back(glm::vec3(max.x, max.y, min.z));
 		_AABBVetrexData.push_back(glm::vec3(min.x, max.y, min.z));
-
-		glm::vec3 size = glm::vec3(max.x - min.x, max.y - min.y, max.z - min.z);
-		glm::vec3 center = glm::vec3((min.x + max.x) / 2, (min.y + max.y) / 2, (min.z + max.z) / 2);
-		transform = glm::translate(glm::mat4(1), center) * glm::scale(glm::mat4(1), size);
 	}
 };
 

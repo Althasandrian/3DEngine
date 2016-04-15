@@ -250,7 +250,7 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 	std::vector<tinyobj::material_t> materials;
 
 	std::string err;
-	tinyobj::LoadObj(shapes, materials, err, filepath.c_str());
+	tinyobj::LoadObj(shapes, materials, err, filepath.c_str(), "Resources/");
 
 	if (!err.empty()) {
 		std::cout << err << std::endl;
