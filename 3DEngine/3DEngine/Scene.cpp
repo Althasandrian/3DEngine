@@ -22,3 +22,20 @@ void Scene::unload()
 {
 	//unload above mentioned stuff
 }
+void Scene::createJsonFile()
+{
+	Json::Value event;
+
+	for (auto it : entities)
+	{
+		event["Entities"][it.GetName()];
+		for (auto j : it.GetComponents())
+		{
+			event["Entities"][it.GetName()]["Component"] = j->Serialize();
+			
+		}
+
+
+	}
+	
+}

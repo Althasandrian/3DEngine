@@ -6,6 +6,7 @@
 #include <iostream>
 #include "Core/Managers/EntityManager.hpp"
 #include"Core/Time.hpp"
+#include "JSON/json/json.h"
 class Scene
 {
 public:
@@ -17,12 +18,14 @@ public:
 	void load();
 	void unload();
 	int sceneId;
+	void createJsonFile();
 protected:
 private:
 //	Engine::EntityManager* em = Engine::EntityManager::GetInstance();
 	std::vector<Engine::Entity> entities;
 
 	std::string name;
+	std::string json_Filepath;
 	
 	//camera
 };

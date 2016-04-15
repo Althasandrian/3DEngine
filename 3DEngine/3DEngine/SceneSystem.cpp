@@ -2,7 +2,9 @@
 
 Scene* SceneSystem::getCurrentScene()
 {
+	
 	return currentScene;
+
 }
 void SceneSystem::changeScenes(int id)
 {
