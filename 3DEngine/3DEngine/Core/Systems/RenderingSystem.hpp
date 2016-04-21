@@ -3,27 +3,29 @@
 
 #include <chrono>
 
-#include <glm\glm.hpp>
-#include <glm\gtc\matrix_transform.hpp>
-#include <glm\gtc\type_ptr.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-#include <Core\Managers\SystemManager.hpp>
-#include <Core\Shaders\ShaderProgram.hpp>
+#include <Core/Shaders/ShaderProgram.hpp>
+#include <Core/Managers/SystemManager.hpp>
 
+#include <Core/Components/Transformable.hpp>
 #include <Core/Components/Renderable.hpp>
 #include <Core/Components/Color.hpp>
+#include <Core/Components/AABB.hpp>
 
 #include <Core/Systems/Buffer.hpp>
+
+#include <Core/Camera.hpp>
 
 namespace Engine
 {
 	class RenderingSystem : public System
 	{
 	public:
-		RenderingSystem(Window* window) : _window(window), System() {
-			std::cout << "Rendering:  Construct()" << std::endl;
-		};
-		virtual ~RenderingSystem() { std::cout << "Rendering:  Destruct()" << std::endl; };
+		RenderingSystem(Window* window) : _window(window), System() {};
+		virtual ~RenderingSystem() {};
 
 		void Init();
 		void Cleanup();
@@ -32,6 +34,7 @@ namespace Engine
 		void Resume();
 
 		void Update(DeltaTime deltaTime);
+		void SetCamera(Camera* cam) { _cam = cam; };
 
 	private:
 		void ResizeBuffer();
@@ -43,6 +46,10 @@ namespace Engine
 		Buffer _vertexBuffer;
 		Buffer _indiceBuffer;
 
+		Camera* _cam;
+
+		glm::mat4 scale;
+		glm::mat4 rotate;
 		glm::mat4 trans;
 		glm::mat4 view;
 		glm::mat4 proj;
@@ -59,12 +66,6 @@ namespace Engine
 		_default->CompileShader("Core/Shaders/Vert.txt", GL_VERTEX_SHADER);
 		_default->CompileShader("Core/Shaders/Frag.txt", GL_FRAGMENT_SHADER);
 
-		//std::static_pointer_cast<Renderable>(_entityManager->GetComponents<Renderable>("player").back())->GetVertexData();
-
-		//std::static_pointer_cast<Color>(_entityManager->GetComponents<Color>("player").back())->GetColorData();
-
-		//std::static_pointer_cast<Renderable>(_entityManager->GetComponents<Renderable>("player").back())->GetIndiceData();
-
 		glEnable(GL_DEPTH_TEST);
 
 		glUseProgram(_default->GetProgramID());
@@ -77,7 +78,9 @@ namespace Engine
 		glEnableVertexAttribArray(colAttrib);
 		glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		view = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		_cam = new Camera();
+
+		view = _cam->GetViewMatrix();
 		GLint uniView = glGetUniformLocation(_default->GetProgramID(), "view");
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
@@ -88,70 +91,114 @@ namespace Engine
 		glUseProgram(0);
 
 		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
-
-		std::cout << "Rendering:  Init()" << std::endl;
 	};
 
 	inline void RenderingSystem::Cleanup() {
-		std::cout << "Rendering:  Cleanup()" << std::endl;
 	};
 
 	inline void RenderingSystem::Pause() {
 		if (!_paused) {
 			_paused = true;
 		}
-		std::cout << "Rendering:  Pause()" << std::endl;
 	};
 
 	inline void RenderingSystem::Resume() {
 		if (_paused) {
 			_paused = false;
 		}
-		std::cout << "Rendering:  Resume()" << std::endl;
 	};
 
 	inline void RenderingSystem::Update(DeltaTime deltaTime) {
 		if (!_paused) {
-
+			glUseProgram(_default->GetProgramID());
 			GLAssert();
 
-			glUseProgram(_default->GetProgramID());
+			view = _cam->GetViewMatrix();
+			GLint uniView = glGetUniformLocation(_default->GetProgramID(), "view");
+			glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
-			std::vector<std::shared_ptr<Renderable>> renderables = _entityManager->GetComponents<Renderable>();
-
-			size_t _elemSize;
-
-			for (auto it = renderables.begin(); it != renderables.end(); it++) {
-				_elemSize = it->get()->GetIndiceData().size();
-				_vertexBuffer.BindBufferData(it->get()->GetVertexData().size(), &it->get()->GetVertexData()[0].x);
-				_indiceBuffer.BindBufferData(it->get()->GetIndiceData().size(), &it->get()->GetIndiceData()[0].x);
-			}
-
-			//for each (std::shared_ptr<Renderable> renderable in renderables) {
-			//	_elemSize = renderable->GetIndiceData().size();
-			//	_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
-			//	_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
-			//}
-
-			trans = glm::rotate(trans, rotX * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-			trans = glm::rotate(trans, rotY * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-			trans = glm::rotate(trans, rotZ * 50 * (float)deltaTime * glm::radians(1.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-
-			trans = glm::translate(trans, glm::vec3(movX, movY, movZ));
-
-			GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
-			glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+			std::vector<std::shared_ptr<Entity>> _entities = _entityManager->GetEntities();
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			//glDrawArrays(GL_TRIANGLES, 0, _size);
-			glDrawElements(GL_TRIANGLES, _elemSize * sizeof(int), GL_UNSIGNED_INT, (void*)0);
+			for (auto it = _entities.begin(); it != _entities.end(); it++) {
+
+				std::shared_ptr<AABB> aabb = it->get()->GetComponent<AABB>();
+				std::shared_ptr<Renderable> renderable = it->get()->GetComponent<Renderable>();
+				std::shared_ptr<Transformable> transformable = it->get()->GetComponent<Transformable>();
+
+				if (renderable != nullptr && transformable != nullptr) {
+					trans = glm::mat4(1);
+					rotate = glm::mat4(1);
+					scale = glm::mat4(1);
+
+					_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
+					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
+					GLAssert();
+
+					////Parent-Child Tranformation
+					//std::vector<std::shared_ptr<Entity>> parents;
+					//auto parent = it->get()->GetParent();
+					//if (parent != nullptr) {
+					//	parents.push_back(parent);
+					//	while (parent->GetParent() != nullptr) {
+					//		parent = parent->GetParent();
+					//		parents.push_back(parent);
+					//	}
+
+					//	for (int i = parents.size()-1; i >= 0; --i) {
+					//		auto parentTrans = parents[i]->GetComponent<Transformable>();
+					//		if (parentTrans != nullptr) {
+					//			trans = glm::translate(trans, parentTrans->GetPosition());
+
+					//			trans = glm::rotate(trans, parentTrans->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
+					//			trans = glm::rotate(trans, parentTrans->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
+					//			trans = glm::rotate(trans, parentTrans->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
+
+					//			GLAssert();
+					//		}
+					//	}
+					//}
+					scale = glm::scale(scale, transformable->GetScale());
+
+					rotate = glm::rotate(rotate, transformable->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
+					rotate = glm::rotate(rotate, transformable->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
+					rotate = glm::rotate(rotate, transformable->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
+					GLAssert();
+
+					trans = glm::translate(trans, transformable->GetPosition());
+
+					trans = trans * rotate * scale;
+					GLAssert();
+
+					GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
+					glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+					GLAssert();
+
+					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
+					GLAssert();
+
+					if (aabb != nullptr) {
+						_vertexBuffer.BindBufferData(aabb->GetVertexData().size(), &aabb->GetVertexData()[0].x);
+						_indiceBuffer.BindBufferData(aabb->GetIndiceData().size(), &aabb->GetIndiceData()[0].x);
+						
+						trans = glm::translate(glm::mat4(1), transformable->GetPosition());
+
+						GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
+						glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+						GLAssert();
+
+						glDrawElements(GL_LINE_LOOP, aabb->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
+					}
+				}
+			}
 
 			SwapBuffers(_window->GetHDC());
+			GLAssert();
 
 			glUseProgram(0);
+			GLAssert();
 		}
-		std::cout << "Rendering:  Update()" << std::endl;
 	};
 }
 

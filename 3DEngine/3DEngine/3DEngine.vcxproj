@@ -34,9 +34,11 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="jsoncpp.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="jsoncpp.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -89,9 +91,13 @@
     <ClCompile Include="Core\Window.cpp" />
     <ClCompile Include="Lodepng\lodepng.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\AudioSystem.h" />
+    <ClInclude Include="Core\Camera.hpp" />
+    <ClInclude Include="Core\Components\AABB.hpp" />
     <ClInclude Include="Core\Components\Color.hpp" />
     <ClInclude Include="Core\Components\Renderable.hpp" />
     <ClInclude Include="Core\Components\Transformable.hpp" />
@@ -99,12 +105,15 @@
     <ClInclude Include="Core\Managers\EntityManager.hpp" />
     <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\ResourceManager.h" />
-    <ClInclude Include="Core\Managers\StateManager.hpp" />
+    <ClInclude Include="Core\Managers\SceneManager.hpp" />
     <ClInclude Include="Core\Managers\SystemManager.hpp" />
     <ClInclude Include="Core\Shaders\ShaderProgram.hpp" />
+    <ClInclude Include="Core\Systems\PhysicsSystem.hpp" />
     <ClInclude Include="Core\Systems\RenderingSystem.hpp" />
     <ClInclude Include="Core\Time.hpp" />
     <ClInclude Include="Lodepng\lodepng.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneSystem.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\Window.h" />

@@ -18,8 +18,8 @@ namespace Engine																					//
 	//--------------------------------------------------------------------------------------//		//
 	struct System																			//		//
 	{																						//		//
-		System() : _paused(false) { std::cout << "System:  Construct()" << std::endl; };														//		//
-		virtual ~System() { std::cout << "System:  Destruct()" << std::endl; };																//		//
+		System() : _paused(false) {};														//		//
+		virtual ~System() {};																//		//
 																							//		//
 		virtual void Init() = 0;															//		//
 		virtual void Cleanup() = 0;															//		//
@@ -53,6 +53,8 @@ namespace Engine																					//
 		void Update(DeltaTime deltaTime);													//		//
 		void Clear();																		//		//
 																							//		//
+		template <typename T> std::shared_ptr<T> GetSystem();								//		//
+																							//		//
 	private:																				//		//
 		std::vector<std::shared_ptr<System>> _systems;										//		//
 																							//		//
@@ -73,7 +75,7 @@ namespace Engine																					//
 		}																					//		//
 		_systems.push_back(std::make_shared<T>(param...));									//		//
 		_systems.back()->Init();															//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	template <typename T> void SystemManager::RemoveSystem() {								//		//
 		for (auto it = _systems.begin(); it != _systems.end();) {							//		//
@@ -85,7 +87,7 @@ namespace Engine																					//
 				it++;																		//		//
 			}																				//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	template <typename T> void SystemManager::PauseSystem() {								//		//
 		for (auto it : _systems) {															//		//
@@ -93,7 +95,7 @@ namespace Engine																					//
 				it->Pause();																//		//
 			}																				//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	template <typename T> void SystemManager::ResumeSystem() {								//		//
 		for (auto it : _systems) {															//		//
@@ -101,20 +103,30 @@ namespace Engine																					//
 				it->Resume();																//		//
 			}																				//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	inline void SystemManager::Clear() {													//		//
 		while (!_systems.empty()) {															//		//
 			_systems.back()->Cleanup();														//		//
 			_systems.pop_back();															//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
 																							//		//
 	inline void SystemManager::Update(DeltaTime deltaTime) {								//		//
 		for (auto it : _systems) {															//		//
 			it->Update(deltaTime);															//		//
 		}																					//		//
-	}																						//		//
+	};																						//		//
+																							//		//
+	template <typename T> std::shared_ptr<T> SystemManager::GetSystem() {					//		//
+		for (std::shared_ptr<System> sys : _systems) {										//		//
+			if (std::dynamic_pointer_cast<T>(sys) != nullptr) {								//		//
+				return std::dynamic_pointer_cast<T>(sys);									//		//
+			}																				//		//
+		}																					//		//
+		return nullptr;																		//		//
+	};																						//		//
+																							//		//
 	//--------------------------------------------------------------------------------------//		//
 																									//
 }																									//

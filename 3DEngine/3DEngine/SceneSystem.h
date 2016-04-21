@@ -3,8 +3,6 @@
 // 
 //
 
-//Systeemit ei singletoneja
-
 #ifndef SCENESYSTEM_H
 #define SCENESYSTEM_H
 
@@ -18,12 +16,11 @@ public:
 	~SceneSystem(){}
 
 	Scene* getCurrentScene();
-	void changeScenes(int id);
+
+	void changeScenes(int Id);
 	void addScene(Scene* scene);
-	void loadScene(int id);
-	void unLoadScene(int id );
-
-
+	void loadScene(int Id);
+	void unLoadScene(int Id);
 protected:
 
 private:
@@ -31,6 +28,7 @@ private:
 	Scene* currentScene;
 	void setScene(Scene* scene) {};
 
+	// json
 };
 
 #endif

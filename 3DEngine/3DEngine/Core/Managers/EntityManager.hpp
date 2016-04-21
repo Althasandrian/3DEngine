@@ -19,6 +19,8 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	struct Component																								//		//
 	{																												//		//
+		friend class Entity;																						//		//
+																													//		//
 		Component() {};																								//		//
 		virtual ~Component() {};																					//		//
 																													//		//
@@ -26,30 +28,43 @@ namespace Engine																											//
 		virtual void Cleanup() = 0;																					//		//
 																													//		//
 		virtual void Update(DeltaTime deltaTime) = 0;																//		//
+	protected:																										//		//
+		std::shared_ptr<struct Entity> _owner;																		//		//
 	};																												//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
 																															//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	// STRUCT - Entity																								//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
-	struct Entity																									//		//
+	struct Entity : std::enable_shared_from_this<Entity>															//		//
 	{																												//		//
-		Entity() {};																								//		//
+		Entity() : _parent(nullptr) {};																				//		//
 		virtual ~Entity() {};																						//		//
 																													//		//
-		virtual void Init() = 0;																					//		//
-		virtual void Cleanup() = 0;																					//		//
+		virtual void Init() {};																						//		//
+		virtual void Cleanup() {};																					//		//
 																													//		//
-		virtual void Update(DeltaTime deltaTime) = 0;																//		//
+		virtual void Update(DeltaTime deltaTime) {};																//		//
 																													//		//
 		template <typename T, typename ...args> void AddComponent(args&&... param);									//		//
 		template <typename T> void RemoveComponent();																//		//
 																													//		//
-		template <typename T> std::shared_ptr<T> GetComponent();											//		//
+		void AddChild(std::shared_ptr<Entity> child);																//		//
+																													//		//
+		template <typename T> std::shared_ptr<T> GetComponent();													//		//
 		std::vector<std::shared_ptr<Component>> GetComponents();													//		//
 																													//		//
+		std::string GetName() { return _name; };																	//		//
+		void SetName(const char* name) { _name = name; };															//		//
+																													//		//
+		std::shared_ptr<Entity> GetParent() { return _parent; };													//		//
+		std::vector<std::shared_ptr<Entity>> GetChildren() { return _children; }									//		//
+																													//		//
 	protected:																										//		//
+		std::string _name;																							//		//
 		std::vector<std::shared_ptr<Component>> _components;														//		//
+		std::vector<std::shared_ptr<Entity>> _children;																//		//
+		std::shared_ptr<Entity> _parent;																			//		//
 	};																												//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
 																															//
@@ -61,8 +76,9 @@ namespace Engine																											//
 			if (std::dynamic_pointer_cast<T>(it) != nullptr) { return; }											//		//
 		}																											//		//
 		_components.push_back(std::make_shared<T>(param...));														//		//
+		_components.back()->_owner = this->shared_from_this();														//		//
 		_components.back()->Init();																					//		//
-	}																												//		//
+	};																												//		//
 																													//		//
 	template <typename T> void Entity::RemoveComponent() {															//		//
 		for (auto it = _components.begin(); it != _components.end();) {												//		//
@@ -74,20 +90,26 @@ namespace Engine																											//
 				it++;																								//		//
 			}																										//		//
 		}																											//		//
-	}																												//		//
+	};																												//		//
 																													//		//
 	template <typename T> std::shared_ptr<T> Entity::GetComponent() {												//		//
-		for (auto it : _components) {										//		//
+		for (auto it : _components) {																				//		//
 			if (std::dynamic_pointer_cast<T>(it) != nullptr) {														//		//
-				return std::static_pointer_cast<T>(it);																							//		//
+				return std::static_pointer_cast<T>(it);																//		//
 			}																										//		//
 		}																											//		//
-		return std::shared_ptr<T>();																								//		//
-	}																												//		//
+		return std::shared_ptr<T>();																				//		//
+	};																												//		//
 																													//		//
 	inline std::vector<std::shared_ptr<Component>> Entity::GetComponents() {										//		//
 		return _components;																							//		//
-	}																												//		//
+	};																												//		//
+																													//		//
+	inline void Entity::AddChild(std::shared_ptr<Entity> child) {													//		//
+		_children.push_back(child);																					//		//
+		child->_parent = std::shared_ptr<Entity>(shared_from_this());												//		//
+	};																												//		//
+																													//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
 																															//
 	//--------------------------------------------------------------------------------------------------------------//		//
@@ -101,7 +123,7 @@ namespace Engine																											//
 			return &EnMan;
 		}
 
-		void AddEntity(std::string name, std::shared_ptr<Entity> entity);
+		std::shared_ptr<Entity> AddEntity(std::string name, std::shared_ptr<Entity> entity);
 		void RemoveEntity(std::string name);
 
 		void Update(DeltaTime deltaTime);
@@ -109,6 +131,7 @@ namespace Engine																											//
 		void Clear();
 
 		std::shared_ptr<Entity> GetEntity(std::string name);
+		std::vector<std::shared_ptr<Entity>> GetEntities();
 
 		template <typename T, typename ...args> void AddComponent(std::string name, args&&... param);
 
@@ -130,9 +153,11 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	// DEFINITIONS - EntityManager																					//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
-	inline void EntityManager::AddEntity(std::string name, std::shared_ptr<Entity> entity) {
+	inline std::shared_ptr<Entity> EntityManager::AddEntity(std::string name, std::shared_ptr<Entity> entity) {
 		_entities.insert(std::make_pair(name, entity));
+		entity->SetName(name.c_str());
 		entity->Init();
+		return entity;
 	}
 
 	inline void EntityManager::RemoveEntity(std::string name) {
@@ -155,6 +180,14 @@ namespace Engine																											//
 
 	inline std::shared_ptr<Entity> EntityManager::GetEntity(std::string name) {
 		return _entities.find(name)->second;
+	}
+
+	inline std::vector<std::shared_ptr<Entity>> EntityManager::GetEntities() {
+		std::vector<std::shared_ptr<Entity>> temp;
+		for (auto it : _entities) {
+			temp.push_back(it.second);
+		}
+		return temp;
 	}
 
 	template <typename T, typename ...args> void EntityManager::AddComponent(std::string name, args&&... param) {

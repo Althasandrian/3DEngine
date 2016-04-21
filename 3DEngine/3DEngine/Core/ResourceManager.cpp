@@ -3,6 +3,8 @@
 #include <fstream>
 #include <Windows.h>
 #include "..\Lodepng\lodepng.h"
+
+#define TINYOBJLOADER_IMPLEMENTATION
 #include <..\Dependencies\include\tiny_obj_loader\tiny_obj_loader.h>
 
 ResourceManager* ResourceManager::Instance = nullptr;
@@ -19,19 +21,27 @@ ResourceManager* ResourceManager::GetInstance()
 }
 Resource* ResourceManager::LoadResource(std::string filepath)
 {
-
-	for ( _it = _resources.begin(); _it != _resources.end(); _it++)
+	for (auto i : _resources)
 	{
+		if (i->filepath == filepath)
 		{
-			if ((*_it)->filepath== filepath)
-
-			{
-				std::cout << "resource already loaded" << std::endl;
-				(*_it)->resourceUsers.push_back(1);
-				return *_it;
-			}
+			std::cout << "resource already loaded" << std::endl;
+			i->resourceUsers.push_back(1);
+			return i;
 		}
 	}
+	//for ( _it = _resources.begin(); _it != _resources.end(); _it++)
+	//{
+	//	{
+	//		if ((*_it)->filepath== filepath)
+
+	//		{
+	//			std::cout << "resource already loaded" << std::endl;
+	//			(*_it)->resourceUsers.push_back(1);
+	//			return *_it;
+	//		}
+	//	}
+	//}
 	//TextFile
 	if (filepath.substr(filepath.size() - 4) == ".txt" || filepath.substr(filepath.size() - 3) == ".vs" || filepath.substr(filepath.size() - 3) == ".fs")
 	{ 
@@ -67,7 +77,7 @@ Resource* ResourceManager::LoadResource(std::string filepath)
 	//FontFile
 	else if (filepath.substr(filepath.size() - 4) == ".ttf")
 	{
-		std::cout << "a Font file" << std::endl;
+		std::cout << "a font file" << std::endl;
 
 		
 			unsigned size = strlen(filepath.c_str()) + 1; // +1 to include NULL
@@ -236,83 +246,111 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 	std::vector< glm::vec2 > temp_uvs;
 	std::vector< glm::vec3 > temp_normals;
 
-	//------------------------------//
-	// Mites olis se tinyobjloader? //
-	// Laitoin sen jo includeihin.  //
-	//------------------------------//
+	std::vector<tinyobj::shape_t> shapes;
+	std::vector<tinyobj::material_t> materials;
 
-	FILE * file = fopen(filepath.c_str(), "r");
-	if (file == NULL){
-		printf("Impossible to open the file !\n");
-		return false;
+	std::string err;
+	tinyobj::LoadObj(shapes, materials, err, filepath.c_str(), "Resources/");
+
+	if (!err.empty()) {
+		std::cout << err << std::endl;
 	}
 
-	while (1){
 
-		char lineHeader[128];
-		// read the first word of the line
-		int resource = fscanf(file, "%s", lineHeader);
-		if (resource == EOF)
-			break; // EOF = End Of File. Quit the loop.
-
-		if (strcmp(lineHeader, "v") == 0){
-			glm::vec3 vertex;
-			fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
-			temp_vertices.push_back(vertex);
-
-		}
-		else if (strcmp(lineHeader, "vt") == 0){
-			glm::vec2 uv;
-			fscanf(file, "%f %f\n", &uv.x, &uv.y);
-			temp_uvs.push_back(uv);
-
-		}
-		else if (strcmp(lineHeader, "vn") == 0){
-			glm::vec3 normal;
-			fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
-			temp_normals.push_back(normal);
-
-		}
-		else if (strcmp(lineHeader, "f") == 0)
+	for (size_t i = 0; i < shapes.size(); i++) {
+		size_t offset = res->_vertices.size();
+		for (size_t j = 0; j < shapes[i].mesh.positions.size() / 3; j++)
 		{
-			std::string vertex1, vertex2, vertex3;
-			unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
-			int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
-			//int matches = fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
-
-			if (matches != 9){
-				printf("File can't be read by our simple parser : ( Try exporting with other options\n");
-				return false;
-			}
-			vertexIndices.push_back(vertexIndex[0]);
-			vertexIndices.push_back(vertexIndex[1]);
-			vertexIndices.push_back(vertexIndex[2]);
-			uvIndices.push_back(uvIndex[0]);
-			uvIndices.push_back(uvIndex[1]);
-			uvIndices.push_back(uvIndex[2]);
-			normalIndices.push_back(normalIndex[0]);
-			normalIndices.push_back(normalIndex[1]);
-			normalIndices.push_back(normalIndex[2]);
+			res->_vertices.push_back(glm::vec3(shapes[i].mesh.positions[3 * j + 0], shapes[i].mesh.positions[3 * j + 1], shapes[i].mesh.positions[3 * j + 2]));
 		}
-		for (unsigned int i = 0; i < vertexIndices.size(); i++)
-		{
-			unsigned int vertexIndex = vertexIndices[i];
-			glm::vec3 vertex = temp_vertices[vertexIndex - 1];
-			res->_vertices.push_back(vertex);
-		}
-		for (unsigned int i = 0; i < uvIndices.size(); i++)
-		{
-			unsigned int uvIndex = uvIndices[i];
-			glm::vec2 uv = temp_uvs[uvIndex - 1];
-			res->_uvs.push_back(uv);
-		}
-		for (unsigned int i = 0; i < normalIndices.size(); i++)
-		{
-			unsigned int normalIndex = normalIndices[i];
-			glm::vec3 normal = temp_normals[normalIndex - 1];
-			res->_normals.push_back(normal);
+		for (size_t j = 0; j < shapes[i].mesh.indices.size() / 3; j++) {
+			res->_indices.push_back(glm::uvec3(shapes[i].mesh.indices[3 * j + 0] + offset, shapes[i].mesh.indices[3 * j + 1] + offset, shapes[i].mesh.indices[3 * j + 2] + offset));
 		}
 	}
+
+
+
+
+
+
+
+
+
+
+
+
+	//FILE * file = fopen(filepath.c_str(), "r");
+	//if (file == NULL){
+	//	printf("Impossible to open the file !\n");
+	//	return false;
+	//}
+
+	//while (1){
+
+	//	char lineHeader[128];
+	//	// read the first word of the line
+	//	int resource = fscanf(file, "%s", lineHeader);
+	//	if (resource == EOF)
+	//		break; // EOF = End Of File. Quit the loop.
+
+	//	if (strcmp(lineHeader, "v") == 0){
+	//		glm::vec3 vertex;
+	//		fscanf(file, "%f %f %f\n", &vertex.x, &vertex.y, &vertex.z);
+	//		temp_vertices.push_back(vertex);
+
+	//	}
+	//	else if (strcmp(lineHeader, "vt") == 0){
+	//		glm::vec2 uv;
+	//		fscanf(file, "%f %f\n", &uv.x, &uv.y);
+	//		temp_uvs.push_back(uv);
+
+	//	}
+	//	else if (strcmp(lineHeader, "vn") == 0){
+	//		glm::vec3 normal;
+	//		fscanf(file, "%f %f %f\n", &normal.x, &normal.y, &normal.z);
+	//		temp_normals.push_back(normal);
+
+	//	}
+	//	else if (strcmp(lineHeader, "f") == 0)
+	//	{
+	//		std::string vertex1, vertex2, vertex3;
+	//		unsigned int vertexIndex[3], uvIndex[3], normalIndex[3];
+	//		int matches = fscanf(file, "%d/%d/%d %d/%d/%d %d/%d/%d\n", &vertexIndex[0], &uvIndex[0], &normalIndex[0], &vertexIndex[1], &uvIndex[1], &normalIndex[1], &vertexIndex[2], &uvIndex[2], &normalIndex[2]);
+	//		//int matches = fscanf(file, "%d//%d %d//%d %d//%d\n", &vertexIndex[0], &normalIndex[0], &vertexIndex[1], &normalIndex[1], &vertexIndex[2], &normalIndex[2]);
+
+	//		if (matches != 9){
+	//			printf("File can't be read by our simple parser : ( Try exporting with other options\n");
+	//			return false;
+	//		}
+	//		vertexIndices.push_back(vertexIndex[0]);
+	//		vertexIndices.push_back(vertexIndex[1]);
+	//		vertexIndices.push_back(vertexIndex[2]);
+	//		uvIndices.push_back(uvIndex[0]);
+	//		uvIndices.push_back(uvIndex[1]);
+	//		uvIndices.push_back(uvIndex[2]);
+	//		normalIndices.push_back(normalIndex[0]);
+	//		normalIndices.push_back(normalIndex[1]);
+	//		normalIndices.push_back(normalIndex[2]);
+	//	}
+	//	for (unsigned int i = 0; i < vertexIndices.size(); i++)
+	//	{
+	//		unsigned int vertexIndex = vertexIndices[i];
+	//		glm::vec3 vertex = temp_vertices[vertexIndex - 1];
+	//		res->_vertices.push_back(vertex);
+	//	}
+	//	for (unsigned int i = 0; i < uvIndices.size(); i++)
+	//	{
+	//		unsigned int uvIndex = uvIndices[i];
+	//		glm::vec2 uv = temp_uvs[uvIndex - 1];
+	//		res->_uvs.push_back(uv);
+	//	}
+	//	for (unsigned int i = 0; i < normalIndices.size(); i++)
+	//	{
+	//		unsigned int normalIndex = normalIndices[i];
+	//		glm::vec3 normal = temp_normals[normalIndex - 1];
+	//		res->_normals.push_back(normal);
+	//	}
+	//}
 
 
 	_resources.push_back(res);

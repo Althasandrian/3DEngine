@@ -9,6 +9,7 @@ namespace Engine
 	{
 	public:
 		Texture(){};
+
 		void textureasd();
 		//void nearTexture();
 		//void linearTexture();
@@ -18,6 +19,7 @@ namespace Engine
 
 	private:
 		//GLuint tex;
+
 		GLuint shaderProgramId;
 		std::vector<glm::fvec3, std::allocator<glm::fvec3>> vertices;
 		std::string texFil;

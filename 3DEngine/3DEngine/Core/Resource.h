@@ -28,6 +28,8 @@ public:
 	std::vector < glm::vec2 >  _uvs;
 	std::vector < glm::vec3 >  _normals;
 
+	std::vector < glm::uvec3 > _indices;
+
 	void setTextData(std::string readFile){ textData = readFile; }
 	void setImageData(std::vector<unsigned char> imageFile, unsigned width, unsigned height) { std::cout << "setting image data" << std::endl; imageData = imageFile; iHeight = height; iWidth = width; }
 	void setAudioData(irrklang::ISoundSource* audioFile) { std::cout << "Setting audio data " << std::endl; audioData = audioFile; }
