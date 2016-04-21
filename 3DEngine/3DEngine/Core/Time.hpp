@@ -3,10 +3,10 @@
 
 #include <chrono>
 
+typedef double DeltaTime;
+
 namespace Engine
 {
-	typedef double DeltaTime;
-
 	class Time
 	{
 	public:

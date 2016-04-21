@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-void Scene::update(Engine::DeltaTime dt) 
+void Scene::update(DeltaTime dt) 
 {
 	for (auto it : entities)
 	{

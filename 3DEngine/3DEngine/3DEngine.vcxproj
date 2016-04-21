@@ -96,6 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\AudioSystem.h" />
+    <ClInclude Include="Core\Camera.hpp" />
     <ClInclude Include="Core\Components\AABB.hpp" />
     <ClInclude Include="Core\Components\Color.hpp" />
     <ClInclude Include="Core\Components\Renderable.hpp" />
@@ -104,7 +105,7 @@
     <ClInclude Include="Core\Managers\EntityManager.hpp" />
     <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\ResourceManager.h" />
-    <ClInclude Include="Core\Managers\StateManager.hpp" />
+    <ClInclude Include="Core\Managers\SceneManager.hpp" />
     <ClInclude Include="Core\Managers\SystemManager.hpp" />
     <ClInclude Include="Core\Shaders\ShaderProgram.hpp" />
     <ClInclude Include="Core\Systems\PhysicsSystem.hpp" />

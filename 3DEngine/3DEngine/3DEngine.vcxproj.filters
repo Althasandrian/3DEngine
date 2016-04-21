@@ -67,9 +67,6 @@
     <ClInclude Include="Core\Managers\EntityManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Managers\StateManager.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Managers\SystemManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -101,6 +98,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Systems\PhysicsSystem.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Managers\SceneManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

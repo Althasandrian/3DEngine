@@ -13,7 +13,7 @@ public:
 	Scene(){}
 	~Scene(){}
 
-	virtual void update(Engine::DeltaTime dt);
+	virtual void update(DeltaTime dt);
 	virtual void draw();
 	void load();
 	void unload();

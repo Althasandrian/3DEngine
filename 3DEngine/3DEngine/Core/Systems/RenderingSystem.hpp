@@ -17,6 +17,8 @@
 
 #include <Core/Systems/Buffer.hpp>
 
+#include <Core/Camera.hpp>
+
 namespace Engine
 {
 	class RenderingSystem : public System
@@ -32,6 +34,7 @@ namespace Engine
 		void Resume();
 
 		void Update(DeltaTime deltaTime);
+		void SetCamera(Camera* cam) { _cam = cam; };
 
 	private:
 		void ResizeBuffer();
@@ -42,6 +45,8 @@ namespace Engine
 
 		Buffer _vertexBuffer;
 		Buffer _indiceBuffer;
+
+		Camera* _cam;
 
 		glm::mat4 scale;
 		glm::mat4 rotate;
@@ -73,7 +78,9 @@ namespace Engine
 		glEnableVertexAttribArray(colAttrib);
 		glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		view = glm::lookAt(glm::vec3(0.0f, 0.0f, 2.5f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		_cam = new Camera();
+
+		view = _cam->GetViewMatrix();
 		GLint uniView = glGetUniformLocation(_default->GetProgramID(), "view");
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
@@ -105,6 +112,10 @@ namespace Engine
 		if (!_paused) {
 			glUseProgram(_default->GetProgramID());
 			GLAssert();
+
+			view = _cam->GetViewMatrix();
+			GLint uniView = glGetUniformLocation(_default->GetProgramID(), "view");
+			glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
 			std::vector<std::shared_ptr<Entity>> _entities = _entityManager->GetEntities();
 
