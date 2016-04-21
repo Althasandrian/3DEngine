@@ -125,37 +125,37 @@ namespace Engine
 					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
 					GLAssert();
 
-					//Parent-Child Tranformation
-					std::vector<std::shared_ptr<Entity>> parents;
-					auto parent = it->get()->GetParent();
-					if (parent != nullptr) {
-						parents.push_back(parent);
-						while (parent->GetParent() != nullptr) {
-							parent = parent->GetParent();
-							parents.push_back(parent);
-						}
+					////Parent-Child Tranformation
+					//std::vector<std::shared_ptr<Entity>> parents;
+					//auto parent = it->get()->GetParent();
+					//if (parent != nullptr) {
+					//	parents.push_back(parent);
+					//	while (parent->GetParent() != nullptr) {
+					//		parent = parent->GetParent();
+					//		parents.push_back(parent);
+					//	}
 
-						for (int i = parents.size()-1; i >= 0; --i) {
-							auto parentTrans = parents[i]->GetComponent<Transformable>();
-							if (parentTrans != nullptr) {
-								trans = glm::translate(trans, *parentTrans->GetPosition());
+					//	for (int i = parents.size()-1; i >= 0; --i) {
+					//		auto parentTrans = parents[i]->GetComponent<Transformable>();
+					//		if (parentTrans != nullptr) {
+					//			trans = glm::translate(trans, parentTrans->GetPosition());
 
-								trans = glm::rotate(trans, parentTrans->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
-								trans = glm::rotate(trans, parentTrans->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
-								trans = glm::rotate(trans, parentTrans->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
+					//			trans = glm::rotate(trans, parentTrans->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
+					//			trans = glm::rotate(trans, parentTrans->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
+					//			trans = glm::rotate(trans, parentTrans->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-								GLAssert();
-							}
-						}
-					}
-					scale = glm::scale(scale, *transformable->GetScale());
+					//			GLAssert();
+					//		}
+					//	}
+					//}
+					scale = glm::scale(scale, transformable->GetScale());
 
-					rotate = glm::rotate(rotate, transformable->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
-					rotate = glm::rotate(rotate, transformable->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
-					rotate = glm::rotate(rotate, transformable->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
+					rotate = glm::rotate(rotate, transformable->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
+					rotate = glm::rotate(rotate, transformable->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
+					rotate = glm::rotate(rotate, transformable->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
 					GLAssert();
 
-					trans = glm::translate(trans, *transformable->GetPosition());
+					trans = glm::translate(trans, transformable->GetPosition());
 
 					trans = trans * rotate * scale;
 					GLAssert();
@@ -171,7 +171,7 @@ namespace Engine
 						_vertexBuffer.BindBufferData(aabb->GetVertexData().size(), &aabb->GetVertexData()[0].x);
 						_indiceBuffer.BindBufferData(aabb->GetIndiceData().size(), &aabb->GetIndiceData()[0].x);
 						
-						trans = glm::translate(glm::mat4(1), *transformable->GetPosition());
+						trans = glm::translate(glm::mat4(1), transformable->GetPosition());
 
 						GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
 						glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));

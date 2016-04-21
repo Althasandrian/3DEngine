@@ -67,11 +67,11 @@ namespace Engine
 				std::vector<glm::vec3> vertexData = renderable->GetVertexData();
 				std::vector<glm::vec4> transVertDat;
 
-				scale = glm::scale(scale, *transformable->GetScale());
+				scale = glm::scale(scale, transformable->GetScale());
 
-				rotation = glm::rotate(rotation, transformable->GetRotation()->x, glm::vec3(1.0f, 0.0f, 0.0f));
-				rotation = glm::rotate(rotation, transformable->GetRotation()->y, glm::vec3(0.0f, 1.0f, 0.0f));
-				rotation = glm::rotate(rotation, transformable->GetRotation()->z, glm::vec3(0.0f, 0.0f, 1.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
 
 				glm::mat4 trans;
 

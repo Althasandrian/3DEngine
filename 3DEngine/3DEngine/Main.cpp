@@ -80,8 +80,10 @@ int main(int argc, char** argv) {
 	EM->AddComponent<Engine::AABB>("player");
 
 	EM->AddComponent<Engine::Renderable>("box", box->_vertices, box->_indices);
-	EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(45.0f, 45.0f, 0.0f), glm::vec3(1.0, 1.0f, 1.0f));
+	EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0, 1.0f, 1.0f));
 	EM->AddComponent<Engine::AABB>("box");
+
+	player1->AddChild(test);
 
 	std::shared_ptr<Engine::Transformable> trans = player1->GetComponent<Engine::Transformable>();
 
