@@ -38,10 +38,10 @@ public:
 	std::string getTextData(){ return textData; }
 	std::vector<unsigned char> getImageData(){ return imageData; }
 
+	int iHeight, iWidth;
 	AudioSystem* getAudioData() { return audio; }
 private:
 	std::string textData;
-	int iHeight, iWidth;
 	std::vector<unsigned char> imageData;
 	irrklang::ISoundSource* audioData;	
 	AudioSystem* audio = new AudioSystem;

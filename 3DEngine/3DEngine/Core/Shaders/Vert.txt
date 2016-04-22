@@ -1,17 +1,30 @@
 #version 330
 
-in vec3 in_Position;
-in vec3 in_Color;
-in vec3 in_TexCoord;
 
-out vec3 ex_Color;
+in vec3 in_Position;
+in vec2 in_Texcoord;
+
+out vec2 ex_Texcoord;
 
 uniform mat4 trans;
 uniform mat4 view;
 uniform mat4 proj;
 
+//uniform int LSE_SPECULAR;
+
 void main()
 {
+
+
+	//if (LSE_SPECULAR == 1) {
+	//	//Shaderstuff
+	//}
+	//else
+	//{
+	//	//toisin
+	//}
+
+	ex_Texcoord = in_Texcoord;
 	gl_Position = proj * view * trans * vec4(in_Position, 1.0);
-	ex_Color = in_Color;
+
 }

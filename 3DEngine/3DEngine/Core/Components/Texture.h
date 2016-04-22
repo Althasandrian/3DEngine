@@ -8,12 +8,12 @@ namespace Engine
 	class Texture
 	{
 	public:
-		Texture(){};
+		Texture() {};
 
-		void textureasd();
+		void textureasd(GLint id, Texture* img);
 		//void nearTexture();
 		//void linearTexture();
-		void loadImage(const char* imagepath /*int texNumber*/);
+		void loadImage(const char* imagepath);
 		//void setTexture(const char* imagepath);
 
 
@@ -21,10 +21,14 @@ namespace Engine
 		//GLuint tex;
 
 		GLuint shaderProgramId;
-		std::vector<glm::fvec3, std::allocator<glm::fvec3>> vertices;
-		std::string texFil;
-		GLuint texNum = 0;
-		GLuint** textures = new GLuint*[texNum];
+		GLint difMapLoc;
+		float texWidth;
+		float texHeight;
+		std::vector<unsigned char> imgData;
+		//td::vector<glm::fvec3, std::allocator<glm::fvec3>> vertices;
+		//std::string texFil;
+		//GLuint texNum = 0;
+		//GLuint** textures = new GLuint*[texNum];
 	};
 }
 #endif

@@ -84,17 +84,17 @@ public:
 		test = EM->AddEntity("box", std::make_shared<player>());
 
 
-		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/Monkey.obj");
-		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/Box.obj");
+		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/house plant.obj");
+		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/house plant.obj");
 
 		EM->AddComponent<Engine::Renderable>("player", monkey->_vertices, monkey->_indices);
-		EM->AddComponent<Engine::Transformable>("player", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0, 2.0f, 2.0f));
+		EM->AddComponent<Engine::Transformable>("player", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f));
 		EM->AddComponent<Engine::AABB>("player");
 
 		EM->AddComponent<Engine::Renderable>("box", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0, 1.0f, 1.0f));
+		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f));
 		EM->AddComponent<Engine::AABB>("box");
-
+		
 		player1->AddChild(test);
 
 		trans = player1->GetComponent<Engine::Transformable>();
