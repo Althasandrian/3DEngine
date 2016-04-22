@@ -20,7 +20,7 @@
 #include <Core/Components/Renderable.hpp>
 #include <Core/Components/Color.hpp>
 #include <Core/Components/AABB.hpp>
-
+#include <Core/Components/Audio.h>
 #include <Core/Managers/SceneManager.hpp>
 
 #include <Core/ResourceManager.h>
@@ -87,10 +87,10 @@ public:
 
 		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/Monkey.obj");
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/Box.obj");
-
 		EM->AddComponent<Engine::Renderable>("player", monkey->_vertices, monkey->_indices);
 		EM->AddComponent<Engine::Transformable>("player", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(2.0, 2.0f, 2.0f));
 		EM->AddComponent<Engine::AABB>("player");
+		EM->AddComponent<Engine::Audio>("player");
 
 		EM->AddComponent<Engine::Renderable>("box", box->_vertices, box->_indices);
 		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0, 1.0f, 1.0f));
@@ -99,7 +99,9 @@ public:
 		player1->AddChild(test);
 
 		trans = player1->GetComponent<Engine::Transformable>();
-
+		std::shared_ptr<Engine::Audio> audio = player1->GetComponent<Engine::Audio>();
+		audio->setAudio("Resources/bossMusic.wav");
+		audio->Play();
 		precision = 1.0;
 		Json::Value event;
 		for (auto it : EM->GetEntities())
@@ -110,6 +112,10 @@ public:
 				event["Entities"][it->GetName()]["Child"] = j->GetName();
 
 			}
+			/*for (auto k: it->GetComponents())
+			{
+				event["Entities"][it->GetName()]["Component"]  = NULL;
+			}*/
 
 
 		}

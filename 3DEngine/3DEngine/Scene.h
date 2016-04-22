@@ -20,10 +20,9 @@ public:
 	void load();
 	void unload();
 	int sceneId;
-	void createJsonFile();
+//	void createJsonFile();
 protected:
 private:
-//	Engine::EntityManager* em = Engine::EntityManager::GetInstance();
 	std::vector<Engine::Entity> entities;
 
 	std::string name;
