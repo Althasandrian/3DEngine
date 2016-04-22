@@ -11,9 +11,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}</ProjectGuid>
+    <ProjectGuid>{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>My3DEngine</RootNamespace>
+    <RootNamespace>TestGame</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -34,11 +34,14 @@
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="jsoncpp.props" />
   </ImportGroup>
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
-    <Import Project="jsoncpp.props" />
+    <Import Project="..\3DEngine\jsoncpp.props" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="..\3DEngine\jsoncpp.props" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -54,13 +57,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\include;C:\Users\tonilyy\Documents\GitHub\3DEngine\3DEngine\TestGame\Include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>irrKlang.lib;glew32.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -72,72 +75,28 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>$(ProjectDir);$(SolutionDir)Dependencies\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\include;$(ProjectDir)Inlcude;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>irrKlang.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>irrKlang.lib;glew32.lib;OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Core\AudioSystem.cpp" />
-    <ClCompile Include="Core\Components\Texture.cpp" />
-    <ClCompile Include="Core\Input\Input.cpp" />
-    <ClCompile Include="Core\ResourceManager.cpp" />
-    <ClCompile Include="Core\Systems\Buffer.cpp" />
-    <ClCompile Include="Core\Window.cpp" />
-    <ClCompile Include="JSON\jsoncpp.cpp" />
-    <ClCompile Include="Lodepng\lodepng.cpp" />
+    <ClCompile Include="AudioSystem.cpp" />
+    <ClCompile Include="Include\Lodepng\lodepng.cpp" />
+    <ClCompile Include="Include\Resource Manager\ResourceManager.cpp" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneSystem.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core\AudioSystem.h" />
-    <ClInclude Include="Core\Camera.hpp" />
-    <ClInclude Include="Core\Components\AABB.hpp" />
-    <ClInclude Include="Core\Components\Audio.h" />
-    <ClInclude Include="Core\Components\Color.hpp" />
-    <ClInclude Include="Core\Components\Material.hpp" />
-    <ClInclude Include="Core\Components\Renderable.hpp" />
-    <ClInclude Include="Core\Components\Shader.hpp" />
-    <ClInclude Include="Core\Components\Texture.h" />
-    <ClInclude Include="Core\Components\Transformable.hpp" />
-    <ClInclude Include="Core\Input\Input.h" />
-    <ClInclude Include="Core\Managers\EntityManager.hpp" />
-    <ClInclude Include="Core\Resource.h" />
-    <ClInclude Include="Core\ResourceManager.h" />
-    <ClInclude Include="Core\Managers\SceneManager.hpp" />
-    <ClInclude Include="Core\Managers\SystemManager.hpp" />
-    <ClInclude Include="Core\Shaders\ShaderProgram.hpp" />
-    <ClInclude Include="Core\Systems\PhysicsSystem.hpp" />
-    <ClInclude Include="Core\Systems\RenderingSystem.hpp" />
-    <ClInclude Include="Core\Time.hpp" />
-    <ClInclude Include="JSON\json\json-forwards.h" />
-    <ClInclude Include="JSON\json\json.h" />
-    <ClInclude Include="Lodepng\lodepng.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneSystem.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Core\Window.h" />
-    <ClInclude Include="lib\Helper.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="Resources\Cursor.ico" />
-    <Image Include="Resources\favicon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Core\Shaders\Frag.txt" />
-    <None Include="Core\Shaders\Vert.txt" />
-    <None Include="Core\Systems\Buffer.hpp" />
-    <None Include="glew32.dll" />
-    <None Include="irrKlang.dll" />
-    <None Include="jsoncpp.props" />
+    <ClInclude Include="AudioSystem.h" />
+    <ClInclude Include="Include\Lodepng\lodepng.h" />
+    <ClInclude Include="Include\Resource Manager\Resource.h" />
+    <ClInclude Include="Include\Resource Manager\ResourceManager.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

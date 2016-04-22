@@ -14,6 +14,8 @@
 #include <Core/Components/Renderable.hpp>
 #include <Core/Components/Color.hpp>
 #include <Core/Components/AABB.hpp>
+#include <Core/Components/Shader.hpp>
+#include <Core/Components/Texture.h>
 
 #include <Core/Systems/Buffer.hpp>
 
@@ -53,42 +55,81 @@ namespace Engine
 		glm::mat4 trans;
 		glm::mat4 view;
 		glm::mat4 proj;
+
+		Engine::Texture* texture;
 	};
 
 	inline void RenderingSystem::Init() {
+		texture = new Texture;
 
 		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
 		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
+
+		GLAssert();
 
 		_entityManager = EntityManager::GetInstance();
 
 		_default = new ShaderProgram;
 		_default->CompileShader("Core/Shaders/Vert.txt", GL_VERTEX_SHADER);
 		_default->CompileShader("Core/Shaders/Frag.txt", GL_FRAGMENT_SHADER);
+		texture->loadImage("Resources/Texture.png");
 
-		glEnable(GL_DEPTH_TEST);
+		GLAssert();
+
+		//glEnable(GL_DEPTH_TEST);
+
+		GLAssert();
 
 		glUseProgram(_default->GetProgramID());
+		GLAssert();
+		
+		GLAssert();
 
 		GLint posAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Position");
-		glEnableVertexAttribArray(posAttrib);
-		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		GLint colAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Color");
-		glEnableVertexAttribArray(colAttrib);
-		glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+		GLAssert();
+
+		glEnableVertexAttribArray(posAttrib);
+
+		GLAssert();
+
+		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)0);
+
+		GLAssert();
+
+		//GLint colAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Color");
+		//glEnableVertexAttribArray(colAttrib);
+		//glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
+
+		GLint texAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Texcoord");
+
+		if (texAttrib != -1) {
+			glEnableVertexAttribArray(texAttrib);
+			GLAssert();
+			glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)3);
+		}
+
+		GLAssert();
+
+		texture->textureasd(_default->GetProgramID(), texture);
 
 		_cam = new Camera();
+
+		GLAssert();
 
 		view = _cam->GetViewMatrix();
 		GLint uniView = glGetUniformLocation(_default->GetProgramID(), "view");
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
+
+		GLAssert();
 
 		proj = glm::perspective(glm::radians(45.0f), 6.0f / 4.0f, 1.0f, 100.0f);
 		GLint uniProj = glGetUniformLocation(_default->GetProgramID(), "proj");
 		glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
 		glUseProgram(0);
+
+		GLAssert();
 
 		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
 	};
