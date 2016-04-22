@@ -5,8 +5,10 @@
 #include <string>
 #include <iostream>
 #include "Core/Managers/EntityManager.hpp"
+
 #include"Core/Time.hpp"
 #include "JSON/json/json.h"
+
 class Scene
 {
 public:

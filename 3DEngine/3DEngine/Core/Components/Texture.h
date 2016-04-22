@@ -3,21 +3,23 @@
 #include <glew.h>
 #include "Core\ResourceManager.h"
 
-namespace Components
+namespace Engine
 {
 	class Texture
 	{
 	public:
 		Texture(){};
-		void repeatTexture(std::vector<glm::fvec3, std::allocator<glm::fvec3>> vert);
-		void nearTexture();
-		void linearTexture();
-		GLuint loadImage(const char* imagepath, int texNumber);
-		void setTexture(const char* imagepath, int texNumber, std::string texFilter, std::vector<glm::fvec3, std::allocator<glm::fvec3>> vert);
+
+		void textureasd();
+		//void nearTexture();
+		//void linearTexture();
+		void loadImage(const char* imagepath /*int texNumber*/);
+		//void setTexture(const char* imagepath);
 
 
 	private:
-		GLuint texture;
+		//GLuint tex;
+
 		GLuint shaderProgramId;
 		std::vector<glm::fvec3, std::allocator<glm::fvec3>> vertices;
 		std::string texFil;

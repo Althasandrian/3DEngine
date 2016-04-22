@@ -89,6 +89,7 @@
     <ClCompile Include="Core\ResourceManager.cpp" />
     <ClCompile Include="Core\Systems\Buffer.cpp" />
     <ClCompile Include="Core\Window.cpp" />
+    <ClCompile Include="JSON\jsoncpp.cpp" />
     <ClCompile Include="Lodepng\lodepng.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Scene.cpp" />
@@ -112,6 +113,8 @@
     <ClInclude Include="Core\Systems\PhysicsSystem.hpp" />
     <ClInclude Include="Core\Systems\RenderingSystem.hpp" />
     <ClInclude Include="Core\Time.hpp" />
+    <ClInclude Include="JSON\json\json-forwards.h" />
+    <ClInclude Include="JSON\json\json.h" />
     <ClInclude Include="Lodepng\lodepng.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneSystem.h" />

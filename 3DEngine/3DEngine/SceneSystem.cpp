@@ -2,7 +2,7 @@
 
 Scene* SceneSystem::getCurrentScene()
 {
-	
+
 	return currentScene;
 
 }
@@ -16,7 +16,6 @@ void SceneSystem::changeScenes(int id)
 			return;
 		}
 	}
-
 	std::cout << "scene not found" << std::endl;
 
 }
