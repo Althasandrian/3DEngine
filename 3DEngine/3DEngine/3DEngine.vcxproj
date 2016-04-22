@@ -99,6 +99,7 @@
     <ClInclude Include="Core\Camera.hpp" />
     <ClInclude Include="Core\Components\AABB.hpp" />
     <ClInclude Include="Core\Components\Color.hpp" />
+    <ClInclude Include="Core\Components\Material.hpp" />
     <ClInclude Include="Core\Components\Renderable.hpp" />
     <ClInclude Include="Core\Components\Transformable.hpp" />
     <ClInclude Include="Core\Input\Input.h" />
