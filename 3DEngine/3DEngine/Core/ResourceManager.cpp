@@ -3,6 +3,7 @@
 #include <fstream>
 #include <Windows.h>
 #include "..\Lodepng\lodepng.h"
+#include <Core/Components/Material.hpp>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <..\Dependencies\include\tiny_obj_loader\tiny_obj_loader.h>
@@ -250,7 +251,8 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 	std::vector<tinyobj::material_t> materials;
 
 	std::string err;
-	tinyobj::LoadObj(shapes, materials, err, filepath.c_str(), "Resources/");
+	std::string filedir = filepath.substr(0, filepath.find_last_of('/') + 1);
+	tinyobj::LoadObj(shapes, materials, err, filepath.c_str(), filedir.c_str());
 
 	if (!err.empty()) {
 		std::cout << err << std::endl;
@@ -267,6 +269,15 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 		for (size_t j = 0; j < shapes[i].mesh.indices.size() / 3; j++) {
 			res->_indices.push_back(glm::uvec3(shapes[i].mesh.indices[3 * j + 0] + offset, shapes[i].mesh.indices[3 * j + 1] + offset, shapes[i].mesh.indices[3 * j + 2] + offset));
 		}
+	}
+
+	for (size_t i = 0; i < materials.size(); i++) {
+		res->_material = new Engine::Material(glm::vec3(materials[i].emission[0], materials[i].emission[1], materials[i].emission[2]),
+			glm::vec3(materials[i].ambient[0], materials[i].ambient[1], materials[i].ambient[2]),
+			glm::vec3(materials[i].diffuse[0], materials[i].diffuse[1], materials[i].diffuse[2]),
+			glm::vec3(materials[i].specular[0], materials[i].specular[1], materials[i].specular[2]),
+			glm::vec3(materials[i].transmittance[0], materials[i].transmittance[1], materials[i].transmittance[2]),
+			materials[i].ior, materials[i].shininess, materials[i].dissolve, materials[i].illum, materials[i].dummy);
 	}
 
 

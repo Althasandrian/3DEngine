@@ -101,6 +101,7 @@
     <ClInclude Include="Core\Camera.hpp" />
     <ClInclude Include="Core\Components\AABB.hpp" />
     <ClInclude Include="Core\Components\Color.hpp" />
+    <ClInclude Include="Core\Components\Material.hpp" />
     <ClInclude Include="Core\Components\Renderable.hpp" />
     <ClInclude Include="Core\Components\Shader.hpp" />
     <ClInclude Include="Core\Components\Texture.h" />

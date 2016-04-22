@@ -26,6 +26,7 @@
 #include <Core/ResourceManager.h>
 
 #include <Core/Camera.hpp>
+#include <Scene.h>
 
 class player : public Engine::Entity
 {
@@ -100,6 +101,22 @@ public:
 		trans = player1->GetComponent<Engine::Transformable>();
 
 		precision = 1.0;
+		Json::Value event;
+		for (auto it : EM->GetEntities())
+		{
+			event["Entities"][it->GetName()];
+			for (auto j : it->GetChildren())
+			{
+				event["Entities"][it->GetName()]["Child"] = j->GetName();
+
+			}
+
+
+		}
+		Json::StyledWriter writer;
+		std::string outputConfig = writer.write(event);
+
+		std::cout << event;
 	};
 
 	virtual void Cleanup()  override {

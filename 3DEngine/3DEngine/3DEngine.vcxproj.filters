@@ -112,18 +112,28 @@
     <ClInclude Include="Core\Managers\SceneManager.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="Core\Components\Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\Components\Shader.hpp">
+=======
+    <ClInclude Include="Core\Components\Material.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="JSON\json\json.h">
+>>>>>>> origin/master
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="JSON\json\json-forwards.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="JSON\json\json.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+=======
+>>>>>>> origin/master
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Cursor.ico">
