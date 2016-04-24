@@ -2,15 +2,17 @@
 
 Scene* SceneSystem::getCurrentScene()
 {
+
 	return currentScene;
+
 }
 void SceneSystem::changeScenes(int id)
 {
-	for (int i = 0; i < sceneList.size();i++)
+	for (auto it : sceneList)
 	{
-		if (sceneList.at(i)->id == id)
+		if (it->sceneId == id)
 		{
-			setScene(sceneList.at(i));
+			setScene(it);
 			return;
 		}
 	}
@@ -23,11 +25,11 @@ void SceneSystem::addScene(Scene* scene)
 }
 void SceneSystem::loadScene(int id)
 {
-	for (int i = 0; i < sceneList.size(); i++)
+	for (auto it : sceneList)
 	{
-		if (sceneList.at(i)->id == id)
+		if (it->sceneId == id)
 		{
-			sceneList.at(i)->load();
+			it->load();
 			return;
 		}
 	}
@@ -35,11 +37,11 @@ void SceneSystem::loadScene(int id)
 }
 void SceneSystem::unLoadScene(int id)
 {
-	for (int i = 0; i < sceneList.size(); i++)
+	for (auto it : sceneList)
 	{
-		if (sceneList.at(i)->id == id)
+		if (it->sceneId == id)
 		{
-			sceneList.at(i)->unload();
+			it->unload();
 			return;
 		}
 	}

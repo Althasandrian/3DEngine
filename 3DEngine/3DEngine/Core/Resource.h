@@ -4,6 +4,8 @@
 #include "AudioSystem.h"
 #include "..\..\Dependencies\include\irrKlang\irrKlang.h"
 #include "glm\glm.hpp"
+#include <Core/Components/Material.hpp>
+
 enum TYPE
 {
 	Text = 1,
@@ -24,6 +26,7 @@ public:
 	int ID;	
 	std::vector<int> resourceUsers;
 
+	Engine::Material* _material;
 	std::vector < glm::vec3 >  _vertices;
 	std::vector < glm::vec2 >  _uvs;
 	std::vector < glm::vec3 >  _normals;
@@ -38,10 +41,10 @@ public:
 	std::string getTextData(){ return textData; }
 	std::vector<unsigned char> getImageData(){ return imageData; }
 
+	int iHeight, iWidth;
 	AudioSystem* getAudioData() { return audio; }
 private:
 	std::string textData;
-	int iHeight, iWidth;
 	std::vector<unsigned char> imageData;
 	irrklang::ISoundSource* audioData;	
 	AudioSystem* audio = new AudioSystem;

@@ -53,6 +53,8 @@ namespace Engine																					//
 		void Update(DeltaTime deltaTime);													//		//
 		void Clear();																		//		//
 																							//		//
+		template <typename T> std::shared_ptr<T> GetSystem();								//		//
+																							//		//
 	private:																				//		//
 		std::vector<std::shared_ptr<System>> _systems;										//		//
 																							//		//
@@ -115,6 +117,16 @@ namespace Engine																					//
 			it->Update(deltaTime);															//		//
 		}																					//		//
 	};																						//		//
+																							//		//
+	template <typename T> std::shared_ptr<T> SystemManager::GetSystem() {					//		//
+		for (std::shared_ptr<System> sys : _systems) {										//		//
+			if (std::dynamic_pointer_cast<T>(sys) != nullptr) {								//		//
+				return std::dynamic_pointer_cast<T>(sys);									//		//
+			}																				//		//
+		}																					//		//
+		return nullptr;																		//		//
+	};																						//		//
+																							//		//
 	//--------------------------------------------------------------------------------------//		//
 																									//
 }																									//

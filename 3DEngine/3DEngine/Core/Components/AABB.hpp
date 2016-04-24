@@ -21,6 +21,7 @@ namespace Engine {
 
 		std::vector<glm::vec3> GetVertexData() { return _AABBVetrexData; };
 		std::vector<glm::uvec3> GetIndiceData() { return _AABBIndiceData; };
+
 		glm::mat4 GetTransform() { return transform; }
 	private:
 		std::vector<glm::vec3> _AABBVetrexData;

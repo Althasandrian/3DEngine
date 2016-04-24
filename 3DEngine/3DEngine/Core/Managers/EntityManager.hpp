@@ -19,6 +19,8 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	struct Component																								//		//
 	{																												//		//
+		friend class Entity;																						//		//
+																													//		//
 		Component() {};																								//		//
 		virtual ~Component() {};																					//		//
 																													//		//
@@ -26,6 +28,8 @@ namespace Engine																											//
 		virtual void Cleanup() = 0;																					//		//
 																													//		//
 		virtual void Update(DeltaTime deltaTime) = 0;																//		//
+	protected:																										//		//
+		std::shared_ptr<struct Entity> _owner;																		//		//
 	};																												//		//
 	//--------------------------------------------------------------------------------------------------------------//		//
 																															//
@@ -54,6 +58,7 @@ namespace Engine																											//
 		void SetName(const char* name) { _name = name; };															//		//
 																													//		//
 		std::shared_ptr<Entity> GetParent() { return _parent; };													//		//
+		std::vector<std::shared_ptr<Entity>> GetChildren() { return _children; }									//		//
 																													//		//
 	protected:																										//		//
 		std::string _name;																							//		//
@@ -71,6 +76,7 @@ namespace Engine																											//
 			if (std::dynamic_pointer_cast<T>(it) != nullptr) { return; }											//		//
 		}																											//		//
 		_components.push_back(std::make_shared<T>(param...));														//		//
+		_components.back()->_owner = this->shared_from_this();														//		//
 		_components.back()->Init();																					//		//
 	};																												//		//
 																													//		//
@@ -101,7 +107,7 @@ namespace Engine																											//
 																													//		//
 	inline void Entity::AddChild(std::shared_ptr<Entity> child) {													//		//
 		_children.push_back(child);																					//		//
-		child->_parent = std::shared_ptr<Entity>(shared_from_this());															//		//
+		child->_parent = std::shared_ptr<Entity>(shared_from_this());												//		//
 	};																												//		//
 																													//		//
 	//--------------------------------------------------------------------------------------------------------------//		//

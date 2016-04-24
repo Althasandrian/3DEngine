@@ -3,6 +3,7 @@
 #include <fstream>
 #include <Windows.h>
 #include "..\Lodepng\lodepng.h"
+#include <Core/Components/Material.hpp>
 
 #define TINYOBJLOADER_IMPLEMENTATION
 #include <..\Dependencies\include\tiny_obj_loader\tiny_obj_loader.h>
@@ -21,19 +22,16 @@ ResourceManager* ResourceManager::GetInstance()
 }
 Resource* ResourceManager::LoadResource(std::string filepath)
 {
-
-	for ( _it = _resources.begin(); _it != _resources.end(); _it++)
+	for (auto i : _resources)
 	{
+		if (i->filepath == filepath)
 		{
-			if ((*_it)->filepath== filepath)
-
-			{
-				std::cout << "resource already loaded" << std::endl;
-				(*_it)->resourceUsers.push_back(1);
-				return *_it;
-			}
+			std::cout << "resource already loaded" << std::endl;
+			i->resourceUsers.push_back(1);
+			return i;
 		}
 	}
+
 	//TextFile
 	if (filepath.substr(filepath.size() - 4) == ".txt" || filepath.substr(filepath.size() - 3) == ".vs" || filepath.substr(filepath.size() - 3) == ".fs")
 	{ 
@@ -242,21 +240,34 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 	std::vector<tinyobj::material_t> materials;
 
 	std::string err;
-	tinyobj::LoadObj(shapes, materials, err, filepath.c_str());
+	std::string filedir = filepath.substr(0, filepath.find_last_of('/') + 1);
+	tinyobj::LoadObj(shapes, materials, err, filepath.c_str(), filedir.c_str());
 
 	if (!err.empty()) {
 		std::cout << err << std::endl;
 	}
+
 
 	for (size_t i = 0; i < shapes.size(); i++) {
 		size_t offset = res->_vertices.size();
 		for (size_t j = 0; j < shapes[i].mesh.positions.size() / 3; j++)
 		{
 			res->_vertices.push_back(glm::vec3(shapes[i].mesh.positions[3 * j + 0], shapes[i].mesh.positions[3 * j + 1], shapes[i].mesh.positions[3 * j + 2]));
+			res->_vertices.push_back(glm::vec3(shapes[i].mesh.texcoords[2 * j + 0], shapes[i].mesh.texcoords[2 * j + 1], 0.0f));
 		}
 		for (size_t j = 0; j < shapes[i].mesh.indices.size() / 3; j++) {
 			res->_indices.push_back(glm::uvec3(shapes[i].mesh.indices[3 * j + 0] + offset, shapes[i].mesh.indices[3 * j + 1] + offset, shapes[i].mesh.indices[3 * j + 2] + offset));
 		}
+	}
+
+
+	for (size_t i = 0; i < materials.size(); i++) {
+		res->_material = new Engine::Material(glm::vec3(materials[i].emission[0], materials[i].emission[1], materials[i].emission[2]),
+			glm::vec3(materials[i].ambient[0], materials[i].ambient[1], materials[i].ambient[2]),
+			glm::vec3(materials[i].diffuse[0], materials[i].diffuse[1], materials[i].diffuse[2]),
+			glm::vec3(materials[i].specular[0], materials[i].specular[1], materials[i].specular[2]),
+			glm::vec3(materials[i].transmittance[0], materials[i].transmittance[1], materials[i].transmittance[2]),
+			materials[i].ior, materials[i].shininess, materials[i].dissolve, materials[i].illum, materials[i].dummy);
 	}
 
 
