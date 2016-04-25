@@ -219,6 +219,7 @@ namespace Engine
 					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
 					GLAssert();
 
+#if defined DRAW_AABB
 					if (aabb != nullptr) {
 						_vertexBuffer.BindBufferData(aabb->GetVertexData().size(), &aabb->GetVertexData()[0].x);
 						_indiceBuffer.BindBufferData(aabb->GetIndiceData().size(), &aabb->GetIndiceData()[0].x);
@@ -231,6 +232,7 @@ namespace Engine
 
 						glDrawElements(GL_LINE_LOOP, aabb->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
 					}
+#endif
 				}
 			}
 

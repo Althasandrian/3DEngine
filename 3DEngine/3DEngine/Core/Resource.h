@@ -1,9 +1,8 @@
 #ifndef RESOURCE_H
 #define RESOURCE_H
-#include <iostream>
+
 #include "AudioSystem.h"
-#include "..\..\Dependencies\include\irrKlang\irrKlang.h"
-#include "glm\glm.hpp"
+
 #include <Core/Components/Material.hpp>
 
 enum TYPE
@@ -14,10 +13,11 @@ enum TYPE
 	Font = 4,
 	OBJ = 5,
 };
+
 class Resource
 {
 public:
-	Resource() {};
+	Resource() : audio(new AudioSystem) {};
 	~Resource(){};
 
 	std::string filepath;
@@ -47,7 +47,7 @@ private:
 	std::string textData;
 	std::vector<unsigned char> imageData;
 	irrklang::ISoundSource* audioData;	
-	AudioSystem* audio = new AudioSystem;
+	AudioSystem* audio;
 };
 
 #endif

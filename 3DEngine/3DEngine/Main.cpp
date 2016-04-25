@@ -87,7 +87,7 @@ public:
 
 
 		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/house plant.obj");
-		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/house plant.obj");
+		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 
 
 		EM->AddComponent<Engine::Renderable>("player", monkey->_vertices, monkey->_indices);
@@ -96,36 +96,36 @@ public:
 		EM->AddComponent<Engine::Audio>("player");
 
 		EM->AddComponent<Engine::Renderable>("box", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f));
+		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("box");
 		
 		player1->AddChild(test);
 
 		trans = player1->GetComponent<Engine::Transformable>();
 		std::shared_ptr<Engine::Audio> audio = player1->GetComponent<Engine::Audio>();
-		audio->setAudio("Resources/bossMusic.wav");
-		audio->Play();
+		//audio->setAudio("Resources/bossMusic.wav");
+		//audio->Play();
 		precision = 1.0;
-		Json::Value event;
-		for (auto it : EM->GetEntities())
-		{
-			event["Entities"][it->GetName()];
-			for (auto j : it->GetChildren())
-			{
-				event["Entities"][it->GetName()]["Child"] = j->GetName();
+		//Json::Value event;
+		//for (auto it : EM->GetEntities())
+		//{
+		//	event["Entities"][it->GetName()];
+		//	for (auto j : it->GetChildren())
+		//	{
+		//		event["Entities"][it->GetName()]["Child"] = j->GetName();
 
-			}
-			/*for (auto k: it->GetComponents())
-			{
-				event["Entities"][it->GetName()]["Component"]  = NULL;
-			}*/
+		//	}
+		//	/*for (auto k: it->GetComponents())
+		//	{
+		//		event["Entities"][it->GetName()]["Component"]  = NULL;
+		//	}*/
 
 
-		}
-		Json::StyledWriter writer;
-		std::string outputConfig = writer.write(event);
+		//}
+		//Json::StyledWriter writer;
+		//std::string outputConfig = writer.write(event);
 
-		std::cout << event;
+		//std::cout << event;
 	};
 
 	virtual void Cleanup()  override {

@@ -2,11 +2,11 @@
 #define AUDIOSYSTEM_H
 #include "../../Dependencies/include/irrKlang/irrKlang.h"
 #include <iostream>
-#include "ResourceManager.h"
+
 class AudioSystem
 {
 public:
-	AudioSystem() {}
+	AudioSystem();
 	~AudioSystem();
 
 	void audioPlay(	irrklang::ISound* sound);
@@ -14,8 +14,8 @@ public:
 	void audioStop(irrklang::ISound* sound);
 	irrklang::ISoundSource* includeAudio(std::string filepath);
 	void setPosition(irrklang::ISound* sound, irrklang::vec3df pos);
-	void setVolume(irrklang::ISound* sound, int volume);
-	void AudioSystem::setEngine(irrklang::ISoundEngine* engine);
+	void setVolume(irrklang::ISound* sound, irrklang::ik_f32 volume);
+	void setEngine(irrklang::ISoundEngine* engine);
 
 private:
 	irrklang::ISoundEngine* soundEngine;

@@ -19,7 +19,7 @@ namespace Engine																											//
 	//--------------------------------------------------------------------------------------------------------------//		//
 	struct Component																								//		//
 	{																												//		//
-		friend class Entity;																						//		//
+		friend struct Entity;																						//		//
 																													//		//
 		Component() {};																								//		//
 		virtual ~Component() {};																					//		//
