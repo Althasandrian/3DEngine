@@ -93,7 +93,7 @@ namespace Engine
 
 		GLAssert();
 
-		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)0);
+		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)0);
 
 		GLAssert();
 
@@ -106,7 +106,17 @@ namespace Engine
 		if (texAttrib != -1) {
 			glEnableVertexAttribArray(texAttrib);
 			GLAssert();
-			glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)3);
+			glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)3);
+		}
+
+		GLAssert();
+
+		GLint normAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Normal");
+
+		if (normAttrib != -1) {
+			glEnableVertexAttribArray(normAttrib);
+			GLAssert();
+			glVertexAttribPointer(normAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)6);
 		}
 
 		GLAssert();
@@ -126,6 +136,23 @@ namespace Engine
 		proj = glm::perspective(glm::radians(45.0f), 6.0f / 4.0f, 1.0f, 100.0f);
 		GLint uniProj = glGetUniformLocation(_default->GetProgramID(), "proj");
 		glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
+
+		GLAssert();
+
+		glm::mat4 MatNorm;
+		GLint uniMat = glGetUniformLocation(_default->GetProgramID(), "MatNorm");
+		glUniformMatrix4fv(uniMat, 1, GL_FALSE, glm::value_ptr(MatNorm));
+
+		GLAssert();
+
+		glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
+		GLint uniLPos = glGetUniformLocation(_default->GetProgramID(), "lightPos");
+		glUniform3fv(uniLPos, 1, glm::value_ptr(lightPos));
+
+		
+		
+
+		GLAssert();
 
 		glUseProgram(0);
 

@@ -1,15 +1,54 @@
 #version 330
 
+precision mediump float;
+
+#define saturate(x) clamp(x, 0.0, 1.0);
+
 in vec2 ex_Texcoord;
+in vec3 ex_Normal;
+in vec3 ex_FragPos;
 
 out vec4 gl_FragColor;
 
 uniform sampler2D tex;
-
+uniform vec3 lightPos;
 
 void main()
 {
-	
-	gl_FragColor = texture(tex, ex_Texcoord);
+	vec3 lightColor = vec3(1.0,0.5,1.0);
+	float ambientStrenght = 1.0f;
+	vec3 ambient = ambientStrenght * vec3(1.0f, 1.0f, 1.0f);
 
-}
+	vec3 norm = normalize(ex_Normal);
+	vec3 lightDir = normalize(lightPos - ex_FragPos);
+
+	float diff = max(dot(norm, lightDir), 0.0);
+	vec3 diffuse = diff * lightColor;
+
+	gl_FragColor = texture(tex, ex_Texcoord);
+	gl_FragColor = vec4(ambient + diffuse, 1.0f) * gl_FragColor;
+
+}	
+
+
+
+
+//in vec3 ex_View;
+//in vec3 ex_Light;
+
+	//vec3 result = ambient * objectColor;
+	//vec3 Normal = normalize(ex_Normal);
+	//vec3 Light = normalize(ex_Light);
+	//vec3 View = normalize(ex_View);
+	//vec3 Half = normalize(Light + View);
+
+	//float NdotL = saturate(dot(Normal, Light));
+	//float NdotH = saturate(dot(Normal, Half));
+
+	//float Diffuse = NdotL;
+	//float Specular = pow(NdotH, 0.5);
+	//float SelfShadow = 4.0*Diffuse;
+
+//gl_FragColor.rgba = vec4(0.15, 0.15, 0.15, 0.15);
+	//gl_FragColor.rgba += Diffuse;
+	//gl_FragColor.rgb += SelfShadow * vec3(0.15, 0.15, 0.15) * Specular;

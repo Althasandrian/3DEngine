@@ -86,7 +86,7 @@ public:
 
 
 
-		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/house plant.obj");
+		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 
 
