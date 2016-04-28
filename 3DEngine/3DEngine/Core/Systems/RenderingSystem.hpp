@@ -145,11 +145,15 @@ namespace Engine
 
 		GLAssert();
 
-		glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
+		glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, -13.0f);
 		GLint uniLPos = glGetUniformLocation(_default->GetProgramID(), "lightPos");
 		glUniform3fv(uniLPos, 1, glm::value_ptr(lightPos));
 
-		
+		GLAssert();
+
+		glm::vec3 viewPos = _cam->Position;
+		GLint viewPosLoc = glGetUniformLocation(_default->GetProgramID(), "viewPos");
+		glUniform3fv(viewPosLoc, 1,  glm::value_ptr(viewPos));
 		
 
 		GLAssert();

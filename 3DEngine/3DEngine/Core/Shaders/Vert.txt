@@ -14,6 +14,7 @@ out vec3 ex_FragPos;
 uniform mat4 trans;
 uniform mat4 view;
 uniform mat4 proj;
+uniform vec3 viewPos;
 //uniform mat4 MatNorm;
 uniform vec3 lightPos;
 
@@ -24,6 +25,7 @@ void main()
 
 	ex_Normal = in_Normal;
 	ex_FragPos = vec3(trans * vec4(in_Position, 1.0f));
+	ex_Normal = mat3(transpose(inverse(trans)))* in_Normal;
 }
 
 
