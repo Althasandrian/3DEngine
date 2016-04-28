@@ -37,12 +37,13 @@ public:
 	void setImageData(std::vector<unsigned char> imageFile, unsigned width, unsigned height) { std::cout << "setting image data" << std::endl; imageData = imageFile; iHeight = height; iWidth = width; }
 	void setAudioData(irrklang::ISoundSource* audioFile) { std::cout << "Setting audio data " << std::endl; audioData = audioFile; }
 	void setAudioEngine(irrklang::ISoundEngine* engine) {  audio->setEngine(engine); }
-	void setAudio(std::string filename){ audio->includeAudio(filename); }
+	void setAudio(std::string filename){audio->includeAudio(filename); }
 	std::string getTextData(){ return textData; }
 	std::vector<unsigned char> getImageData(){ return imageData; }
 
 	int iHeight, iWidth;
-	AudioSystem* getAudioData() { return audio; }
+	irrklang::ISoundSource* getAudioData() { return audioData; }
+	AudioSystem* getAudioSystem(){ return audio; }
 private:
 	std::string textData;
 	std::vector<unsigned char> imageData;

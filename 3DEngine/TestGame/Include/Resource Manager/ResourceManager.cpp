@@ -201,10 +201,7 @@ Resource* ResourceManager::LoadAudioResource(std::string filepath)
 	res->type = Audio;
 	res->ID = ++ID_generator;
 	res->resourceUsers.push_back(1);
-	
-	
 	res->setAudioEngine(soundEngine);
-	
 	res->setAudio(filepath);
 	_resources.push_back(res);
 	return res;
