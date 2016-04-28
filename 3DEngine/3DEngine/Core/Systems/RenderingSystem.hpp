@@ -156,7 +156,7 @@ namespace Engine
 		GLAssert();
 
 		glm::vec3 viewPos = _cam->Position;
-		GLint viewPosLoc = glGetUniformLocation(_default->GetProgramID(), "viewPos");
+		GLint viewPosLoc = glGetUniformLocation(_shaderProgram->GetProgramID(), "viewPos");
 		glUniform3fv(viewPosLoc, 1,  glm::value_ptr(viewPos));
 		
 
