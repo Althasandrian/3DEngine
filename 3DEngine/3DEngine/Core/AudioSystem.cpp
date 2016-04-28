@@ -1,49 +1,34 @@
 #include "AudioSystem.h"
 
-
-AudioSystem::AudioSystem()
-{
-
-};
-
 AudioSystem::~AudioSystem()
 {
 	soundEngine->drop();
-};
+}
 
-void AudioSystem::audioPlay(irrklang::ISound* sound)
+void AudioSystem::audioPlay()
 {
-	soundEngine->play3D(sound->getSoundSource(), sound->getPosition() = irrklang::vec3df(0,0,0));
-};
+	soundEngine->play3D(soundSource, position);
+}
 
-void AudioSystem::audioPause(irrklang::ISound* sound)
+void AudioSystem::audioPause()
 {
 	sound->setIsPaused();
-};
-
-void AudioSystem::audioStop(irrklang::ISound* sound)
-{
-	sound->stop();
-};
-
+}
 void AudioSystem::setEngine(irrklang::ISoundEngine* engine)
 {
 	soundEngine = engine;
-};
-
-irrklang::ISoundSource* AudioSystem::includeAudio(std::string filePath)
+}
+void AudioSystem::includeAudio(std::string filePath)
 {
-	irrklang::ISoundSource* soundSource = soundEngine->addSoundSourceFromFile(filePath.c_str());
-	return soundSource;
-};
+	soundSource = soundEngine->addSoundSourceFromFile(filePath.c_str());
+}
 
-void AudioSystem::setPosition(irrklang::ISound* sound, irrklang::vec3df pos)
+void AudioSystem::setPosition(irrklang::vec3df pos)
 {
-	sound->setPosition(pos);
-};
-
-void AudioSystem::setVolume(irrklang::ISound* sound, irrklang::ik_f32 volume)
+	position = pos;
+}
+void AudioSystem::setVolume()
 {
 	sound->setVolume(volume);
-};
+}
 

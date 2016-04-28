@@ -75,7 +75,7 @@ public:
 		SM = Engine::SystemManager::GetInstance();
 
 		SM->AddSystem<Engine::PhysicsSystem>();
-		SM->AddSystem<Engine::RenderingSystem, Window*>(&window);
+		SM->AddSystem<Engine::RenderingSystem, Window*, const char*, const char*>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
 
 		if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
 			SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
@@ -84,16 +84,14 @@ public:
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		test = EM->AddEntity("box", std::make_shared<player>());
 
-
-
 		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
-
+		Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
 
 		EM->AddComponent<Engine::Renderable>("player", monkey->_vertices, monkey->_indices);
 		EM->AddComponent<Engine::Transformable>("player", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f));
 		EM->AddComponent<Engine::AABB>("player");
-		EM->AddComponent<Engine::Audio>("player");
+		//EM->AddComponent<Engine::Audio>("player");
 
 		EM->AddComponent<Engine::Renderable>("box", box->_vertices, box->_indices);
 		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
@@ -102,9 +100,10 @@ public:
 		player1->AddChild(test);
 
 		trans = player1->GetComponent<Engine::Transformable>();
-		std::shared_ptr<Engine::Audio> audio = player1->GetComponent<Engine::Audio>();
-		//audio->setAudio("Resources/bossMusic.wav");
-		//audio->Play();
+		//std::shared_ptr<Engine::Audio> audio = player1->GetComponent<Engine::Audio>();
+		
+		audiores->getAudioSystem()->audioPlay();
+		//audiores->Play();
 		precision = 1.0;
 		//Json::Value event;
 		//for (auto it : EM->GetEntities())
