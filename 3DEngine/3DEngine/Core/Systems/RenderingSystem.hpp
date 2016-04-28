@@ -26,7 +26,13 @@ namespace Engine
 	class RenderingSystem : public System
 	{
 	public:
-		RenderingSystem(Window* window) : _window(window), System() {};
+		RenderingSystem(Window* window, const char* vertexShaderPath = "Resources/Vert.txt", const char* fragmentShaderPath = "Resources/Frag.txt")
+			: _window(window), _shaderProgram(new ShaderProgram), System()
+		{
+			_shaderProgram->CompileShader(vertexShaderPath, GL_VERTEX_SHADER);
+			_shaderProgram->CompileShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
+		};
+
 		virtual ~RenderingSystem() {};
 
 		void Init();
@@ -42,7 +48,7 @@ namespace Engine
 		void ResizeBuffer();
 
 		EntityManager* _entityManager;
-		ShaderProgram* _default;
+		ShaderProgram* _shaderProgram;
 		Window* _window;
 
 		Buffer _vertexBuffer;
@@ -69,9 +75,6 @@ namespace Engine
 
 		_entityManager = EntityManager::GetInstance();
 
-		_default = new ShaderProgram;
-		_default->CompileShader("Core/Shaders/Vert.txt", GL_VERTEX_SHADER);
-		_default->CompileShader("Core/Shaders/Frag.txt", GL_FRAGMENT_SHADER);
 		texture->loadImage("Resources/Texture.png");
 
 		GLAssert();
@@ -80,12 +83,12 @@ namespace Engine
 
 		GLAssert();
 
-		glUseProgram(_default->GetProgramID());
+		glUseProgram(_shaderProgram->GetProgramID());
 		GLAssert();
 		
 		GLAssert();
 
-		GLint posAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Position");
+		GLint posAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Position");
 
 		GLAssert();
 
@@ -97,11 +100,11 @@ namespace Engine
 
 		GLAssert();
 
-		//GLint colAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Color");
+		//GLint colAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Color");
 		//glEnableVertexAttribArray(colAttrib);
 		//glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
-		GLint texAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Texcoord");
+		GLint texAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Texcoord");
 
 		if (texAttrib != -1) {
 			glEnableVertexAttribArray(texAttrib);
@@ -111,7 +114,7 @@ namespace Engine
 
 		GLAssert();
 
-		GLint normAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Normal");
+		GLint normAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Normal");
 
 		if (normAttrib != -1) {
 			glEnableVertexAttribArray(normAttrib);
@@ -121,32 +124,32 @@ namespace Engine
 
 		GLAssert();
 
-		texture->textureasd(_default->GetProgramID(), texture);
+		texture->textureasd(_shaderProgram->GetProgramID(), texture);
 
 		_cam = new Camera();
 
 		GLAssert();
 
 		view = _cam->GetViewMatrix();
-		GLint uniView = glGetUniformLocation(_default->GetProgramID(), "view");
+		GLint uniView = glGetUniformLocation(_shaderProgram->GetProgramID(), "view");
 		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
 		GLAssert();
 
 		proj = glm::perspective(glm::radians(45.0f), 6.0f / 4.0f, 1.0f, 100.0f);
-		GLint uniProj = glGetUniformLocation(_default->GetProgramID(), "proj");
+		GLint uniProj = glGetUniformLocation(_shaderProgram->GetProgramID(), "proj");
 		glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
 		GLAssert();
 
 		glm::mat4 MatNorm;
-		GLint uniMat = glGetUniformLocation(_default->GetProgramID(), "MatNorm");
+		GLint uniMat = glGetUniformLocation(_shaderProgram->GetProgramID(), "MatNorm");
 		glUniformMatrix4fv(uniMat, 1, GL_FALSE, glm::value_ptr(MatNorm));
 
 		GLAssert();
 
 		glm::vec3 lightPos = glm::vec3(0.0f, 5.0f, 0.0f);
-		GLint uniLPos = glGetUniformLocation(_default->GetProgramID(), "lightPos");
+		GLint uniLPos = glGetUniformLocation(_shaderProgram->GetProgramID(), "lightPos");
 		glUniform3fv(uniLPos, 1, glm::value_ptr(lightPos));
 
 		
@@ -178,11 +181,11 @@ namespace Engine
 
 	inline void RenderingSystem::Update(DeltaTime deltaTime) {
 		if (!_paused) {
-			glUseProgram(_default->GetProgramID());
+			glUseProgram(_shaderProgram->GetProgramID());
 			GLAssert();
 
 			view = _cam->GetViewMatrix();
-			GLint uniView = glGetUniformLocation(_default->GetProgramID(), "view");
+			GLint uniView = glGetUniformLocation(_shaderProgram->GetProgramID(), "view");
 			glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
 
 			std::vector<std::shared_ptr<Entity>> _entities = _entityManager->GetEntities();
@@ -239,7 +242,7 @@ namespace Engine
 					trans = trans * rotate * scale;
 					GLAssert();
 
-					GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
+					GLint uniTrans = glGetUniformLocation(_shaderProgram->GetProgramID(), "trans");
 					glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 					GLAssert();
 
@@ -253,7 +256,7 @@ namespace Engine
 						
 						trans = glm::translate(glm::mat4(1), transformable->GetPosition());
 
-						GLint uniTrans = glGetUniformLocation(_default->GetProgramID(), "trans");
+						GLint uniTrans = glGetUniformLocation(_shaderProgram->GetProgramID(), "trans");
 						glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
 						GLAssert();
 

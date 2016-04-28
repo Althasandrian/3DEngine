@@ -75,7 +75,7 @@ public:
 		SM = Engine::SystemManager::GetInstance();
 
 		SM->AddSystem<Engine::PhysicsSystem>();
-		SM->AddSystem<Engine::RenderingSystem, Window*>(&window);
+		SM->AddSystem<Engine::RenderingSystem, Window*, const char*, const char*>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
 
 		if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
 			SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
@@ -83,8 +83,6 @@ public:
 
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		test = EM->AddEntity("box", std::make_shared<player>());
-
-
 
 		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
