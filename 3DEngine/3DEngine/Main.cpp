@@ -75,7 +75,7 @@ public:
 		SM = Engine::SystemManager::GetInstance();
 
 		SM->AddSystem<Engine::PhysicsSystem>();
-		SM->AddSystem<Engine::RenderingSystem, Window*, const char*, const char*>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
+		SM->AddSystem<Engine::RenderingSystem>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
 
 		if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
 			SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
@@ -88,14 +88,16 @@ public:
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
 
-		EM->AddComponent<Engine::Renderable>("player", monkey->_vertices, monkey->_indices);
-		EM->AddComponent<Engine::Transformable>("player", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.01f, 0.01f, 0.01f));
+		EM->AddComponent<Engine::Renderable>("player", box->_vertices, box->_indices);
+		EM->AddComponent<Engine::Transformable>("player", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("player");
+		EM->AddComponent<Engine::Texture>("player", "Resources/Texture1.png");
 		//EM->AddComponent<Engine::Audio>("player");
 
 		EM->AddComponent<Engine::Renderable>("box", box->_vertices, box->_indices);
 		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("box");
+		EM->AddComponent<Engine::Texture>("box", "Resources/Texture2.png");
 		
 		player1->AddChild(test);
 
@@ -168,7 +170,7 @@ private:
 };
 
 int main(int argc, char** argv) {
-	window.createWindow("Dickbutt!", glm::vec2(600, 400), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
+	window.createWindow("Dickbutt!", glm::vec2(1920, 1080), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_FULLSCREEN, WndProc);
 	window.InitOpenGL();
 
 	Engine::Time timer;

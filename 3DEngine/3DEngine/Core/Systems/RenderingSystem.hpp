@@ -61,21 +61,15 @@ namespace Engine
 		glm::mat4 trans;
 		glm::mat4 view;
 		glm::mat4 proj;
-
-		Engine::Texture* texture;
 	};
 
 	inline void RenderingSystem::Init() {
-		texture = new Texture;
-
 		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
 		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
 		GLAssert();
 
 		_entityManager = EntityManager::GetInstance();
-
-		texture->loadImage("Resources/Texture.png");
 
 		GLAssert();
 
@@ -124,8 +118,6 @@ namespace Engine
 
 		GLAssert();
 
-		texture->textureasd(_shaderProgram->GetProgramID(), texture);
-
 		_cam = new Camera();
 
 		GLAssert();
@@ -136,7 +128,7 @@ namespace Engine
 
 		GLAssert();
 
-		proj = glm::perspective(glm::radians(45.0f), 6.0f / 4.0f, 1.0f, 100.0f);
+		proj = glm::perspective(glm::radians(90.0f), _window->GetSize().x / _window->GetSize().y, 0.1f, 1000.0f);
 		GLint uniProj = glGetUniformLocation(_shaderProgram->GetProgramID(), "proj");
 		glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
 
@@ -202,11 +194,16 @@ namespace Engine
 				std::shared_ptr<AABB> aabb = it->get()->GetComponent<AABB>();
 				std::shared_ptr<Renderable> renderable = it->get()->GetComponent<Renderable>();
 				std::shared_ptr<Transformable> transformable = it->get()->GetComponent<Transformable>();
+				std::shared_ptr<Texture> texture = it->get()->GetComponent<Texture>();
 
 				if (renderable != nullptr && transformable != nullptr) {
 					trans = glm::mat4(1);
 					rotate = glm::mat4(1);
 					scale = glm::mat4(1);
+
+					if (texture != nullptr) {
+						texture->BindTexture(_shaderProgram->GetProgramID());
+					}
 
 					_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
 					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
