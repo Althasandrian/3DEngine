@@ -33,9 +33,6 @@ void main()
 	float spec = pow(max(dot(viewDir, reflectionDir), 0.0), 32);
 	vec3 specular = specularStrength * spec * lightColor;
 
-	//gl_FragColor = vec4(0.0, 0.0, 1.0, 1.0);
 	gl_FragColor = texture(tex, ex_TexCoord);
-	//gl_FragColor = vec4(ex_TexCoord, 0, 1);
 	gl_FragColor = vec4((ambient + diffuse + specular) * gl_FragColor.xyz, 1.0f);
-
 }
