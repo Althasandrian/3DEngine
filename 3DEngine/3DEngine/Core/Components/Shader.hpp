@@ -12,7 +12,7 @@ namespace Engine {
 	class Shader : public Component
 	{
 	public:
-		Shader(const char* vertexSourcce, const char* fragmentSource);
+		Shader(const char* vertexSource, const char* fragmentSource);
 		Shader();
 		virtual ~Shader();
 

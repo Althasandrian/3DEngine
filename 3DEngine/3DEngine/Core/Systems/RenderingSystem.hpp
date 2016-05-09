@@ -133,7 +133,9 @@ namespace Engine
 					GLAssert();
 
 					//Bind Data
-					texture->BindTexture(shaderID);
+					if (texture != nullptr) {
+						texture->BindTexture(shaderID);
+					}
 
 					_vertexBuffer.BindBufferData(render->GetVertexData().size(), &render->GetVertexData()[0].x);
 					_indiceBuffer.BindBufferData(render->GetIndiceData().size(), &render->GetIndiceData()[0].x);
@@ -189,7 +191,13 @@ namespace Engine
 
 						glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
 
-						glDrawElements(GL_LINE_LOOP, aabb->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
+						if (PositionLocation != -1) {
+							glEnableVertexAttribArray(PositionLocation);
+							glVertexAttribPointer(PositionLocation, 3, GL_FLOAT, GL_FALSE, 0 * sizeof(glm::vec3), (void*)(0 * sizeof(GLfloat)));
+							GLAssert();
+						} //if (PositionLocation != -1)
+
+						glDrawElements(GL_LINE_STRIP, aabb->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
 					} //if (aabb != nullptr)
 #endif // DRAW_AABB
 

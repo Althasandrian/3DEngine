@@ -9,6 +9,8 @@ namespace Engine {
 	class AABB : public Component
 	{
 	public:
+		friend class PhysicsSystem;
+
 		AABB() {};
 		virtual ~AABB() {};
 
@@ -24,21 +26,18 @@ namespace Engine {
 	private:
 		std::vector<glm::vec3> _AABBVetrexData;
 		std::vector<glm::uvec3> _AABBIndiceData;
+
+		glm::vec3 _min;
+		glm::vec3 _max;
 	};
 
 	inline void AABB::Init() {
 		_AABBIndiceData.push_back(glm::uvec3(0, 1, 2));
 		_AABBIndiceData.push_back(glm::uvec3(2, 3, 0));
-		_AABBIndiceData.push_back(glm::uvec3(1, 5, 6));
-		_AABBIndiceData.push_back(glm::uvec3(6, 2, 1));
-		_AABBIndiceData.push_back(glm::uvec3(7, 6, 5));
-		_AABBIndiceData.push_back(glm::uvec3(5, 4, 7));
-		_AABBIndiceData.push_back(glm::uvec3(4, 0, 3));
-		_AABBIndiceData.push_back(glm::uvec3(3, 7, 4));
-		_AABBIndiceData.push_back(glm::uvec3(4, 5, 1));
-		_AABBIndiceData.push_back(glm::uvec3(1, 0, 4));
-		_AABBIndiceData.push_back(glm::uvec3(3, 2, 6));
-		_AABBIndiceData.push_back(glm::uvec3(6, 7, 3));
+		_AABBIndiceData.push_back(glm::uvec3(0, 5, 6));
+		_AABBIndiceData.push_back(glm::uvec3(1, 6, 7));
+		_AABBIndiceData.push_back(glm::uvec3(2, 7, 4));
+		_AABBIndiceData.push_back(glm::uvec3(3, 4, 5));
 	}
 
 	inline void AABB::Cleanup() {}
@@ -46,16 +45,19 @@ namespace Engine {
 	inline void AABB::Update(DeltaTime deltaTime) {}
 
 	inline void AABB::UpdateAABB(glm::vec3 min, glm::vec3 max) {
+		_min = min;
+		_max = max;
+
 		_AABBVetrexData.clear();
 
-		_AABBVetrexData.push_back(glm::vec3(min.x, min.y, max.z));
-		_AABBVetrexData.push_back(glm::vec3(max.x, min.y, max.z));
 		_AABBVetrexData.push_back(glm::vec3(max.x, max.y, max.z));
+		_AABBVetrexData.push_back(glm::vec3(max.x, min.y, max.z));
+		_AABBVetrexData.push_back(glm::vec3(min.x, min.y, max.z));
 		_AABBVetrexData.push_back(glm::vec3(min.x, max.y, max.z));
-		_AABBVetrexData.push_back(glm::vec3(min.x, min.y, min.z));
-		_AABBVetrexData.push_back(glm::vec3(max.x, min.y, min.z));
-		_AABBVetrexData.push_back(glm::vec3(max.x, max.y, min.z));
 		_AABBVetrexData.push_back(glm::vec3(min.x, max.y, min.z));
+		_AABBVetrexData.push_back(glm::vec3(max.x, max.y, min.z));
+		_AABBVetrexData.push_back(glm::vec3(max.x, min.y, min.z));
+		_AABBVetrexData.push_back(glm::vec3(min.x, min.y, min.z));
 	}
 };
 

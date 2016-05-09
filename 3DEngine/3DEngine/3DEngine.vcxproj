@@ -109,6 +109,7 @@
     <ClInclude Include="Core\Components\Transform.hpp" />
     <ClInclude Include="Core\Input\Input.h" />
     <ClInclude Include="Core\Managers\EntityManager.hpp" />
+    <ClInclude Include="Core\Rectangle.hpp" />
     <ClInclude Include="Core\Resource.h" />
     <ClInclude Include="Core\ResourceManager.h" />
     <ClInclude Include="Core\Managers\SceneManager.hpp" />

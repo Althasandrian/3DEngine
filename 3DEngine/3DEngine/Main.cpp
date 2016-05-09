@@ -30,6 +30,8 @@
 #include <Core/Camera.hpp>
 #include <Scene.h>
 
+#include <Core/Rectangle.hpp>
+
 class player : public Engine::Entity
 {
 public:
@@ -39,8 +41,6 @@ public:
 	void Init(){};
 	void Cleanup(){};
 	void Update(DeltaTime dt){};
-
-	
 };
 
 Window window;
@@ -96,11 +96,14 @@ public:
 		//EM->AddComponent<Engine::Audio>("player");
 
 		EM->AddComponent<Engine::Render>("box", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transform>("box", glm::vec3(-2.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::Transform>("box", glm::vec3(-5.0f, 0.0f, -17.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("box");
 		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
 		
-		player1->AddChild(test);
+		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>("asd", glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
+		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
+
+		//player1->AddChild(test);
 
 		trans = player1->GetComponent<Engine::Transform>();
 		//std::shared_ptr<Engine::Audio> audio = player1->GetComponent<Engine::Audio>();
@@ -171,7 +174,7 @@ private:
 };
 
 int main(int argc, char** argv) {
-	window.createWindow("Dickbutt!", glm::vec2(1920, 1080), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_FULLSCREEN, WndProc);
+	window.createWindow("Dickbutt!", glm::vec2(1920, 1080), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
 	window.InitOpenGL();
 
 	Engine::Time timer;
