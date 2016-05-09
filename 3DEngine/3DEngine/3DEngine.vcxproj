@@ -103,10 +103,10 @@
     <ClInclude Include="Core\Components\Audio.h" />
     <ClInclude Include="Core\Components\Color.hpp" />
     <ClInclude Include="Core\Components\Material.hpp" />
-    <ClInclude Include="Core\Components\Renderable.hpp" />
+    <ClInclude Include="Core\Components\Render.hpp" />
     <ClInclude Include="Core\Components\Shader.hpp" />
     <ClInclude Include="Core\Components\Texture.h" />
-    <ClInclude Include="Core\Components\Transformable.hpp" />
+    <ClInclude Include="Core\Components\Transform.hpp" />
     <ClInclude Include="Core\Input\Input.h" />
     <ClInclude Include="Core\Managers\EntityManager.hpp" />
     <ClInclude Include="Core\Resource.h" />

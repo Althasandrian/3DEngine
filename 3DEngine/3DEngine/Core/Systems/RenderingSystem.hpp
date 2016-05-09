@@ -10,8 +10,8 @@
 #include <Core/Shaders/ShaderProgram.hpp>
 #include <Core/Managers/SystemManager.hpp>
 
-#include <Core/Components/Transformable.hpp>
-#include <Core/Components/Renderable.hpp>
+#include <Core/Components/Transform.hpp>
+#include <Core/Components/Render.hpp>
 #include <Core/Components/Color.hpp>
 #include <Core/Components/AABB.hpp>
 #include <Core/Components/Shader.hpp>
@@ -27,141 +27,51 @@ namespace Engine
 	{
 	public:
 		RenderingSystem(Window* window, const char* vertexShaderPath = "Resources/Vert.txt", const char* fragmentShaderPath = "Resources/Frag.txt")
-			: _window(window), _shaderProgram(new ShaderProgram), System()
-		{
-			_shaderProgram->CompileShader(vertexShaderPath, GL_VERTEX_SHADER);
-			_shaderProgram->CompileShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
+			: _window(window), _defaultShader(new ShaderProgram), _cam(new Camera), System() {
+
+			_defaultShader->CompileShader(vertexShaderPath, GL_VERTEX_SHADER);
+			_defaultShader->CompileShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
+			GLAssert();
 		};
 
 		virtual ~RenderingSystem() {};
 
-		void Init();
-		void Cleanup();
+		virtual void Init() override;
+		virtual void Cleanup() override;
 
-		void Pause();
-		void Resume();
+		virtual void Pause() override;
+		virtual void Resume() override;
 
-		void Update(DeltaTime deltaTime);
+		virtual void Update(DeltaTime deltaTime) override;
+
 		void SetCamera(Camera* cam) { _cam = cam; };
 
 	private:
-		void ResizeBuffer();
-
 		EntityManager* _entityManager;
-		ShaderProgram* _shaderProgram;
+		ShaderProgram* _defaultShader;
 		Window* _window;
 
 		Buffer _vertexBuffer;
 		Buffer _indiceBuffer;
 
 		Camera* _cam;
-
-		glm::mat4 scale;
-		glm::mat4 rotate;
-		glm::mat4 trans;
-		glm::mat4 view;
-		glm::mat4 proj;
 	};
 
 	inline void RenderingSystem::Init() {
+		_entityManager = EntityManager::GetInstance();
+
 		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
 		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
-		GLAssert();
-
-		_entityManager = EntityManager::GetInstance();
-
-		GLAssert();
-
-		//glEnable(GL_DEPTH_TEST);
-
-		GLAssert();
-
-		glUseProgram(_shaderProgram->GetProgramID());
-		GLAssert();
-		
-		GLAssert();
-
-		GLint posAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Position");
-
-		GLAssert();
-
-		glEnableVertexAttribArray(posAttrib);
-
-		GLAssert();
-
-		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)0);
-
-		GLAssert();
-
-		//GLint colAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Color");
-		//glEnableVertexAttribArray(colAttrib);
-		//glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
-
-		GLint texAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Texcoord");
-
-		if (texAttrib != -1) {
-			glEnableVertexAttribArray(texAttrib);
-			GLAssert();
-			glVertexAttribPointer(texAttrib, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)3);
-		}
-
-		GLAssert();
-
-		GLint normAttrib = glGetAttribLocation(_shaderProgram->GetProgramID(), "in_Normal");
-
-		if (normAttrib != -1) {
-			glEnableVertexAttribArray(normAttrib);
-			GLAssert();
-			glVertexAttribPointer(normAttrib, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)6);
-		}
-
-		GLAssert();
-
-		_cam = new Camera();
-
-		GLAssert();
-
-		view = _cam->GetViewMatrix();
-		GLint uniView = glGetUniformLocation(_shaderProgram->GetProgramID(), "view");
-		glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
-
-		GLAssert();
-
-		proj = glm::perspective(glm::radians(90.0f), _window->GetSize().x / _window->GetSize().y, 0.1f, 1000.0f);
-		GLint uniProj = glGetUniformLocation(_shaderProgram->GetProgramID(), "proj");
-		glUniformMatrix4fv(uniProj, 1, GL_FALSE, glm::value_ptr(proj));
-
-		GLAssert();
-
-		glm::mat4 MatNorm;
-		GLint uniMat = glGetUniformLocation(_shaderProgram->GetProgramID(), "MatNorm");
-		glUniformMatrix4fv(uniMat, 1, GL_FALSE, glm::value_ptr(MatNorm));
-
-		GLAssert();
-
-
-		glm::vec3 lightPos = glm::vec3(0.0f, 2.0f, -13.0f);
-		GLint uniLPos = glGetUniformLocation(_shaderProgram->GetProgramID(), "lightPos");
-		glUniform3fv(uniLPos, 1, glm::value_ptr(lightPos));
-
-		GLAssert();
-
-		glm::vec3 viewPos = _cam->Position;
-		GLint viewPosLoc = glGetUniformLocation(_shaderProgram->GetProgramID(), "viewPos");
-		glUniform3fv(viewPosLoc, 1,  glm::value_ptr(viewPos));
-		
-
-		GLAssert();
+		glEnable(GL_DEPTH_TEST);
 
 		glUseProgram(0);
-
-		GLAssert();
 
 		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
 	};
 
 	inline void RenderingSystem::Cleanup() {
+
 	};
 
 	inline void RenderingSystem::Pause() {
@@ -178,102 +88,119 @@ namespace Engine
 
 	inline void RenderingSystem::Update(DeltaTime deltaTime) {
 		if (!_paused) {
-			glUseProgram(_shaderProgram->GetProgramID());
-			GLAssert();
-
-			view = _cam->GetViewMatrix();
-			GLint uniView = glGetUniformLocation(_shaderProgram->GetProgramID(), "view");
-			glUniformMatrix4fv(uniView, 1, GL_FALSE, glm::value_ptr(view));
-
-			std::vector<std::shared_ptr<Entity>> _entities = _entityManager->GetEntities();
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-			for (auto it = _entities.begin(); it != _entities.end(); it++) {
+			std::vector<std::shared_ptr<Entity>> entities = _entityManager->GetEntities();
+			for (std::shared_ptr<Entity> entity : entities) {
 
-				std::shared_ptr<AABB> aabb = it->get()->GetComponent<AABB>();
-				std::shared_ptr<Renderable> renderable = it->get()->GetComponent<Renderable>();
-				std::shared_ptr<Transformable> transformable = it->get()->GetComponent<Transformable>();
-				std::shared_ptr<Texture> texture = it->get()->GetComponent<Texture>();
+				//Get components needded for rendering
+				std::shared_ptr<Transform>	transform	= entity->GetComponent<Transform>();
+				std::shared_ptr<Render>		render		= entity->GetComponent<Render>();
+				std::shared_ptr<AABB>		aabb		= entity->GetComponent<AABB>();
+				std::shared_ptr<Texture>	texture		= entity->GetComponent<Texture>();
+				std::shared_ptr<Shader>		shader		= entity->GetComponent<Shader>();
+				GLAssert();
 
-				if (renderable != nullptr && transformable != nullptr) {
-					trans = glm::mat4(1);
-					rotate = glm::mat4(1);
-					scale = glm::mat4(1);
+				//Check for the bare minimum components needed for rendering
+				if (transform != nullptr && render != nullptr) {
 
-					if (texture != nullptr) {
-						texture->BindTexture(_shaderProgram->GetProgramID());
-					}
-
-					_vertexBuffer.BindBufferData(renderable->GetVertexData().size(), &renderable->GetVertexData()[0].x);
-					_indiceBuffer.BindBufferData(renderable->GetIndiceData().size(), &renderable->GetIndiceData()[0].x);
+					//If entity has shader component use it. Otherwise use default shader
+					GLuint shaderID;
+					if (shader != nullptr)	{ shaderID = shader->GetProgramID(); }
+					else					{ shaderID = _defaultShader->GetProgramID(); }
+					glUseProgram(shaderID);
 					GLAssert();
 
-					////Parent-Child Tranformation
-					//std::vector<std::shared_ptr<Entity>> parents;
-					//auto parent = it->get()->GetParent();
-					//if (parent != nullptr) {
-					//	parents.push_back(parent);
-					//	while (parent->GetParent() != nullptr) {
-					//		parent = parent->GetParent();
-					//		parents.push_back(parent);
-					//	}
+					//Get Data
+					glm::mat4 Model = glm::translate(glm::mat4(1), transform->GetPosition());
 
-					//	for (int i = parents.size()-1; i >= 0; --i) {
-					//		auto parentTrans = parents[i]->GetComponent<Transformable>();
-					//		if (parentTrans != nullptr) {
-					//			trans = glm::translate(trans, parentTrans->GetPosition());
+					glm::mat4 Scale = glm::scale(glm::mat4(1), transform->GetScale());
 
-					//			trans = glm::rotate(trans, parentTrans->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
-					//			trans = glm::rotate(trans, parentTrans->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
-					//			trans = glm::rotate(trans, parentTrans->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
+					glm::mat4	Rotate = glm::rotate(glm::mat4(1), transform->GetRotationRad().x, glm::vec3(1.0f, 0.0f, 0.0f));
+								Rotate = glm::rotate(Rotate, transform->GetRotationRad().y, glm::vec3(0.0f, 1.0f, 0.0f));
+								Rotate = glm::rotate(Rotate, transform->GetRotationRad().z, glm::vec3(0.0f, 0.0f, 1.0f));
 
-					//			GLAssert();
-					//		}
-					//	}
-					//}
-					scale = glm::scale(scale, transformable->GetScale());
+								Model = Model * Rotate * Scale;
 
-					rotate = glm::rotate(rotate, transformable->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
-					rotate = glm::rotate(rotate, transformable->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
-					rotate = glm::rotate(rotate, transformable->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
+					glm::mat4 View = _cam->GetViewMatrix();
+
+					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 100.0f);
+
+					glm::vec3 ViewPosition = _cam->Position;
+
+					glm::vec3 LightPosition = glm::vec3(0.0f, 2.0f, -15.0f);
 					GLAssert();
 
-					trans = glm::translate(trans, transformable->GetPosition());
+					//Bind Data
+					texture->BindTexture(shaderID);
 
-					trans = trans * rotate * scale;
+					_vertexBuffer.BindBufferData(render->GetVertexData().size(), &render->GetVertexData()[0].x);
+					_indiceBuffer.BindBufferData(render->GetIndiceData().size(), &render->GetIndiceData()[0].x);
 					GLAssert();
 
-					GLint uniTrans = glGetUniformLocation(_shaderProgram->GetProgramID(), "trans");
-					glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
+					GLuint ModelLocation = glGetUniformLocation(shaderID, "Model");
+					GLuint ViewLocation = glGetUniformLocation(shaderID, "View");
+					GLuint ProjectionLocation = glGetUniformLocation(shaderID, "Projection");
+					GLuint ViewPositionLocation = glGetUniformLocation(shaderID, "ViewPosition");
+					GLuint LightPositionLocation = glGetUniformLocation(shaderID, "LightPosition");
 					GLAssert();
 
-					glDrawElements(GL_TRIANGLES, renderable->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
+					GLuint PositionLocation = glGetAttribLocation(shaderID, "in_Position");
+					GLuint TexCoordinateLocation = glGetAttribLocation(shaderID, "in_TexCoord");
+					GLuint NormalLocation = glGetAttribLocation(shaderID, "in_Normal");
 					GLAssert();
 
-#if defined DRAW_AABB
+					glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
+					glUniformMatrix4fv(ViewLocation, 1, GL_FALSE, glm::value_ptr(View));
+					glUniformMatrix4fv(ProjectionLocation, 1, GL_FALSE, glm::value_ptr(Projection));
+					glUniform3fv(ViewPositionLocation, 1, glm::value_ptr(ViewPosition));
+					glUniform3fv(LightPositionLocation, 1, glm::value_ptr(LightPosition));
+					GLAssert();
+
+					if (PositionLocation != -1) {
+						glEnableVertexAttribArray(PositionLocation);
+						glVertexAttribPointer(PositionLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)(0 * sizeof(GLfloat)));
+						GLAssert();
+					} //if (PositionLocation != -1)
+
+					if (TexCoordinateLocation != -1) {
+						glEnableVertexAttribArray(TexCoordinateLocation);
+						glVertexAttribPointer(TexCoordinateLocation, 2, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)(3 * sizeof(GLfloat)));
+						GLAssert();
+					} //if (TexCoordinateLocation != -1)
+
+					if (NormalLocation != -1) {
+						glEnableVertexAttribArray(NormalLocation);
+						glVertexAttribPointer(NormalLocation, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(glm::vec3), (void*)(6 * sizeof(GLfloat)));
+						GLAssert();
+					} //if (NormalLocation != -1)
+
+					//Draw object
+					glDrawElements(GL_TRIANGLES, render->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
+					GLAssert();
+
+#ifdef DRAW_AABB
 					if (aabb != nullptr) {
 						_vertexBuffer.BindBufferData(aabb->GetVertexData().size(), &aabb->GetVertexData()[0].x);
 						_indiceBuffer.BindBufferData(aabb->GetIndiceData().size(), &aabb->GetIndiceData()[0].x);
-						
-						trans = glm::translate(glm::mat4(1), transformable->GetPosition());
 
-						GLint uniTrans = glGetUniformLocation(_shaderProgram->GetProgramID(), "trans");
-						glUniformMatrix4fv(uniTrans, 1, GL_FALSE, glm::value_ptr(trans));
-						GLAssert();
+						Model = glm::translate(glm::mat4(1), transform->GetPosition());
+
+						glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));
 
 						glDrawElements(GL_LINE_LOOP, aabb->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
-					}
-#endif
-				}
-			}
+					} //if (aabb != nullptr)
+#endif // DRAW_AABB
+
+				} //if (transform != nullptr && render != nullptr)
+			} //for (std::shared_ptr<Entity> entity : entities)
 
 			SwapBuffers(_window->GetHDC());
-			GLAssert();
-
 			glUseProgram(0);
 			GLAssert();
-		}
+
+		} //if (!_paused)
 	};
 }
 

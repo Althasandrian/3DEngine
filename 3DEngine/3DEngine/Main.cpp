@@ -10,6 +10,8 @@
 #define _USE_MATH_DEFINES
 #include <math.h>
 
+#define DRAW_AABB
+
 #include <lib/Helper.hpp>
 
 #include <Core/Managers/EntityManager.hpp>
@@ -17,7 +19,7 @@
 #include <Core/Systems/RenderingSystem.hpp>
 #include <Core/Systems/PhysicsSystem.hpp>
 
-#include <Core/Components/Renderable.hpp>
+#include <Core/Components/Render.hpp>
 #include <Core/Components/Color.hpp>
 #include <Core/Components/AABB.hpp>
 #include <Core/Components/Audio.h>
@@ -84,27 +86,26 @@ public:
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		test = EM->AddEntity("box", std::make_shared<player>());
 
-		Resource* monkey = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
 
-		EM->AddComponent<Engine::Renderable>("player", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transformable>("player", glm::vec3(0.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::Render>("player", box->_vertices, box->_indices);
+		EM->AddComponent<Engine::Transform>("player", glm::vec3(2.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("player");
 		EM->AddComponent<Engine::Texture>("player", "Resources/Texture1.png");
 		//EM->AddComponent<Engine::Audio>("player");
 
-		EM->AddComponent<Engine::Renderable>("box", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transformable>("box", glm::vec3(0.0f, -5.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::Render>("box", box->_vertices, box->_indices);
+		EM->AddComponent<Engine::Transform>("box", glm::vec3(-2.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("box");
-		EM->AddComponent<Engine::Texture>("box", "Resources/Texture2.png");
+		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
 		
 		player1->AddChild(test);
 
-		trans = player1->GetComponent<Engine::Transformable>();
+		trans = player1->GetComponent<Engine::Transform>();
 		//std::shared_ptr<Engine::Audio> audio = player1->GetComponent<Engine::Audio>();
 		
-		audiores->getAudioSystem()->audioPlay();
+		//audiores->getAudioSystem()->audioPlay();
 		//audiores->Play();
 		precision = 1.0;
 		//Json::Value event;
@@ -166,7 +167,7 @@ private:
 
 	std::shared_ptr<Engine::Entity> player1;
 	std::shared_ptr<Engine::Entity> test;
-	std::shared_ptr<Engine::Transformable> trans;
+	std::shared_ptr<Engine::Transform> trans;
 };
 
 int main(int argc, char** argv) {

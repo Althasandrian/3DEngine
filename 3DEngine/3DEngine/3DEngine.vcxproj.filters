@@ -82,13 +82,7 @@
     <ClInclude Include="Core\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Components\Renderable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Components\Color.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Components\Transformable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneSystem.h">
@@ -128,6 +122,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Core\AudioSystem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Components\Transform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Components\Render.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

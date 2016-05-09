@@ -18,6 +18,7 @@ namespace Engine
 		void BindTexture(GLint id);
 	private:
 		Resource* tex;
+		GLuint texid;
 	};
 }
 #endif

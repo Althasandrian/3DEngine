@@ -1,44 +1,28 @@
 #version 330
 
 in vec3 in_Position;
-in vec2 in_Texcoord;
+in vec2 in_TexCoord;
 in vec3 in_Normal;
 
-out vec2 ex_Texcoord;
+out vec2 ex_TexCoord;
 out vec3 ex_Normal;
 out vec3 ex_FragPos;
 
 //out vec3 ex_View;
 //out vec3 ex_Light;
 
-uniform mat4 trans;
-uniform mat4 view;
-uniform mat4 proj;
-uniform vec3 viewPos;
+uniform mat4 Model;
+uniform mat4 View;
+uniform mat4 Projection;
+uniform vec3 ViewPosition;
+uniform vec3 LightPosition;
 //uniform mat4 MatNorm;
-uniform vec3 lightPos;
 
 void main()
 {
-	ex_Texcoord = in_Texcoord;
-	gl_Position = proj * view * trans * vec4(in_Position, 1.0);
+	ex_TexCoord = in_TexCoord;
+	ex_Normal = mat3(transpose(inverse(Model))) * in_Normal;
+	ex_FragPos = vec3(Model * vec4(in_Position, 1.0f));
 
-	ex_Normal = in_Normal;
-	ex_FragPos = vec3(trans * vec4(in_Position, 1.0f));
-	ex_Normal = mat3(transpose(inverse(trans)))* in_Normal;
+	gl_Position = Projection * View * Model * vec4(in_Position, 1.0);
 }
-
-
-
-
-
-
-	//vec4 Position = trans * view * vec4(in_Position, 1.0);
-
-	//vec3 LightPos = (view * vec4(lightPos, 1.0)).xyx;
-
-	//vec3 Normal = (MatNorm * vec4(in_Normal, 0.0)).xyz;
-
-
-	//ex_View = normalize(-Position.xyz);
-	//ex_Light = normalize(LightPos - Position.xyz);

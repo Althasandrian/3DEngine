@@ -10,8 +10,8 @@
 #include <Core/Shaders/ShaderProgram.hpp>
 #include <Core/Managers/SystemManager.hpp>
 
-#include <Core/Components/Transformable.hpp>
-#include <Core/Components/Renderable.hpp>
+#include <Core/Components/Transform.hpp>
+#include <Core/Components/Render.hpp>
 #include <Core/Components/Color.hpp>
 #include <Core/Components/AABB.hpp>
 
@@ -55,8 +55,8 @@ namespace Engine
 	inline void PhysicsSystem::Update(DeltaTime deltaTime) {
 		std::vector<std::shared_ptr<Entity>> entities = _entityManager->GetEntities();
 		for (auto it = entities.begin(); it != entities.end(); it++) {
-			auto transformable = it->get()->GetComponent<Transformable>();
-			auto renderable = it->get()->GetComponent<Renderable>();
+			auto transformable = it->get()->GetComponent<Transform>();
+			auto renderable = it->get()->GetComponent<Render>();
 			auto aabb = it->get()->GetComponent<AABB>();
 
 			if (transformable != nullptr && renderable != nullptr) {
@@ -69,9 +69,9 @@ namespace Engine
 
 				scale = glm::scale(scale, transformable->GetScale());
 
-				rotation = glm::rotate(rotation, transformable->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
-				rotation = glm::rotate(rotation, transformable->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
-				rotation = glm::rotate(rotation, transformable->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotationRad().x, glm::vec3(1.0f, 0.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotationRad().y, glm::vec3(0.0f, 1.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotationRad().z, glm::vec3(0.0f, 0.0f, 1.0f));
 
 				glm::mat4 trans;
 
