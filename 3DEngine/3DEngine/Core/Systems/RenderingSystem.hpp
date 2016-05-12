@@ -69,6 +69,9 @@ namespace Engine
 
 		glUseProgram(0);
 
+		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
+		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
+
 		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
 		GLAssert();
 	};
@@ -123,11 +126,9 @@ namespace Engine
 
 					glm::mat4 Scale = glm::scale(glm::mat4(1), transform->GetScale());
 
-					glm::mat4	Rotate = glm::rotate(glm::mat4(1), transform->GetRotationRad().x, glm::vec3(1.0f, 0.0f, 0.0f));
-								Rotate = glm::rotate(Rotate, transform->GetRotationRad().y, glm::vec3(0.0f, 1.0f, 0.0f));
-								Rotate = glm::rotate(Rotate, transform->GetRotationRad().z, glm::vec3(0.0f, 0.0f, 1.0f));
-
-								Model = Model * Rotate * Scale;
+					glm::mat4 Rotate = glm::toMat4(transform->GetRotationQuat());
+					
+					Model = Model * Rotate * Scale;
 
 					glm::mat4 View = _cam->GetViewMatrix();
 
