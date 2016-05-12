@@ -22,6 +22,7 @@ namespace Engine
 
 	inline Time::Time() {
 		_start = std::chrono::system_clock::now();
+		_end = std::chrono::system_clock::now();
 	}
 
 	inline Time::~Time()

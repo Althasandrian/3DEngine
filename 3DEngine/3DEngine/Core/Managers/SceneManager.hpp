@@ -5,7 +5,7 @@
 // StateManager.hpp																		//
 // [3/10/2016 Rasmus]																	//
 //--------------------------------------------------------------------------------------//
-//
+//																						//
 namespace Engine {																		//
 	//
 	//--------------------------------------------------------------------------//		//
@@ -43,6 +43,8 @@ namespace Engine {																		//
 		void Clear();															//		//
 																				//		//
 		void Update(DeltaTime deltaTime);										//		//
+																				//		//
+		Scene* GetCurrentScene();												//		//
 																				//		//
 	private:																	//		//
 		SceneManager();															//		//
@@ -106,6 +108,10 @@ namespace Engine {																		//
 																				//		//
 	inline void SceneManager::Update(DeltaTime deltaTime) {						//		//
 		_scenes[_size]->Update(deltaTime);										//		//
+	};																			//		//
+																				//		//
+	inline Scene* SceneManager::GetCurrentScene() {								//		//
+		return _scenes[_size];													//		//
 	};																			//		//
 																				//		//
 	inline SceneManager::SceneManager() : _size(0) {							//		//

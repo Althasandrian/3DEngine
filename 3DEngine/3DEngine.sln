@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+VisualStudioVersion = 12.0.40629.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "3DEngine", "3DEngine\3DEngine.vcxproj", "{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}"
 EndProject
@@ -9,8 +9,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestGame", "TestGame\TestGa
 	ProjectSection(ProjectDependencies) = postProject
 		{ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81} = {ADCAECA2-122B-4F85-A13D-9D0B3F1E5B81}
 	EndProjectSection
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Game-Demo", "Game-Demo\Game-Demo.vcxproj", "{E8FF7791-5B95-4132-A5CB-871E8001B1CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -26,10 +24,6 @@ Global
 		{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}.Debug|Win32.Build.0 = Release|Win32
 		{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}.Release|Win32.ActiveCfg = Release|Win32
 		{6E28C651-E4CE-46DB-9FB7-5F35E2A0F27E}.Release|Win32.Build.0 = Release|Win32
-		{E8FF7791-5B95-4132-A5CB-871E8001B1CA}.Debug|Win32.ActiveCfg = Debug|Win32
-		{E8FF7791-5B95-4132-A5CB-871E8001B1CA}.Debug|Win32.Build.0 = Debug|Win32
-		{E8FF7791-5B95-4132-A5CB-871E8001B1CA}.Release|Win32.ActiveCfg = Release|Win32
-		{E8FF7791-5B95-4132-A5CB-871E8001B1CA}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
