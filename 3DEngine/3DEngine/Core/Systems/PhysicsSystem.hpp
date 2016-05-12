@@ -10,8 +10,8 @@
 #include <Core/Shaders/ShaderProgram.hpp>
 #include <Core/Managers/SystemManager.hpp>
 
-#include <Core/Components/Transformable.hpp>
-#include <Core/Components/Renderable.hpp>
+#include <Core/Components/Transform.hpp>
+#include <Core/Components/Render.hpp>
 #include <Core/Components/Color.hpp>
 #include <Core/Components/AABB.hpp>
 
@@ -32,6 +32,8 @@ namespace Engine
 		virtual void Resume() override;
 
 		virtual void Update(DeltaTime deltaTime) override;
+
+		bool CheckAABBCollision(std::shared_ptr<Entity> lhsEntity, std::shared_ptr<Entity> rhsEntity);
 	private:
 		EntityManager* _entityManager;
 	};
@@ -55,8 +57,8 @@ namespace Engine
 	inline void PhysicsSystem::Update(DeltaTime deltaTime) {
 		std::vector<std::shared_ptr<Entity>> entities = _entityManager->GetEntities();
 		for (auto it = entities.begin(); it != entities.end(); it++) {
-			auto transformable = it->get()->GetComponent<Transformable>();
-			auto renderable = it->get()->GetComponent<Renderable>();
+			auto transformable = it->get()->GetComponent<Transform>();
+			auto renderable = it->get()->GetComponent<Render>();
 			auto aabb = it->get()->GetComponent<AABB>();
 
 			if (transformable != nullptr && renderable != nullptr) {
@@ -69,16 +71,18 @@ namespace Engine
 
 				scale = glm::scale(scale, transformable->GetScale());
 
-				rotation = glm::rotate(rotation, transformable->GetRotation().x, glm::vec3(1.0f, 0.0f, 0.0f));
-				rotation = glm::rotate(rotation, transformable->GetRotation().y, glm::vec3(0.0f, 1.0f, 0.0f));
-				rotation = glm::rotate(rotation, transformable->GetRotation().z, glm::vec3(0.0f, 0.0f, 1.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotationRad().x, glm::vec3(1.0f, 0.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotationRad().y, glm::vec3(0.0f, 1.0f, 0.0f));
+				rotation = glm::rotate(rotation, transformable->GetRotationRad().z, glm::vec3(0.0f, 0.0f, 1.0f));
 
 				glm::mat4 trans;
 
 				trans = rotation * scale;
 
-				for (auto jt = vertexData.begin(); jt != vertexData.end(); jt++) {
-					transVertDat.push_back(trans * glm::vec4(*jt, 1));
+				for (size_t i = 0; i < vertexData.size(); i++) {
+					if (i % 3 == 0) {
+						transVertDat.push_back(trans * glm::vec4(vertexData[i], 1));
+					}
 				}
 
 				glm::vec3 min = glm::vec3(transVertDat[0].x, transVertDat[0].y, transVertDat[0].z);
@@ -91,11 +95,52 @@ namespace Engine
 					if (transVertDat[i].x > max.x) { max.x = transVertDat[i].x; }
 					if (transVertDat[i].y > max.y) { max.y = transVertDat[i].y; }
 					if (transVertDat[i].z > max.z) { max.z = transVertDat[i].z; }
-				}
+				} //for (size_t i = 0; i < transVertDat.size(); i++)
 
 				aabb->UpdateAABB(min, max);
+			} //if (transformable != nullptr && renderable != nullptr)
+		} //for (auto it = entities.begin(); it != entities.end(); it++)
+
+		for (std::shared_ptr<Entity> lhsEntity : entities) {
+			for (std::shared_ptr<Entity> rhsEntity : entities) {
+				if (lhsEntity->GetName() == rhsEntity->GetName()) { continue; }
+				else {
+					if (CheckAABBCollision(lhsEntity, rhsEntity)) {
+						//std::cout << "Collision happened!" << std::endl;
+					}
+				}
 			}
 		}
+	};
+
+	inline bool PhysicsSystem::CheckAABBCollision(std::shared_ptr<Entity> lhsEntity, std::shared_ptr<Entity> rhsEntity) {
+		std::shared_ptr<AABB> lhsAABB = lhsEntity->GetComponent<AABB>();
+		std::shared_ptr<AABB> rhsAABB = rhsEntity->GetComponent<AABB>();
+
+		std::shared_ptr<Transform> lhsTransform = lhsEntity->GetComponent<Transform>();
+		std::shared_ptr<Transform> rhsTransform = rhsEntity->GetComponent<Transform>();
+
+		glm::mat4 lhsModel = glm::translate(glm::mat4(1), lhsTransform->GetPosition());
+		glm::mat4 lhsScale = glm::scale(glm::mat4(1), lhsTransform->GetScale());
+		glm::mat4 rhsModel = glm::translate(glm::mat4(1), rhsTransform->GetPosition());
+		glm::mat4 rhsScale = glm::scale(glm::mat4(1), rhsTransform->GetScale());
+
+		lhsModel = lhsModel * lhsScale;
+		rhsModel = rhsModel * rhsScale;
+
+		glm::vec4 lhsTransMin = lhsModel * glm::vec4(lhsAABB->_min, 1.0f);
+		glm::vec4 lhsTransMax = lhsModel * glm::vec4(lhsAABB->_max, 1.0f);
+		glm::vec4 rhsTransMin = rhsModel * glm::vec4(rhsAABB->_min, 1.0f);
+		glm::vec4 rhsTransMax = rhsModel * glm::vec4(rhsAABB->_max, 1.0f);
+
+		if (lhsTransMin.x > rhsTransMax.x) return false;
+		if (lhsTransMin.y > rhsTransMax.y) return false;
+		if (lhsTransMin.z > rhsTransMax.z) return false;
+		if (lhsTransMax.x < rhsTransMin.x) return false;
+		if (lhsTransMax.y < rhsTransMin.y) return false;
+		if (lhsTransMax.z < rhsTransMin.z) return false;
+
+		return true;
 	};
 }
 

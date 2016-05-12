@@ -45,7 +45,7 @@ namespace Engine																					//
 			return &SysMan;																	//		//
 		};																					//		//
 																							//		//
-		template <typename T, typename ...args> void AddSystem(args&&... param);			//		//
+		template <typename T, typename ...args> void AddSystem(args... param);				//		//
 		template <typename T> void RemoveSystem();											//		//
 		template <typename T> void PauseSystem();											//		//
 		template <typename T> void ResumeSystem();											//		//
@@ -69,7 +69,7 @@ namespace Engine																					//
 	//--------------------------------------------------------------------------------------//		//
 	// DEFINITIONS - SystemManager															//		//
 	//--------------------------------------------------------------------------------------//		//
-	template <typename T, typename ...args> void SystemManager::AddSystem(args&&... param) {//		//
+	template <typename T, typename ...args> void SystemManager::AddSystem(args... param) {	//		//
 		for (auto it : _systems) {															//		//
 			if (std::dynamic_pointer_cast<T>(it) != nullptr) { return; }					//		//
 		}																					//		//

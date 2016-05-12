@@ -184,7 +184,7 @@ Resource* ResourceManager::LoadImageResource(std::string filepath)
 	
 	std::vector<unsigned char> image;
 	unsigned error = lodepng::decode(image,width,height,filepath);
-
+	
 	res->setImageData(image, width, height);
 
 	_resources.push_back(res);
@@ -254,6 +254,7 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 		{
 			res->_vertices.push_back(glm::vec3(shapes[i].mesh.positions[3 * j + 0], shapes[i].mesh.positions[3 * j + 1], shapes[i].mesh.positions[3 * j + 2]));
 			res->_vertices.push_back(glm::vec3(shapes[i].mesh.texcoords[2 * j + 0], shapes[i].mesh.texcoords[2 * j + 1], 0.0f));
+			res->_vertices.push_back(glm::vec3(shapes[i].mesh.normals[3 * j + 0], shapes[i].mesh.normals[3 * j + 1], shapes[i].mesh.normals[3 * j + 2]));
 		}
 		for (size_t j = 0; j < shapes[i].mesh.indices.size() / 3; j++) {
 			res->_indices.push_back(glm::uvec3(shapes[i].mesh.indices[3 * j + 0] + offset, shapes[i].mesh.indices[3 * j + 1] + offset, shapes[i].mesh.indices[3 * j + 2] + offset));

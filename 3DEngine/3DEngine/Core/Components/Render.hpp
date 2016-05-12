@@ -1,17 +1,18 @@
 #ifndef Engine_Renderable_hpp
 #define Engine_Renderable_hpp
 
+#include <glm/glm.hpp>
 #include <Core/Managers/EntityManager.hpp>
 
 namespace Engine {
 
-	class Renderable : public Component
+	class Render : public Component
 	{
 	public:
-		Renderable(std::vector<glm::vec3> vertexData, std::vector<glm::uvec3> indiceData)
+		Render(std::vector<glm::vec3> vertexData, std::vector<glm::uvec3> indiceData)
 			: _vertexData(vertexData), _vertexIndexData(indiceData)
 		{};
-		virtual ~Renderable() {};
+		virtual ~Render() {};
 
 		virtual void Init() override;
 		virtual void Cleanup() override;
@@ -25,12 +26,11 @@ namespace Engine {
 		std::vector<glm::uvec3> _vertexIndexData;
 	};
 
-	void Renderable::Init() {}
+	void Render::Init() {};
 
-	void Renderable::Cleanup() {}
+	void Render::Cleanup() {};
 
-	void Renderable::Update(DeltaTime deltaTime) {}
-
+	void Render::Update(DeltaTime deltaTime) {};
 };
 
 #endif

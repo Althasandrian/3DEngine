@@ -5,30 +5,20 @@
 
 namespace Engine
 {
-	class Texture
+	class Texture : public Component
 	{
 	public:
-		Texture() {};
+		Texture(const char* source);
 
-		void textureasd(GLint id, Texture* img);
-		//void nearTexture();
-		//void linearTexture();
-		void loadImage(const char* imagepath);
-		//void setTexture(const char* imagepath);
+		virtual void Init() override;
+		virtual void Cleanup() override;
 
+		virtual void Update(DeltaTime deltaTime) override;
 
+		void BindTexture(GLint id);
 	private:
-		//GLuint tex;
-
-		GLuint shaderProgramId;
-		GLint difMapLoc;
-		float texWidth;
-		float texHeight;
-		std::vector<unsigned char> imgData;
-		//td::vector<glm::fvec3, std::allocator<glm::fvec3>> vertices;
-		//std::string texFil;
-		//GLuint texNum = 0;
-		//GLuint** textures = new GLuint*[texNum];
+		Resource* tex;
+		GLuint texid;
 	};
 }
 #endif

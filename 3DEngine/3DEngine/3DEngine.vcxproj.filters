@@ -44,12 +44,9 @@
     <ClCompile Include="Core\Components\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< Updated upstream
     <ClCompile Include="JSON\jsoncpp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-=======
->>>>>>> Stashed changes
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="lib\Helper.hpp">
@@ -85,13 +82,7 @@
     <ClInclude Include="Core\Input\Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Core\Components\Renderable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Core\Components\Color.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Core\Components\Transformable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="SceneSystem.h">
@@ -118,7 +109,6 @@
     <ClInclude Include="Core\Components\Shader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-<<<<<<< Updated upstream
     <ClInclude Include="Core\Components\Material.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -134,8 +124,18 @@
     <ClInclude Include="Core\AudioSystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-=======
->>>>>>> Stashed changes
+    <ClInclude Include="Core\Components\Transform.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Components\Render.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Rectangle.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\Engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\Cursor.ico">

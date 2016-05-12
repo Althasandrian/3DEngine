@@ -75,7 +75,13 @@ public:
 	\return Returns glm::vec2 with screens top left corner position.
 	*/
 
+	glm::vec2 GetCursorPosition();
+	void HideCursor(bool show);
+
 	void Resize();
+
+	void ConfineMouse();
+	void ReleaseMouse();
 
 	HDC GetHDC() { return _deviceContextHandle; }
 	HGLRC GetHGLRC() { return _glRenderingContextHandle; }

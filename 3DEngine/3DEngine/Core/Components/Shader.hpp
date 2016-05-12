@@ -12,8 +12,9 @@ namespace Engine {
 	class Shader : public Component
 	{
 	public:
-		Shader() { _programID = glCreateProgram(); };
-		virtual ~Shader() {};
+		Shader(const char* vertexSource, const char* fragmentSource);
+		Shader();
+		virtual ~Shader();
 
 		virtual void Init() override;
 		virtual void Cleanup() override;
@@ -22,17 +23,34 @@ namespace Engine {
 
 		void CompileShader(const char* source, GLenum shaderType);
 
+		void BindShader();
+
 		GLuint GetProgramID() { return _programID; }
 
 	private:
 		GLuint _programID;
 	};
 
-	void Shader::Init() {}
+	inline Shader::Shader(const char* vertexSource, const char* fragmentSource) {
+		_programID = glCreateProgram();
 
-	void Shader::Cleanup() {}
+		CompileShader(vertexSource, GL_VERTEX_SHADER);
+		CompileShader(fragmentSource, GL_FRAGMENT_SHADER);
+	};
 
-	void Shader::Update(DeltaTime deltaTime) {}
+	inline Shader::Shader() {
+		_programID = glCreateProgram();
+	};
+
+	inline Shader::~Shader() {};
+
+	inline void Shader::Init() {};
+
+	inline void Shader::Cleanup() {
+		glDeleteShader(_programID);
+	};
+
+	inline void Shader::Update(DeltaTime deltaTime) {};
 
 	inline void Shader::CompileShader(const char* source, GLenum shaderType) {
 		Resource* asd = ResourceManager::GetInstance()->LoadResource(source);
@@ -48,6 +66,10 @@ namespace Engine {
 		glAttachShader(_programID, shaderID);
 
 		glLinkProgram(_programID);
+	};
+
+	inline void Shader::BindShader() {
+
 	};
 };
 
