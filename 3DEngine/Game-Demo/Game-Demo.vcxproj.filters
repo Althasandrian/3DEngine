@@ -19,4 +19,43 @@
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="SplashScreenScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScene.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Resources\Cursor.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\SplashScreen.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Resources\DefaultFrag.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Resources\DefaultVert.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Resources\Frag.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Resources\SplashScreenFragmentShader.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Resources\SplashScreenVertexShader.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+    <Text Include="Resources\Vert.txt">
+      <Filter>Resource Files</Filter>
+    </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Object Include="Resources\Cube.obj" />
+  </ItemGroup>
 </Project>

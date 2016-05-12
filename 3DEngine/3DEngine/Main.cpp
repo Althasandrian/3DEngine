@@ -100,7 +100,7 @@ public:
 		EM->AddComponent<Engine::AABB>("box");
 		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
 		
-		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>("asd", glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
+		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
 		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
 
 		//player1->AddChild(test);

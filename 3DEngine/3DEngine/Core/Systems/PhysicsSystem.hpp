@@ -106,7 +106,7 @@ namespace Engine
 				if (lhsEntity->GetName() == rhsEntity->GetName()) { continue; }
 				else {
 					if (CheckAABBCollision(lhsEntity, rhsEntity)) {
-						//Collision happened
+						//std::cout << "Collision happened!" << std::endl;
 					}
 				}
 			}

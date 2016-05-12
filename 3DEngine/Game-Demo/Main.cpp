@@ -1,6 +1,10 @@
-#include "Core/Window.h"
+#include <Core/Engine.h>
 
 Window window;
+
+//Scenes
+#include "GameScene.hpp"
+#include "SplashScreenScene.hpp"
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -21,13 +25,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 	return 0;
 }
 
-int main(int argc, char** argv)
-{
-	window.createWindow("Dickbutt!", glm::vec2(600, 400), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
+int main(int argc, char** argv) {
+	window.createWindow("Game-Demo!", glm::vec2(1920, 1080), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_FULLSCREEN, WndProc);
 	window.InitOpenGL();
 
-	while (window.IsOpen())
-	{
+	Engine::Time timer;
+	Engine::SceneManager::GetInstance()->ChangeScene(new SplashScreenScene());
+
+	while (window.IsOpen()) {
+
+		DeltaTime dt = timer.Update();
+
+		Engine::SceneManager::GetInstance()->Update(dt);
+
 		window.getMessage();
 	}
 

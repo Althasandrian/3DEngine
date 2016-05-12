@@ -7,6 +7,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <lib/Helper.hpp>
+
 #include <Core/Shaders/ShaderProgram.hpp>
 #include <Core/Managers/SystemManager.hpp>
 
@@ -59,19 +61,25 @@ namespace Engine
 
 	inline void RenderingSystem::Init() {
 		_entityManager = EntityManager::GetInstance();
+		GLAssert();
 
 		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
 		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
+		GLAssert();
 
 		glEnable(GL_DEPTH_TEST);
+		GLAssert();
 
 		glUseProgram(0);
 
 		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
+		GLAssert();
 	};
 
 	inline void RenderingSystem::Cleanup() {
-
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		SwapBuffers(_window->GetHDC());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	};
 
 	inline void RenderingSystem::Pause() {
@@ -88,6 +96,7 @@ namespace Engine
 
 	inline void RenderingSystem::Update(DeltaTime deltaTime) {
 		if (!_paused) {
+			GLAssert();
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -129,7 +138,7 @@ namespace Engine
 
 					glm::vec3 ViewPosition = _cam->Position;
 
-					glm::vec3 LightPosition = glm::vec3(0.0f, 2.0f, -15.0f);
+					glm::vec3 LightPosition = glm::vec3(0.0f, 50.0f, 50.0f);
 					GLAssert();
 
 					//Bind Data
@@ -159,6 +168,8 @@ namespace Engine
 					glUniform3fv(ViewPositionLocation, 1, glm::value_ptr(ViewPosition));
 					glUniform3fv(LightPositionLocation, 1, glm::value_ptr(LightPosition));
 					GLAssert();
+
+					if (shader != nullptr) { shader->BindShader(); }
 
 					if (PositionLocation != -1) {
 						glEnableVertexAttribArray(PositionLocation);
