@@ -72,9 +72,13 @@ namespace Engine
 		_default = new ShaderProgram;
 		_default->CompileShader("Core/Shaders/Vert.txt", GL_VERTEX_SHADER);
 		_default->CompileShader("Core/Shaders/Frag.txt", GL_FRAGMENT_SHADER);
+<<<<<<< Updated upstream
 		texture->loadImage("Resources/Texture.png");
 
 		GLAssert();
+=======
+		texture->loadImage("Resources/Dickbutt.png");
+>>>>>>> Stashed changes
 
 		//glEnable(GL_DEPTH_TEST);
 
@@ -91,17 +95,21 @@ namespace Engine
 
 		glEnableVertexAttribArray(posAttrib);
 
+<<<<<<< Updated upstream
 		GLAssert();
 
 		glVertexAttribPointer(posAttrib, 3, GL_FLOAT, GL_FALSE, 2 * sizeof(glm::vec3), (void*)0);
 
 		GLAssert();
 
+=======
+>>>>>>> Stashed changes
 		//GLint colAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Color");
 		//glEnableVertexAttribArray(colAttrib);
 		//glVertexAttribPointer(colAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)0);
 
 		GLint texAttrib = glGetAttribLocation(_default->GetProgramID(), "in_Texcoord");
+<<<<<<< Updated upstream
 
 		if (texAttrib != -1) {
 			glEnableVertexAttribArray(texAttrib);
@@ -112,6 +120,11 @@ namespace Engine
 		GLAssert();
 
 		texture->textureasd(_default->GetProgramID(), texture);
+=======
+		glEnableVertexAttribArray(texAttrib);
+		glVertexAttribPointer(texAttrib, 3, GL_FLOAT, GL_FALSE, 0, (void*)3);
+		texture->textureasd();
+>>>>>>> Stashed changes
 
 		_cam = new Camera();
 
