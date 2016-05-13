@@ -73,7 +73,7 @@ namespace Engine
 		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
 		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
-		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
+		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 		GLAssert();
 	};
 
@@ -133,7 +133,7 @@ namespace Engine
 
 					glm::mat4 View = _cam->GetViewMatrix();
 
-					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 300.0f);
+					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 200.0f);
 
 					glm::vec3 ViewPosition = _cam->Position;
 
