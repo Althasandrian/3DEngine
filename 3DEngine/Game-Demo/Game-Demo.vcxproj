@@ -88,6 +88,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameScene.hpp" />
+    <ClInclude Include="Level1.hpp" />
+    <ClInclude Include="MainMenuScene.hpp" />
+    <ClInclude Include="Player.hpp" />
     <ClInclude Include="SplashScreenScene.hpp" />
   </ItemGroup>
   <ItemGroup>

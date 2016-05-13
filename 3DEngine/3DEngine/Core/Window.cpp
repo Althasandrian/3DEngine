@@ -167,15 +167,21 @@ glm::vec2 Window::GetPosition() {
 	return glm::vec2(rect.left, rect.top);
 }
 
-glm::vec2 Window::GetCursorPosition() {
+glm::vec2 Window::GetMousePosition() {
 	POINT p;
 	GetCursorPos(&p);
 	ScreenToClient(_windowHandle, &p);
 	return glm::vec2(p.x, p.y);
 }
 
-void Window::HideCursor(bool show) {
-	ShowCursor(show);
+glm::vec2 Window::SetMousePosition(glm::vec2 newPos) {
+	glm::vec2 mousePos = GetMousePosition();
+	SetCursorPos(newPos.x, newPos.y);
+	return mousePos - newPos;
+};
+
+void Window::HideCursor(bool hide) {
+	ShowCursor(!hide);
 }
 
 void Window::Resize() {

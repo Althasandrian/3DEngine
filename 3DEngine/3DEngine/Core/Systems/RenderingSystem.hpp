@@ -65,6 +65,7 @@ namespace Engine
 		GLAssert();
 
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_LIGHTING);
 		GLAssert();
 
 		glUseProgram(0);
@@ -132,11 +133,11 @@ namespace Engine
 
 					glm::mat4 View = _cam->GetViewMatrix();
 
-					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 100.0f);
+					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 300.0f);
 
 					glm::vec3 ViewPosition = _cam->Position;
 
-					glm::vec3 LightPosition = glm::vec3(0.0f, 50.0f, 50.0f);
+					glm::vec3 LightPosition = glm::vec3(150.0f, 150.0f, 0.0f);
 					GLAssert();
 
 					//Bind Data

@@ -4,6 +4,7 @@ Window window;
 
 //Scenes
 #include "GameScene.hpp"
+#include "MainMenuScene.hpp"
 #include "SplashScreenScene.hpp"
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
@@ -30,7 +31,7 @@ int main(int argc, char** argv) {
 	window.InitOpenGL();
 
 	Engine::Time timer;
-	Engine::SceneManager::GetInstance()->ChangeScene(new SplashScreenScene());
+	Engine::SceneManager::GetInstance()->ChangeScene(new GameScene());
 
 	while (window.IsOpen()) {
 

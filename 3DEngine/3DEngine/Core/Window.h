@@ -75,7 +75,8 @@ public:
 	\return Returns glm::vec2 with screens top left corner position.
 	*/
 
-	glm::vec2 GetCursorPosition();
+	glm::vec2 GetMousePosition();
+	glm::vec2 SetMousePosition(glm::vec2 newPos);
 	void HideCursor(bool show);
 
 	void Resize();

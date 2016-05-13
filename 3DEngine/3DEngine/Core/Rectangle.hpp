@@ -48,16 +48,16 @@ namespace Engine
 
 	inline void Rectangle::Init() {
 		std::vector<glm::vec3> vertices = {
-			glm::vec3(-(_size.x / 2.0f), -(_size.y / 2.0f), _depth),
+			glm::vec3(-0.1f, -0.1f, _depth),
 			glm::vec3(1.0f, 1.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f),
-			glm::vec3( (_size.x / 2.0f), -(_size.y / 2.0f), _depth),
+			glm::vec3(0.1f, -0.1f, _depth),
 			glm::vec3(1.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f),
-			glm::vec3(-(_size.x / 2.0f),  (_size.y / 2.0f), _depth),
+			glm::vec3(-0.1f, 0.1f, _depth),
 			glm::vec3(0.0f, 1.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f),
-			glm::vec3( (_size.x / 2.0f),  (_size.y / 2.0f), _depth),
+			glm::vec3(0.1f, 0.1f, _depth),
 			glm::vec3(0.0f, 0.0f, 0.0f),
 			glm::vec3(0.0f, 0.0f, 1.0f)
 		};
@@ -69,7 +69,7 @@ namespace Engine
 
 		EntityManager* EM = EntityManager::GetInstance();
 
-		EM->AddComponent<Transform>(this->GetName(), glm::vec3(_position, _depth), glm::vec3(0.0f, 0.0f, 90.0f));
+		EM->AddComponent<Transform>(this->GetName(), glm::vec3(_position, _depth), glm::vec3(0.0f, 0.0f, 90.0f), glm::vec3(_size, 1.0f));
 		EM->AddComponent<Render>(this->GetName(), vertices, indices);
 		EM->AddComponent<AABB>(this->GetName());
 
