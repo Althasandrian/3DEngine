@@ -184,7 +184,7 @@ Resource* ResourceManager::LoadImageResource(std::string filepath)
 	
 	std::vector<unsigned char> image;
 	unsigned error = lodepng::decode(image,width,height,filepath);
-
+	
 	res->setImageData(image, width, height);
 
 	_resources.push_back(res);

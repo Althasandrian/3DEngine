@@ -23,6 +23,8 @@ namespace Engine {
 
 		void CompileShader(const char* source, GLenum shaderType);
 
+		void BindShader();
+
 		GLuint GetProgramID() { return _programID; }
 
 	private:
@@ -64,6 +66,10 @@ namespace Engine {
 		glAttachShader(_programID, shaderID);
 
 		glLinkProgram(_programID);
+	};
+
+	inline void Shader::BindShader() {
+
 	};
 };
 

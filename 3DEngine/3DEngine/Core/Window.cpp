@@ -167,9 +167,44 @@ glm::vec2 Window::GetPosition() {
 	return glm::vec2(rect.left, rect.top);
 }
 
+glm::vec2 Window::GetMousePosition() {
+	POINT p;
+	GetCursorPos(&p);
+	ScreenToClient(_windowHandle, &p);
+	return glm::vec2(p.x, p.y);
+}
+
+glm::vec2 Window::SetMousePosition(glm::vec2 newPos) {
+	glm::vec2 mousePos = GetMousePosition();
+	SetCursorPos(newPos.x, newPos.y);
+	return mousePos - newPos;
+};
+
+void Window::HideCursor(bool hide) {
+	ShowCursor(!hide);
+}
+
 void Window::Resize() {
 	RECT rect;
 	GetWindowRect(_windowHandle, &rect);
 	glViewport(0, 0, rect.right - rect.left, rect.bottom - rect.top);
 	//glFrustum(left * ratio, right * ratio, bottom, top, nearClip, farClip);
+}
+
+//Additional functions
+void Window::ConfineMouse() {
+	RECT rect;
+	GetClientRect(_windowHandle, &rect);
+	
+	POINT pt = { rect.left, rect.top };
+	POINT pt2 = { rect.right, rect.bottom };
+	ClientToScreen(_windowHandle, &pt);
+	ClientToScreen(_windowHandle, &pt2);
+	SetRect(&rect, pt.x, pt.y, pt2.x, pt2.y);
+	
+	ClipCursor(&rect);
+}
+
+void Window::ReleaseMouse() {
+	ClipCursor(NULL);
 }

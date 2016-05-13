@@ -9,6 +9,8 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include <lib/Helper.hpp>
+
 #include <Core/Shaders/ShaderProgram.hpp>
 #include <Core/Managers/SystemManager.hpp>
 
@@ -62,18 +64,25 @@ namespace Engine
 	inline void RenderingSystem::Init() {
 		_entityManager = EntityManager::GetInstance();
 
-		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
-		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
+		GLAssert();
 
 		glEnable(GL_DEPTH_TEST);
+		glEnable(GL_LIGHTING);
+		GLAssert();
 
 		glUseProgram(0);
 
+		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
+		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
+
 		glClearColor(0.0f, 0.25f, 0.0f, 1.0f);
+		GLAssert();
 	};
 
 	inline void RenderingSystem::Cleanup() {
-
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		SwapBuffers(_window->GetHDC());
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	};
 
 	inline void RenderingSystem::Pause() {
@@ -90,6 +99,7 @@ namespace Engine
 
 	inline void RenderingSystem::Update(DeltaTime deltaTime) {
 		if (!_paused) {
+			GLAssert();
 
 			glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
@@ -119,19 +129,17 @@ namespace Engine
 
 					glm::mat4 Scale = glm::scale(glm::mat4(1), transform->GetScale());
 
-					glm::mat4	Rotate = glm::rotate(glm::mat4(1), transform->GetRotationRad().x, glm::vec3(1.0f, 0.0f, 0.0f));
-								Rotate = glm::rotate(Rotate, transform->GetRotationRad().y, glm::vec3(0.0f, 1.0f, 0.0f));
-								Rotate = glm::rotate(Rotate, transform->GetRotationRad().z, glm::vec3(0.0f, 0.0f, 1.0f));
-
-								Model = Model * Rotate * Scale;
+					glm::mat4 Rotate = glm::toMat4(transform->GetRotationQuat());
+					
+					Model = Model * Rotate * Scale;
 
 					glm::mat4 View = _cam->GetViewMatrix();
 
-					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 100.0f);
+					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 300.0f);
 
 					glm::vec3 ViewPosition = _cam->Position;
 
-					glm::vec3 LightPosition = glm::vec3(0.0f, 2.0f, -15.0f);
+					glm::vec3 LightPosition = glm::vec3(150.0f, 150.0f, 0.0f);
 					GLAssert();
 
 					//Bind Data
@@ -161,6 +169,8 @@ namespace Engine
 					glUniform3fv(ViewPositionLocation, 1, glm::value_ptr(ViewPosition));
 					glUniform3fv(LightPositionLocation, 1, glm::value_ptr(LightPosition));
 					GLAssert();
+
+					if (shader != nullptr) { shader->BindShader(); }
 
 					if (PositionLocation != -1) {
 						glEnableVertexAttribArray(PositionLocation);

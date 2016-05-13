@@ -10,6 +10,10 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
+#Demo folders
+[Gg]ame-[Dd]emo/
+[Tt]est[Gg]ame/
+
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
@@ -230,3 +234,6 @@ _Pvt_Extensions
 
 # FAKE - F# Make
 .fake/
+3DEngine/Game-Demo/Game-Demo.vcxproj
+3DEngine/Game-Demo/Game-Demo.vcxproj.filters
+3DEngine/Game-Demo/Main.cpp

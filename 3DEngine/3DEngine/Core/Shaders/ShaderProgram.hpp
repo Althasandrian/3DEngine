@@ -2,8 +2,11 @@
 #define Engine_ShaderProgram_hpp
 
 #include <glew.h>
-#include <gl\GL.h>
-#include <Core\ResourceManager.h>
+#include <gl/GL.h>
+
+#include <Core/ResourceManager.h>
+
+#include <lib/Helper.hpp>
 
 namespace Engine
 {
