@@ -149,16 +149,16 @@ namespace Engine
 					_indiceBuffer.BindBufferData(render->GetIndiceData().size(), &render->GetIndiceData()[0].x);
 					GLAssert();
 
-					GLuint ModelLocation = glGetUniformLocation(shaderID, "Model");
-					GLuint ViewLocation = glGetUniformLocation(shaderID, "View");
-					GLuint ProjectionLocation = glGetUniformLocation(shaderID, "Projection");
-					GLuint ViewPositionLocation = glGetUniformLocation(shaderID, "ViewPosition");
-					GLuint LightPositionLocation = glGetUniformLocation(shaderID, "LightPosition");
+					GLint ModelLocation = glGetUniformLocation(shaderID, "Model");
+					GLint ViewLocation = glGetUniformLocation(shaderID, "View");
+					GLint ProjectionLocation = glGetUniformLocation(shaderID, "Projection");
+					GLint ViewPositionLocation = glGetUniformLocation(shaderID, "ViewPosition");
+					GLint LightPositionLocation = glGetUniformLocation(shaderID, "LightPosition");
 					GLAssert();
 
-					GLuint PositionLocation = glGetAttribLocation(shaderID, "in_Position");
-					GLuint TexCoordinateLocation = glGetAttribLocation(shaderID, "in_TexCoord");
-					GLuint NormalLocation = glGetAttribLocation(shaderID, "in_Normal");
+					GLint PositionLocation = glGetAttribLocation(shaderID, "in_Position");
+					GLint TexCoordinateLocation = glGetAttribLocation(shaderID, "in_TexCoord");
+					GLint NormalLocation = glGetAttribLocation(shaderID, "in_Normal");
 					GLAssert();
 
 					glUniformMatrix4fv(ModelLocation, 1, GL_FALSE, glm::value_ptr(Model));

@@ -9,6 +9,22 @@
 
 namespace Engine {
 
+	enum class VALUE_TYPE
+	{
+		UNIFORM_MAT4,
+		UNIFORM_VEC2,
+		UNIFORM_VEC3,
+		UNIFORM_VEC4,
+	};
+
+	struct Binding
+	{
+		Binding(std::string name, void* value, VALUE_TYPE type) : _name(name), _value(value), _type(type) {};
+		std::string _name;
+		void* _value;
+		VALUE_TYPE _type;
+	};
+
 	class Shader : public Component
 	{
 	public:
@@ -23,12 +39,15 @@ namespace Engine {
 
 		void CompileShader(const char* source, GLenum shaderType);
 
+		void SetBinding(std::string name, void* value, VALUE_TYPE type);
 		void BindShader();
 
 		GLuint GetProgramID() { return _programID; }
 
 	private:
 		GLuint _programID;
+
+		std::vector<Binding*> _bindings;
 	};
 
 	inline Shader::Shader(const char* vertexSource, const char* fragmentSource) {
@@ -68,8 +87,58 @@ namespace Engine {
 		glLinkProgram(_programID);
 	};
 
-	inline void Shader::BindShader() {
+	void Shader::SetBinding(std::string name, void* value, VALUE_TYPE type) {
+		_bindings.push_back(new Binding(name, value, type));
+	};
 
+	inline void Shader::BindShader() {
+		for (Binding* binding : _bindings)
+		{
+			GLint location;
+			switch (binding->_type)
+			{
+			case VALUE_TYPE::UNIFORM_MAT4:
+			{
+				location = glGetUniformLocation(_programID, binding->_name.c_str());
+				if (location != -1)
+				{
+					glUniformMatrix4fv(location, 1, GL_FALSE, (GLfloat*)binding->_value);
+				}
+				break;
+			}
+			case VALUE_TYPE::UNIFORM_VEC2:
+			{
+				location = glGetUniformLocation(_programID, binding->_name.c_str());
+				if (location != -1)
+				{
+
+				}
+				break;
+			}
+			case VALUE_TYPE::UNIFORM_VEC3:
+			{
+				location = glGetUniformLocation(_programID, binding->_name.c_str());
+				if (location != -1)
+				{
+					glUniform3fv(location, 1, (GLfloat*)binding->_value);
+				}
+				break;
+			}
+			case VALUE_TYPE::UNIFORM_VEC4:
+			{
+				location = glGetUniformLocation(_programID, binding->_name.c_str());
+				if (location != -1)
+				{
+
+				}
+				break;
+			}
+			default:
+			{
+				break;
+			}
+			}
+		}
 	};
 };
 
