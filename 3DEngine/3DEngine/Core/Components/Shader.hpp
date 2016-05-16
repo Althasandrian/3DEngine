@@ -111,7 +111,7 @@ namespace Engine {
 				location = glGetUniformLocation(_programID, binding->_name.c_str());
 				if (location != -1)
 				{
-
+					glUniform2fv(location, 1, (GLfloat*)binding->_value);
 				}
 				break;
 			}
@@ -129,7 +129,7 @@ namespace Engine {
 				location = glGetUniformLocation(_programID, binding->_name.c_str());
 				if (location != -1)
 				{
-
+					glUniform3fv(location, 1, (GLfloat*)binding->_value);
 				}
 				break;
 			}
