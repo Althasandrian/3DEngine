@@ -15,6 +15,7 @@ namespace Engine {
 		UNIFORM_VEC2,
 		UNIFORM_VEC3,
 		UNIFORM_VEC4,
+		UNIFORM_FLOAT
 	};
 
 	struct Binding
@@ -130,6 +131,15 @@ namespace Engine {
 				if (location != -1)
 				{
 					glUniform3fv(location, 1, (GLfloat*)binding->_value);
+				}
+				break;
+			}
+			case VALUE_TYPE::UNIFORM_FLOAT:
+			{
+				location = glGetUniformLocation(_programID, binding->_name.c_str());
+				if (location != -1)
+				{
+					glUniform1fv(location, 1, (GLfloat*)binding->_value);
 				}
 				break;
 			}

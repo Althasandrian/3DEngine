@@ -39,6 +39,7 @@ namespace Engine
 
 		glm::vec3 const GetPosition();
 
+		glm::vec3 const GetRotationCam();
 		glm::vec3 const GetRotationRad();
 		glm::vec3 const GetRotationDeg();
 		glm::quat const GetRotationQuat();
@@ -135,6 +136,7 @@ namespace Engine
 	///-----------------------------------------------------
 
 	inline glm::vec3 const Transform::GetPosition()		{ return _position; };
+	inline glm::vec3 const Transform::GetRotationCam()	{ return glm::degrees(glm::vec3(cos(_rotation.x), tan(_rotation.y), sin(_rotation.x))); };
 	inline glm::vec3 const Transform::GetRotationRad()	{ return _rotation; };
 	inline glm::vec3 const Transform::GetRotationDeg()	{ return glm::degrees(_rotation); };
 	inline glm::quat const Transform::GetRotationQuat() { return _rotationQuat; }

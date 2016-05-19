@@ -18,10 +18,9 @@
 #include <Core/Components/AABB.hpp>
 #include <Core/Components/Shader.hpp>
 #include <Core/Components/Texture.h>
+#include <Core/Components/Camera.hpp>
 
 #include <Core/Systems/Buffer.hpp>
-
-#include <Core/Camera.hpp>
 
 namespace Engine
 {
@@ -29,7 +28,7 @@ namespace Engine
 	{
 	public:
 		RenderingSystem(Window* window, const char* vertexShaderPath = "Resources/Vert.txt", const char* fragmentShaderPath = "Resources/Frag.txt")
-			: _window(window), _defaultShader(new ShaderProgram), _cam(new Camera), System() {
+			: _window(window), _defaultShader(new ShaderProgram), System() {
 
 			_defaultShader->CompileShader(vertexShaderPath, GL_VERTEX_SHADER);
 			_defaultShader->CompileShader(fragmentShaderPath, GL_FRAGMENT_SHADER);
@@ -46,7 +45,7 @@ namespace Engine
 
 		virtual void Update(DeltaTime deltaTime) override;
 
-		void SetCamera(Camera* cam) { _cam = cam; };
+		void SetCamera(std::shared_ptr<Camera> cam) { _cam = cam; };
 
 	private:
 		EntityManager* _entityManager;
@@ -56,7 +55,7 @@ namespace Engine
 		Buffer _vertexBuffer;
 		Buffer _indiceBuffer;
 
-		Camera* _cam;
+		std::shared_ptr<Camera> _cam;
 	};
 
 	inline void RenderingSystem::Init() {
@@ -133,9 +132,9 @@ namespace Engine
 
 					glm::mat4 View = _cam->GetViewMatrix();
 
-					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 200.0f);
+					glm::mat4 Projection = glm::perspective(glm::radians(60.0f), _window->GetSize().x / _window->GetSize().y, 0.01f, 400.0f);
 
-					glm::vec3 ViewPosition = _cam->Position;
+					glm::vec3 ViewPosition = _cam->GetPosition();
 
 					glm::vec3 LightPosition = glm::vec3(150.0f, 150.0f, 0.0f);
 					GLAssert();
@@ -191,8 +190,7 @@ namespace Engine
 					//Draw object
 					glDrawElements(GL_TRIANGLES, render->GetIndiceData().size() * 3, GL_UNSIGNED_INT, (void*)0);
 					GLAssert();
-
-#ifdef DRAW_AABB
+#ifdef  DRAW_AABB
 					if (aabb != nullptr) {
 						_vertexBuffer.BindBufferData(aabb->GetVertexData().size(), &aabb->GetVertexData()[0].x);
 						_indiceBuffer.BindBufferData(aabb->GetIndiceData().size(), &aabb->GetIndiceData()[0].x);

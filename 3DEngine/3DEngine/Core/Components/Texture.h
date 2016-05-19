@@ -16,6 +16,7 @@ namespace Engine
 		virtual void Update(DeltaTime deltaTime) override;
 
 		void BindTexture(GLint id);
+		void RenderReflection();
 	private:
 		Resource* tex;
 		GLuint texid;

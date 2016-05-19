@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 
+#include <glm/glm.hpp>
+
 #define GLAssert() Engine::AssertGLError(__FILE__, __LINE__);
 
 namespace Engine {
@@ -14,7 +16,7 @@ namespace Engine {
 		unsigned outSize;
 		mbstowcs_s(&outSize, wc, size, lpcstr, size - 1);
 		return wc;
-	}
+	};
 
 	inline void AssertGLError(const char* file, const unsigned int line) {
 		const GLenum error = glGetError();
@@ -23,7 +25,14 @@ namespace Engine {
 			std::cout << "OpenGL error at " << file << " line " << line << " error " << error << std::endl;
 			std::abort();
 		}
-	}
+	};
+
+	inline glm::vec3 SafeNormalize(glm::vec3 vec) {
+		if (vec == glm::vec3(0)) {
+			return vec;
+		}
+		return glm::normalize(vec);
+	};
 };
 
 #endif

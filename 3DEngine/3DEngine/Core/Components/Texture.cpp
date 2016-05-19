@@ -43,4 +43,28 @@ namespace Engine{
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, texid);
 	}
+
+	void Texture::RenderReflection()
+	{
+		//glViewport(0, 0, texSize, texSize);
+		//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		//glLoadIdentity();
+		//gluLookAt(......)
+
+		//	glPushMatrix();
+		//glTranslatef(0.0f, 0.0f, 0.0f);
+		//glScalef(1.0, -1.0, 1.0);
+		//double plane[4] = { 0.0, 1.0, 0.0, 0.0 }; //water at y=0
+		//glEnable(GL_CLIP_PLANE0);
+		//glClipPlane(GL_CLIP_PLANE0, plane);
+		//RenderScene();
+		//glDisable(GL_CLIP_PLANE0);
+		//glPopMatrix();
+
+		////render reflection to texture
+		//glBindTexture(GL_TEXTURE_2D, reflection);
+		////glCopyTexSubImage2D copies the frame buffer
+		////to the bound texture
+		//glCopyTexSubImage2D(GL_TEXTURE_2D, 0, 0, 0, 0, 0, texSize, texSize);
+	}
 }

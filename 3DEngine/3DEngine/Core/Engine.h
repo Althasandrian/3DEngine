@@ -27,5 +27,6 @@
 #include <Core/Components/Shader.hpp>
 #include <Core/Components/Texture.h>
 #include <Core/Components/Transform.hpp>
+#include <Core/Components/Camera.hpp>
 
 #endif
