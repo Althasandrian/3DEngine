@@ -57,11 +57,11 @@ unsigned int mouseButton = 0;
 
 int Inputs::Input::downKeys(int dk)
 {
-	return(GetKeyState(dk));
+	return(GetAsyncKeyState(dk));
 }
 int Inputs::Input::isKeyDown(int ikd)
 {
-	return(GetKeyState(ikd));
+	return(GetAsyncKeyState(ikd));
 }
 int Inputs::Input::downMouse(int dm)
 {

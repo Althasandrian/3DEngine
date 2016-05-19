@@ -7,8 +7,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-//Shamelessly copied from internet
-
 enum Camera_Movement {
 	FORWARD,
 	BACKWARD,
@@ -109,6 +107,13 @@ public:
 			this->Zoom = 1.0f;
 		if (this->Zoom >= 45.0f)
 			this->Zoom = 45.0f;
+	}
+
+	void SetRotation(glm::vec3 front)
+	{
+		this->Front = glm::normalize(front);
+		this->Right = glm::normalize(glm::cross(this->Front, this->WorldUp));  // Normalize the vectors, because their length gets closer to 0 the more you look up or down which results in slower movement.
+		this->Up = glm::normalize(glm::cross(this->Right, this->Front));
 	}
 
 private:

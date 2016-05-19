@@ -80,9 +80,9 @@ public:
 		SM->AddSystem<Engine::PhysicsSystem>();
 		SM->AddSystem<Engine::RenderingSystem>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
 
-		if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
-			SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
-		}
+		//if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
+		//	SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
+		//}
 
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		test = EM->AddEntity("box", std::make_shared<player>());

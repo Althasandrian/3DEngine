@@ -61,7 +61,7 @@ namespace Engine
 			auto renderable = it->get()->GetComponent<Render>();
 			auto aabb = it->get()->GetComponent<AABB>();
 
-			if (transformable != nullptr && renderable != nullptr) {
+			if (transformable != nullptr && renderable != nullptr && aabb != nullptr) {
 				glm::mat4 scale = glm::mat4(1);
 				glm::mat4 rotation = glm::mat4(1);
 				glm::mat4 position = glm::mat4(1);
@@ -117,30 +117,33 @@ namespace Engine
 		std::shared_ptr<AABB> lhsAABB = lhsEntity->GetComponent<AABB>();
 		std::shared_ptr<AABB> rhsAABB = rhsEntity->GetComponent<AABB>();
 
-		std::shared_ptr<Transform> lhsTransform = lhsEntity->GetComponent<Transform>();
-		std::shared_ptr<Transform> rhsTransform = rhsEntity->GetComponent<Transform>();
+		if (lhsAABB != nullptr && rhsAABB != nullptr) {
+			std::shared_ptr<Transform> lhsTransform = lhsEntity->GetComponent<Transform>();
+			std::shared_ptr<Transform> rhsTransform = rhsEntity->GetComponent<Transform>();
 
-		glm::mat4 lhsModel = glm::translate(glm::mat4(1), lhsTransform->GetPosition());
-		glm::mat4 lhsScale = glm::scale(glm::mat4(1), lhsTransform->GetScale());
-		glm::mat4 rhsModel = glm::translate(glm::mat4(1), rhsTransform->GetPosition());
-		glm::mat4 rhsScale = glm::scale(glm::mat4(1), rhsTransform->GetScale());
+			glm::mat4 lhsModel = glm::translate(glm::mat4(1), lhsTransform->GetPosition());
+			glm::mat4 lhsScale = glm::scale(glm::mat4(1), lhsTransform->GetScale());
+			glm::mat4 rhsModel = glm::translate(glm::mat4(1), rhsTransform->GetPosition());
+			glm::mat4 rhsScale = glm::scale(glm::mat4(1), rhsTransform->GetScale());
 
-		lhsModel = lhsModel * lhsScale;
-		rhsModel = rhsModel * rhsScale;
+			lhsModel = lhsModel * lhsScale;
+			rhsModel = rhsModel * rhsScale;
 
-		glm::vec4 lhsTransMin = lhsModel * glm::vec4(lhsAABB->_min, 1.0f);
-		glm::vec4 lhsTransMax = lhsModel * glm::vec4(lhsAABB->_max, 1.0f);
-		glm::vec4 rhsTransMin = rhsModel * glm::vec4(rhsAABB->_min, 1.0f);
-		glm::vec4 rhsTransMax = rhsModel * glm::vec4(rhsAABB->_max, 1.0f);
+			glm::vec4 lhsTransMin = lhsModel * glm::vec4(lhsAABB->_min, 1.0f);
+			glm::vec4 lhsTransMax = lhsModel * glm::vec4(lhsAABB->_max, 1.0f);
+			glm::vec4 rhsTransMin = rhsModel * glm::vec4(rhsAABB->_min, 1.0f);
+			glm::vec4 rhsTransMax = rhsModel * glm::vec4(rhsAABB->_max, 1.0f);
 
-		if (lhsTransMin.x > rhsTransMax.x) return false;
-		if (lhsTransMin.y > rhsTransMax.y) return false;
-		if (lhsTransMin.z > rhsTransMax.z) return false;
-		if (lhsTransMax.x < rhsTransMin.x) return false;
-		if (lhsTransMax.y < rhsTransMin.y) return false;
-		if (lhsTransMax.z < rhsTransMin.z) return false;
+			if (lhsTransMin.x > rhsTransMax.x) return false;
+			if (lhsTransMin.y > rhsTransMax.y) return false;
+			if (lhsTransMin.z > rhsTransMax.z) return false;
+			if (lhsTransMax.x < rhsTransMin.x) return false;
+			if (lhsTransMax.y < rhsTransMin.y) return false;
+			if (lhsTransMax.z < rhsTransMin.z) return false;
 
-		return true;
+			return true;
+		}
+		return false;
 	};
 }
 

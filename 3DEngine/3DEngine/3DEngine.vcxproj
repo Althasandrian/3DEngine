@@ -105,6 +105,7 @@
     <ClInclude Include="Core\Camera.hpp" />
     <ClInclude Include="Core\Components\AABB.hpp" />
     <ClInclude Include="Core\Components\Audio.h" />
+    <ClInclude Include="Core\Components\Camera.hpp" />
     <ClInclude Include="Core\Components\Color.hpp" />
     <ClInclude Include="Core\Components\Material.hpp" />
     <ClInclude Include="Core\Components\Render.hpp" />
