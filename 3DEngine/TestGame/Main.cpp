@@ -99,7 +99,7 @@ public:
 		EM->AddComponent<Engine::AABB>("box");
 		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
 
-		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>("asd", glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
+		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>( glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
 		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
 
 		trans = player1->GetComponent<Engine::Transform>();
@@ -130,7 +130,6 @@ public:
 		if (inp->getKeyDown('X')) { trans->Rotate(glm::vec3(precision*direction*deltaTime*25.0f, 0.0f, 0.0f)); }
 		if (inp->getKeyDown('Y')) { trans->Rotate(glm::vec3(0.0f, precision*direction*deltaTime*25.0f, 0.0f)); }
 		if (inp->getKeyDown('Z')) { trans->Rotate(glm::vec3(0.0f, 0.0f, precision*direction*deltaTime*25.0f)); }
-
 		EM->Update(deltaTime);
 		SM->Update(deltaTime);
 	};

@@ -36,9 +36,10 @@ private:
 	Engine::EntityManager* EM;
 	Engine::SystemManager* SM;
 	Camera* cam;
-	Window window;
 	DeltaTime Duration = 3;
 	Inputs::Input* imput;
+	std::shared_ptr<Engine::Entity> Play;
+	std::shared_ptr<Engine::Entity> Quit;
 };
 
 mainMenu::mainMenu()
@@ -51,7 +52,7 @@ mainMenu::~mainMenu()
 
 void mainMenu::Init()
 {
-
+	cam = new Camera;
 	EM = Engine::EntityManager::GetInstance();
 	SM = Engine::SystemManager::GetInstance();
 
@@ -60,6 +61,19 @@ void mainMenu::Init()
 	if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
 		SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
 	}
+	Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
+
+	Play = EM->AddEntity("player", std::make_shared<player>());
+	Quit = EM->AddEntity("box", std::make_shared<player>());
+
+	EM->AddComponent<Engine::Render>("player", box->_vertices, box->_indices);
+	EM->AddComponent<Engine::Transform>("player", glm::vec3(0.0f, 2.5f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	EM->AddComponent<Engine::AABB>("player");
+	EM->AddComponent<Engine::Texture>("player", "Resources/Texture1.png");
+	EM->AddComponent<Engine::Render>("box", box->_vertices, box->_indices);
+	EM->AddComponent<Engine::Transform>("box", glm::vec3(0.0f, -2.5f, -17.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+	EM->AddComponent<Engine::AABB>("box");
+	EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
 
 
 
