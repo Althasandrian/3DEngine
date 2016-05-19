@@ -35,9 +35,10 @@ public:
 private:
 	Engine::EntityManager* EM;
 	Engine::SystemManager* SM;
-	Camera* cam;
+
 	DeltaTime Duration = 3;
 	std::shared_ptr<Engine::Entity> test;
+	std::shared_ptr<Engine::Entity> cam;
 };
 
 splashScreen::splashScreen() 
@@ -50,16 +51,19 @@ splashScreen::~splashScreen()
 
 void splashScreen::Init()  
 {
-	cam = new Camera();
+
 
 	EM = Engine::EntityManager::GetInstance();
 	SM = Engine::SystemManager::GetInstance();
 
+	cam = EM->AddEntity("Camera", std::make_shared<player>());
+	EM->AddComponent<Engine::Transform>("Camera", glm::vec3(0.0f), glm::vec3(-90.0f, 0.0f, 0.0f));
+	std::shared_ptr<Engine::Camera> temp = EM->AddComponent<Engine::Camera>("Camera");
 	SM->AddSystem<Engine::PhysicsSystem>();
 	SM->AddSystem<Engine::RenderingSystem>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
 
 	if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
-		SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
+		SM->GetSystem<Engine::RenderingSystem>()->SetCamera(temp);
 	}
 
 	Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
@@ -70,12 +74,6 @@ void splashScreen::Init()
 	EM->AddComponent<Engine::Transform>("box", glm::vec3(0.0f, 0.0f, -17.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	EM->AddComponent<Engine::AABB>("box");
 	EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
-
-
-	//EM->AddEntity("asd", std::make_shared<Engine::Rectangle>(glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
-	//EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
-
-
 }
 void splashScreen::Cleanup()
 {

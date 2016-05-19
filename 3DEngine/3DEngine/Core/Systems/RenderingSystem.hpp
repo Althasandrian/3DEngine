@@ -74,7 +74,7 @@ namespace Engine
 		_vertexBuffer.CreateBuffer(GL_ARRAY_BUFFER);
 		_indiceBuffer.CreateBuffer(GL_ELEMENT_ARRAY_BUFFER);
 
-		glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
+		glClearColor(1.0f, 0.0f, 1.0f, 1.0f);
 		GLAssert();
 	};
 

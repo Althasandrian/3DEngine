@@ -24,42 +24,37 @@ public:
 	mainMenu();
 	virtual ~mainMenu();
 
-	virtual void Init(); //= 0;												//		//
-	virtual void Cleanup();// = 0;												//		//
-	//		//
-	virtual void Pause(); //= 0;												//		//
-	virtual void Resume(); //= 0;												//		//
-	//		//
-	virtual void Update(DeltaTime deltaTime);// = 0;
+	virtual void Init();
+	virtual void Cleanup();
+	virtual void Pause();
+	virtual void Resume();
+	virtual void Update(DeltaTime deltaTime);
 
 private:
 	Engine::EntityManager* EM;
 	Engine::SystemManager* SM;
-	Camera* cam;
+
 	DeltaTime Duration = 3;
 	Inputs::Input* imput;
 	std::shared_ptr<Engine::Entity> Play;
 	std::shared_ptr<Engine::Entity> Quit;
+	std::shared_ptr<Engine::Entity> cam;
 };
 
-mainMenu::mainMenu()
-{
-}
-
-mainMenu::~mainMenu()
-{
-}
+mainMenu::mainMenu(){}
+mainMenu::~mainMenu(){}
 
 void mainMenu::Init()
 {
-	cam = new Camera;
 	EM = Engine::EntityManager::GetInstance();
 	SM = Engine::SystemManager::GetInstance();
-
+	cam = EM->AddEntity("Camera", std::make_shared<player>());
+	EM->AddComponent<Engine::Transform>("Camera", glm::vec3(0.0f), glm::vec3(-90.0f, 0.0f, 0.0f));
+	std::shared_ptr<Engine::Camera> temp = EM->AddComponent<Engine::Camera>("Camera");
 	SM->AddSystem<Engine::RenderingSystem>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
 
 	if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
-		SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
+		SM->GetSystem<Engine::RenderingSystem>()->SetCamera(temp);
 	}
 	Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 
@@ -74,23 +69,14 @@ void mainMenu::Init()
 	EM->AddComponent<Engine::Transform>("box", glm::vec3(0.0f, -2.5f, -17.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 	EM->AddComponent<Engine::AABB>("box");
 	EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
-
-
-
 }
 void mainMenu::Cleanup()
 {
 	EM->Clear();
 	SM->Clear();
 }
-void mainMenu::Pause()
-{
-
-}
-void mainMenu::Resume()
-{
-
-}
+void mainMenu::Pause(){}
+void mainMenu::Resume(){}
 void mainMenu::Update(DeltaTime deltaTime)
 {
 	EM->Update(deltaTime);
@@ -99,10 +85,6 @@ void mainMenu::Update(DeltaTime deltaTime)
 	{
 		std::cout << "On to game " << std::endl;
 		Engine::SceneManager::GetInstance()->ChangeScene(new TestScene);
-
 	}
-
-
-
 }
 #endif

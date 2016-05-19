@@ -72,22 +72,26 @@ public:
 	virtual ~TestScene() {};
 
 	virtual void Init()  override {
-		cam = new Camera();
 
 		EM = Engine::EntityManager::GetInstance();
 		SM = Engine::SystemManager::GetInstance();
+	
+		cam = EM->AddEntity("Camera",std::make_shared<player>());
+		EM->AddComponent<Engine::Transform>("Camera", glm::vec3(0.0f), glm::vec3(-90.0f, 0.0f, 0.0f));
+		std::shared_ptr<Engine::Camera> temp = EM->AddComponent<Engine::Camera>("Camera");
 
 		SM->AddSystem<Engine::PhysicsSystem>();
 		SM->AddSystem<Engine::RenderingSystem>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
-
 		if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
-			SM->GetSystem<Engine::RenderingSystem>()->SetCamera(cam);
+			SM->GetSystem<Engine::RenderingSystem>()->SetCamera(temp);
 		}
 		
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		test = EM->AddEntity("box", std::make_shared<player>());
+		skybox = EM->AddEntity("Skybox", std::make_shared<player>());
 
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
+		Resource* skybox_res = ResourceManager::GetInstance()->LoadResource("Resources/Models/Skybox.obj");
 		Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
 
 		EM->AddComponent<Engine::Render>("player", box->_vertices, box->_indices);
@@ -98,6 +102,9 @@ public:
 		EM->AddComponent<Engine::Transform>("box", glm::vec3(-5.0f, 0.0f, -17.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("box");
 		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
+		EM->AddComponent<Engine::Render>("Skybox", skybox_res->_vertices, skybox_res->_indices);
+		EM->AddComponent<Engine::Transform>("Skybox", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::Texture>("Skybox", "Resources/Textures/Skybox.png");
 
 		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>( glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
 		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
@@ -136,15 +143,14 @@ public:
 
 private:
 	float precision;
-
-	Camera* cam;
-
 	Engine::EntityManager* EM;
 	Engine::SystemManager* SM;
 
 	std::shared_ptr<Engine::Entity> player1;
 	std::shared_ptr<Engine::Entity> test;
 	std::shared_ptr<Engine::Transform> trans;
+	std::shared_ptr<Engine::Entity> cam;
+	std::shared_ptr<Engine::Entity> skybox;
 };
 
 #include "splashScreen.h"
@@ -152,7 +158,6 @@ private:
 int main(int argc, char** argv) {
 	window.createWindow("Dickbutt!", glm::vec2(1920, 1080), glm::vec2(0, 0), "Resources/Cursor.ico", "Resources/Cursor.ico", ENGINE_WINDOWED, WndProc);
 	window.InitOpenGL();
-
 	Engine::Time timer;
 	Engine::SceneManager::GetInstance()->ChangeScene(new splashScreen());
 	while (window.IsOpen()) {
