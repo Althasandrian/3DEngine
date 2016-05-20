@@ -75,7 +75,7 @@ namespace Engine																					//
 		}																					//		//
 		_systems.push_back(std::make_shared<T>(param...));									//		//
 		_systems.back()->Init();															//		//
-		return std::dynamic_pointer_cast<T>(_system.back());
+		return std::dynamic_pointer_cast<T>(_systems.back());
 	};																						//		//
 																							//		//
 	template <typename T> void SystemManager::RemoveSystem() {								//		//
