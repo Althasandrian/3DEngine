@@ -106,7 +106,7 @@ namespace Engine
 		std::shared_ptr<AABB> lhsAABB = lhsEntity->GetComponent<AABB>();
 		std::shared_ptr<AABB> rhsAABB = rhsEntity->GetComponent<AABB>();
 
-		if (lhsAABB != nullptr && rhsAABB != nullptr) {
+		if (lhsAABB != nullptr && rhsAABB != nullptr && lhsEntity->GetName() != rhsEntity->GetName()) {
 			std::shared_ptr<Transform> lhsTransform = lhsEntity->GetComponent<Transform>();
 			std::shared_ptr<Transform> rhsTransform = rhsEntity->GetComponent<Transform>();
 

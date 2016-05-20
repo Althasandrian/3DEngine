@@ -131,34 +131,71 @@ public:
 	virtual void Resume()  override {};
 
 	virtual void Update(DeltaTime deltaTime)  override {
+		
+		checkPlayerMovement(deltaTime);
+		
+		EM->Update(deltaTime);
+		SM->Update(deltaTime);
+	};
+	bool checkCollision()
+	{
+		for (std::shared_ptr<Engine::Entity> entity : EM->GetEntities())
+		{
+			if (PS->CheckAABBCollision(entity, player1))
+			{
+				if (entity->GetName() == "floor")
+				{
+					floorcollision = true;
+				}
+				return true;
+			}
+			else if (!PS->CheckAABBCollision(entity, player1))
+			{
+				if (entity->GetName() == "floor")
+				{
+					floorcollision = false;
+				}
+			}
+			else
+				return false;
+
+		}
+	}
+	void checkPlayerMovement(DeltaTime deltaTime)
+	{
 		float direction = 1.0f;
 		Inputs::Input* inp = nullptr;
 		if (inp->getKeyDown(VK_SHIFT)) { direction = -1.0f; };
 		if (inp->getKeyDown(VK_CONTROL)) { precision += 0.1f*direction; };
 		if (inp->getKeyDown(VK_LEFT)) { trans->Move(glm::vec3(precision*deltaTime*-5.0f, 0.0f, 0.0f)); }
 		if (inp->getKeyDown(VK_RIGHT)) { trans->Move(glm::vec3(precision*deltaTime*5.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown(VK_UP)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*5.0f)); }
-		if (inp->getKeyDown(VK_DOWN)) { trans->Move(glm::vec3(0.0f, 0.0f,precision*deltaTime*-5.0f)); }
-		if (inp->getKeyDown(VK_SPACE)) { trans->SetRotation(glm::vec3(45.0f, 45.0f, .0f)); }
+		if (inp->getKeyDown(VK_UP)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*-5.0f)); }
+		if (inp->getKeyDown(VK_DOWN)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*5.0f)); }
 		if (inp->getKeyDown('X')) { trans->Rotate(glm::vec3(precision*direction*deltaTime*25.0f, 0.0f, 0.0f)); }
 		if (inp->getKeyDown('Y')) { trans->Rotate(glm::vec3(0.0f, precision*direction*deltaTime*25.0f, 0.0f)); }
 		if (inp->getKeyDown('Z')) { trans->Rotate(glm::vec3(0.0f, 0.0f, precision*direction*deltaTime*25.0f)); }
-		EM->GetEntity("player")->GetComponent<Engine::AABB>();
-		EM->Update(deltaTime);
-		SM->Update(deltaTime);
-	};
-
+		checkCollision();
+		if (!floorcollision)
+		{
+			trans->Move(glm::vec3(0, precision*deltaTime * -3, 0));
+		}
+		if (floorcollision && inp->getKeyDown(VK_SPACE))
+		{
+			trans->Move(glm::vec3(0, precision*deltaTime * 100, 0));
+		}
+	}
 private:
 	float precision;
 	Engine::EntityManager* EM;
 	Engine::SystemManager* SM;
-	Engine::PhysicsSystem* PS;
+	std::shared_ptr<Engine::PhysicsSystem> PS;
 	std::shared_ptr<Engine::Entity> player1;
 	std::shared_ptr<Engine::Entity> test;
 	std::shared_ptr<Engine::Transform> trans;
 	std::shared_ptr<Engine::Entity> cam;
 	std::shared_ptr<Engine::Entity> skybox;
 	std::shared_ptr<Engine::Entity> floor;
+	bool floorcollision;
 };
 
 #include "splashScreen.h"
