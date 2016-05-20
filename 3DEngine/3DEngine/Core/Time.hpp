@@ -15,8 +15,8 @@ namespace Engine
 		DeltaTime Update();
 		DeltaTime GetDeltaTime();
 	private:
-		std::chrono::time_point<std::chrono::system_clock> _start;
-		std::chrono::time_point<std::chrono::system_clock> _end;
+		std::chrono::time_point<std::chrono::high_resolution_clock> _start;
+		std::chrono::time_point<std::chrono::high_resolution_clock> _end;
 		DeltaTime _deltaTime;
 	};
 
@@ -31,7 +31,7 @@ namespace Engine
 
 	inline DeltaTime Time::Update() {
 		_start = _end;
-		_end = std::chrono::system_clock::now();
+		_end = std::chrono::high_resolution_clock::now();
 		_deltaTime = std::chrono::duration<double>(_end - _start).count();
 		return _deltaTime;
 	}

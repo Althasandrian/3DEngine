@@ -100,17 +100,6 @@ namespace Engine
 				aabb->UpdateAABB(min, max);
 			} //if (transformable != nullptr && renderable != nullptr)
 		} //for (auto it = entities.begin(); it != entities.end(); it++)
-
-		for (std::shared_ptr<Entity> lhsEntity : entities) {
-			for (std::shared_ptr<Entity> rhsEntity : entities) {
-				if (lhsEntity->GetName() == rhsEntity->GetName()) { continue; }
-				else {
-					if (CheckAABBCollision(lhsEntity, rhsEntity)) {
-						//std::cout << "Collision happened!" << std::endl;
-					}
-				}
-			}
-		}
 	};
 
 	inline bool PhysicsSystem::CheckAABBCollision(std::shared_ptr<Entity> lhsEntity, std::shared_ptr<Entity> rhsEntity) {
@@ -122,12 +111,7 @@ namespace Engine
 			std::shared_ptr<Transform> rhsTransform = rhsEntity->GetComponent<Transform>();
 
 			glm::mat4 lhsModel = glm::translate(glm::mat4(1), lhsTransform->GetPosition());
-			glm::mat4 lhsScale = glm::scale(glm::mat4(1), lhsTransform->GetScale());
 			glm::mat4 rhsModel = glm::translate(glm::mat4(1), rhsTransform->GetPosition());
-			glm::mat4 rhsScale = glm::scale(glm::mat4(1), rhsTransform->GetScale());
-
-			lhsModel = lhsModel * lhsScale;
-			rhsModel = rhsModel * rhsScale;
 
 			glm::vec4 lhsTransMin = lhsModel * glm::vec4(lhsAABB->_min, 1.0f);
 			glm::vec4 lhsTransMax = lhsModel * glm::vec4(lhsAABB->_max, 1.0f);
@@ -135,10 +119,10 @@ namespace Engine
 			glm::vec4 rhsTransMax = rhsModel * glm::vec4(rhsAABB->_max, 1.0f);
 
 			if (lhsTransMin.x > rhsTransMax.x) return false;
-			if (lhsTransMin.y > rhsTransMax.y) return false;
-			if (lhsTransMin.z > rhsTransMax.z) return false;
 			if (lhsTransMax.x < rhsTransMin.x) return false;
+			if (lhsTransMin.y > rhsTransMax.y) return false;
 			if (lhsTransMax.y < rhsTransMin.y) return false;
+			if (lhsTransMin.z > rhsTransMax.z) return false;
 			if (lhsTransMax.z < rhsTransMin.z) return false;
 
 			return true;
