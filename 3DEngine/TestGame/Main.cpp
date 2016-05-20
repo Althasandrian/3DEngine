@@ -75,6 +75,7 @@ public:
 
 		EM = Engine::EntityManager::GetInstance();
 		SM = Engine::SystemManager::GetInstance();
+		PS = SM->AddSystem<Engine::PhysicsSystem>();
 	
 		cam = EM->AddEntity("Camera",std::make_shared<player>());
 		EM->AddComponent<Engine::Transform>("Camera", glm::vec3(0.0f), glm::vec3(-90.0f, 0.0f, 0.0f));
@@ -142,6 +143,7 @@ public:
 		if (inp->getKeyDown('X')) { trans->Rotate(glm::vec3(precision*direction*deltaTime*25.0f, 0.0f, 0.0f)); }
 		if (inp->getKeyDown('Y')) { trans->Rotate(glm::vec3(0.0f, precision*direction*deltaTime*25.0f, 0.0f)); }
 		if (inp->getKeyDown('Z')) { trans->Rotate(glm::vec3(0.0f, 0.0f, precision*direction*deltaTime*25.0f)); }
+		EM->GetEntity("player")->GetComponent<Engine::AABB>();
 		EM->Update(deltaTime);
 		SM->Update(deltaTime);
 	};
@@ -150,7 +152,7 @@ private:
 	float precision;
 	Engine::EntityManager* EM;
 	Engine::SystemManager* SM;
-
+	Engine::PhysicsSystem* PS;
 	std::shared_ptr<Engine::Entity> player1;
 	std::shared_ptr<Engine::Entity> test;
 	std::shared_ptr<Engine::Transform> trans;
