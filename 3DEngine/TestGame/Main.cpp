@@ -89,22 +89,27 @@ public:
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		test = EM->AddEntity("box", std::make_shared<player>());
 		skybox = EM->AddEntity("Skybox", std::make_shared<player>());
-
+		floor = EM->AddEntity("floor", std::make_shared<player>());
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* skybox_res = ResourceManager::GetInstance()->LoadResource("Resources/Models/Skybox.obj");
 		Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
+		EM->AddComponent<Engine::Render>("Skybox", skybox_res->_vertices, skybox_res->_indices);
+		EM->AddComponent<Engine::Transform>("Skybox", glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 100.0f));
+		EM->AddComponent<Engine::Texture>("Skybox", "Resources/Textures/Skybox.png");
 
 		EM->AddComponent<Engine::Render>("player", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transform>("player", glm::vec3(2.0f, 0.0f, -15.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::Transform>("player", glm::vec3(2.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("player");
 		EM->AddComponent<Engine::Texture>("player", "Resources/Texture1.png");
 		EM->AddComponent<Engine::Render>("box", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transform>("box", glm::vec3(-5.0f, 0.0f, -17.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::Transform>("box", glm::vec3(-5.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("box");
 		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
-		EM->AddComponent<Engine::Render>("Skybox", skybox_res->_vertices, skybox_res->_indices);
-		EM->AddComponent<Engine::Transform>("Skybox", glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-		EM->AddComponent<Engine::Texture>("Skybox", "Resources/Textures/Skybox.png");
+
+		EM->AddComponent<Engine::Render>("floor", box->_vertices, box->_indices);
+		EM->AddComponent<Engine::Transform>("floor", glm::vec3(0.0f, -5.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(20.0f, 1.0f, 20.0f));
+		EM->AddComponent<Engine::AABB>("floor");
+		EM->AddComponent<Engine::Texture>("floor", "Resources/Texture2.png");
 
 		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>( glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
 		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
@@ -131,8 +136,8 @@ public:
 		if (inp->getKeyDown(VK_CONTROL)) { precision += 0.1f*direction; };
 		if (inp->getKeyDown(VK_LEFT)) { trans->Move(glm::vec3(precision*deltaTime*-5.0f, 0.0f, 0.0f)); }
 		if (inp->getKeyDown(VK_RIGHT)) { trans->Move(glm::vec3(precision*deltaTime*5.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown(VK_UP)) { trans->Move(glm::vec3(0.0f, precision*deltaTime*5.0f, 0.0f)); }
-		if (inp->getKeyDown(VK_DOWN)) { trans->Move(glm::vec3(0.0f, precision*deltaTime*-5.0f, 0.0f)); }
+		if (inp->getKeyDown(VK_UP)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*5.0f)); }
+		if (inp->getKeyDown(VK_DOWN)) { trans->Move(glm::vec3(0.0f, 0.0f,precision*deltaTime*-5.0f)); }
 		if (inp->getKeyDown(VK_SPACE)) { trans->SetRotation(glm::vec3(45.0f, 45.0f, .0f)); }
 		if (inp->getKeyDown('X')) { trans->Rotate(glm::vec3(precision*direction*deltaTime*25.0f, 0.0f, 0.0f)); }
 		if (inp->getKeyDown('Y')) { trans->Rotate(glm::vec3(0.0f, precision*direction*deltaTime*25.0f, 0.0f)); }
@@ -151,6 +156,7 @@ private:
 	std::shared_ptr<Engine::Transform> trans;
 	std::shared_ptr<Engine::Entity> cam;
 	std::shared_ptr<Engine::Entity> skybox;
+	std::shared_ptr<Engine::Entity> floor;
 };
 
 #include "splashScreen.h"

@@ -24,13 +24,11 @@ public:
 	splashScreen();
 	virtual ~splashScreen();
 
-	virtual void Init(); //= 0;												//		//
-	virtual void Cleanup();// = 0;												//		//
-	//		//
-	virtual void Pause(); //= 0;												//		//
-	virtual void Resume(); //= 0;												//		//
-	//		//
-	virtual void Update(DeltaTime deltaTime);// = 0;
+	virtual void Init();
+	virtual void Cleanup();
+	virtual void Pause();
+	virtual void Resume();
+	virtual void Update(DeltaTime deltaTime);
 
 private:
 	Engine::EntityManager* EM;
