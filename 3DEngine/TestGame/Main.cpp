@@ -76,49 +76,63 @@ public:
 		EM = Engine::EntityManager::GetInstance();
 		SM = Engine::SystemManager::GetInstance();
 		PS = SM->AddSystem<Engine::PhysicsSystem>();
+		GLAssert();
 	
 		cam = EM->AddEntity("Camera",std::make_shared<player>());
 		EM->AddComponent<Engine::Transform>("Camera", glm::vec3(0.0f), glm::vec3(-90.0f, 0.0f, 0.0f));
 		std::shared_ptr<Engine::Camera> temp = EM->AddComponent<Engine::Camera>("Camera");
+		GLAssert();
 
 		SM->AddSystem<Engine::PhysicsSystem>();
 		SM->AddSystem<Engine::RenderingSystem>(&window, "Resources/Vert.txt", "Resources/Frag.txt");
 		if (SM->GetSystem<Engine::RenderingSystem>() != nullptr) {
 			SM->GetSystem<Engine::RenderingSystem>()->SetCamera(temp);
-		}
+		}GLAssert();
 		
 		player1 = EM->AddEntity("player", std::make_shared<player>());
-		test = EM->AddEntity("box", std::make_shared<player>());
+		rotatingBox = EM->AddEntity("box", std::make_shared<player>());
+		collectible = EM->AddEntity("asd", std::make_shared<player>());
 		skybox = EM->AddEntity("Skybox", std::make_shared<player>());
 		floor = EM->AddEntity("floor", std::make_shared<player>());
+		GLAssert();
 		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* skybox_res = ResourceManager::GetInstance()->LoadResource("Resources/Models/Skybox.obj");
-		Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
+		GLAssert();
+		//Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
 		EM->AddComponent<Engine::Render>("Skybox", skybox_res->_vertices, skybox_res->_indices);
 		EM->AddComponent<Engine::Transform>("Skybox", glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 100.0f));
 		EM->AddComponent<Engine::Texture>("Skybox", "Resources/Textures/Skybox.png");
-
+		GLAssert();
+		//add Player
 		EM->AddComponent<Engine::Render>("player", box->_vertices, box->_indices);
 		EM->AddComponent<Engine::Transform>("player", glm::vec3(2.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("player");
 		EM->AddComponent<Engine::Texture>("player", "Resources/Texture1.png");
+		GLAssert();
+		//add rotating box
 		EM->AddComponent<Engine::Render>("box", box->_vertices, box->_indices);
 		EM->AddComponent<Engine::Transform>("box", glm::vec3(-5.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("box");
 		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
-
+		GLAssert();
+		//add floor
 		EM->AddComponent<Engine::Render>("floor", box->_vertices, box->_indices);
 		EM->AddComponent<Engine::Transform>("floor", glm::vec3(0.0f, -5.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(20.0f, 1.0f, 20.0f));
 		EM->AddComponent<Engine::AABB>("floor");
 		EM->AddComponent<Engine::Texture>("floor", "Resources/Texture2.png");
-
-		EM->AddEntity("asd", std::make_shared<Engine::Rectangle>( glm::vec2(0.0f, 0.0f), glm::vec2(1.0f, 1.0f), -1.0f));
+		GLAssert();
+		//add collectible
+		EM->AddComponent<Engine::Render>("asd", box->_vertices, box->_indices);
+		EM->AddComponent<Engine::Transform>("asd", glm::vec3(5.0f, -3.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::AABB>("asd");
 		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
 
-		trans = player1->GetComponent<Engine::Transform>();
+		GLAssert();
 
+		boxtrans = rotatingBox->GetComponent<Engine::Transform>();
+		playertrans = player1->GetComponent<Engine::Transform>();
 		precision = 1.0;
-
+		GLAssert();
 	};
 
 	virtual void Cleanup()  override {
@@ -131,11 +145,11 @@ public:
 	virtual void Resume()  override {};
 
 	virtual void Update(DeltaTime deltaTime)  override {
-		
-		checkPlayerMovement(deltaTime);
-		
 		EM->Update(deltaTime);
 		SM->Update(deltaTime);
+		
+		checkPlayerMovement(deltaTime);
+		rotateCube(deltaTime);
 	};
 	bool checkCollision()
 	{
@@ -146,6 +160,11 @@ public:
 				if (entity->GetName() == "floor")
 				{
 					floorcollision = true;
+				}
+				if (entity->GetName() == "asd")
+				{
+
+					EM->RemoveEntity("asd");
 				}
 				return true;
 			}
@@ -167,22 +186,26 @@ public:
 		Inputs::Input* inp = nullptr;
 		if (inp->getKeyDown(VK_SHIFT)) { direction = -1.0f; };
 		if (inp->getKeyDown(VK_CONTROL)) { precision += 0.1f*direction; };
-		if (inp->getKeyDown(VK_LEFT)) { trans->Move(glm::vec3(precision*deltaTime*-5.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown(VK_RIGHT)) { trans->Move(glm::vec3(precision*deltaTime*5.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown(VK_UP)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*-5.0f)); }
-		if (inp->getKeyDown(VK_DOWN)) { trans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*5.0f)); }
-		if (inp->getKeyDown('X')) { trans->Rotate(glm::vec3(precision*direction*deltaTime*25.0f, 0.0f, 0.0f)); }
-		if (inp->getKeyDown('Y')) { trans->Rotate(glm::vec3(0.0f, precision*direction*deltaTime*25.0f, 0.0f)); }
-		if (inp->getKeyDown('Z')) { trans->Rotate(glm::vec3(0.0f, 0.0f, precision*direction*deltaTime*25.0f)); }
+		if (inp->getKeyDown(VK_LEFT)) { playertrans->Move(glm::vec3(precision*deltaTime*-5.0f, 0.0f, 0.0f)); }
+		if (inp->getKeyDown(VK_RIGHT)) { playertrans->Move(glm::vec3(precision*deltaTime*5.0f, 0.0f, 0.0f)); }
+		if (inp->getKeyDown(VK_UP)) { playertrans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*-5.0f)); }
+		if (inp->getKeyDown(VK_DOWN)) { playertrans->Move(glm::vec3(0.0f, 0.0f, precision*deltaTime*5.0f)); }
+		
 		checkCollision();
 		if (!floorcollision)
 		{
-			trans->Move(glm::vec3(0, precision*deltaTime * -3, 0));
+			playertrans->Move(glm::vec3(0, precision*deltaTime * -3, 0));
 		}
 		if (floorcollision && inp->getKeyDown(VK_SPACE))
 		{
-			trans->Move(glm::vec3(0, precision*deltaTime * 100, 0));
+			playertrans->Move(glm::vec3(0, precision*deltaTime * 100, 0));
 		}
+	}
+	void rotateCube(DeltaTime deltaTime)
+	{
+		boxtrans->Rotate(glm::vec3(precision*deltaTime*25.0f, 0.0f, 0.0f));
+		boxtrans->Rotate(glm::vec3(0.0f, precision*deltaTime*25.0f, 0.0f));
+		boxtrans->Rotate(glm::vec3(0.0f, 0.0f, precision*deltaTime*25.0f));
 	}
 private:
 	float precision;
@@ -190,12 +213,15 @@ private:
 	Engine::SystemManager* SM;
 	std::shared_ptr<Engine::PhysicsSystem> PS;
 	std::shared_ptr<Engine::Entity> player1;
-	std::shared_ptr<Engine::Entity> test;
-	std::shared_ptr<Engine::Transform> trans;
+	std::shared_ptr<Engine::Entity> rotatingBox;
+	std::shared_ptr<Engine::Entity> collectible;
+	std::shared_ptr<Engine::Transform> playertrans;
+	std::shared_ptr<Engine::Transform> boxtrans;
 	std::shared_ptr<Engine::Entity> cam;
 	std::shared_ptr<Engine::Entity> skybox;
 	std::shared_ptr<Engine::Entity> floor;
 	bool floorcollision;
+
 };
 
 #include "splashScreen.h"
