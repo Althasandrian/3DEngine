@@ -35,7 +35,7 @@ private:
 	Engine::SystemManager* SM;
 
 	DeltaTime Duration = 3;
-	Inputs::Input* imput;
+	Inputs::Input* input;
 	std::shared_ptr<Engine::Entity> Play;
 	std::shared_ptr<Engine::Entity> Quit;
 	std::shared_ptr<Engine::Entity> cam;
@@ -81,10 +81,9 @@ void mainMenu::Update(DeltaTime deltaTime)
 {
 	EM->Update(deltaTime);
 	SM->Update(deltaTime);
-	if (imput->getMouseDown(1))
+	if (input->getMouseDown(1))
 	{
-		std::cout << "On to game " << std::endl;
-		Engine::SceneManager::GetInstance()->ChangeScene(new TestScene);
+		Engine::SceneManager::GetInstance()->ChangeScene(new TestScene());
 	}
 }
 #endif

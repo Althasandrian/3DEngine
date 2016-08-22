@@ -91,11 +91,11 @@ public:
 		
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		rotatingBox = EM->AddEntity("box", std::make_shared<player>());
-		collectible = EM->AddEntity("asd", std::make_shared<player>());
+		
 		skybox = EM->AddEntity("Skybox", std::make_shared<player>());
 		floor = EM->AddEntity("floor", std::make_shared<player>());
 		GLAssert();
-		Resource* box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
+		box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* skybox_res = ResourceManager::GetInstance()->LoadResource("Resources/Models/Skybox.obj");
 		GLAssert();
 		//Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
@@ -122,10 +122,7 @@ public:
 		EM->AddComponent<Engine::Texture>("floor", "Resources/Texture2.png");
 		GLAssert();
 		//add collectible
-		EM->AddComponent<Engine::Render>("asd", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transform>("asd", glm::vec3(5.0f, -3.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
-		EM->AddComponent<Engine::AABB>("asd");
-		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
+		addNewCollectible(box);
 
 		GLAssert();
 
@@ -150,7 +147,29 @@ public:
 		
 		checkPlayerMovement(deltaTime);
 		rotateCube(deltaTime);
+		checkForCollectible();
+		
 	};
+	void addNewCollectible(Resource* res)
+	{
+		collectible = EM->AddEntity("asd", std::make_shared<player>());
+		EM->AddComponent<Engine::Render>("asd", res->_vertices, res->_indices);
+		EM->AddComponent<Engine::Transform>("asd", glm::vec3(rand() % 10+-5, -3.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
+		EM->AddComponent<Engine::AABB>("asd");
+		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
+	}
+	void checkForCollectible()
+	{
+		for (std::shared_ptr<Engine::Entity> entity : EM->GetEntities())
+		{
+
+			if (entity->GetName() == "asd")
+			{
+				return;
+			}
+		}
+		addNewCollectible(box);
+	}
 	bool checkCollision()
 	{
 		for (std::shared_ptr<Engine::Entity> entity : EM->GetEntities())
@@ -163,7 +182,7 @@ public:
 				}
 				if (entity->GetName() == "asd")
 				{
-
+				
 					EM->RemoveEntity("asd");
 				}
 				return true;
@@ -220,6 +239,7 @@ private:
 	std::shared_ptr<Engine::Entity> cam;
 	std::shared_ptr<Engine::Entity> skybox;
 	std::shared_ptr<Engine::Entity> floor;
+	Resource* box;
 	bool floorcollision;
 
 };
