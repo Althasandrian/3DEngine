@@ -93,9 +93,7 @@ void splashScreen::Update(DeltaTime deltaTime)
 
 	if ((Duration -= deltaTime ) < 0 )
 	{
-		std::cout << deltaTime << " " << Duration << std::endl;
 		Engine::SceneManager::GetInstance()->ChangeScene(new mainMenu);
-		std::cout << "Changing scene" << std::endl;
 	}
 	
 	
