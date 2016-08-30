@@ -93,7 +93,6 @@ public:
 		rotatingBox = EM->AddEntity("box", std::make_shared<player>());
 		
 		skybox = EM->AddEntity("Skybox", std::make_shared<player>());
-		floor = EM->AddEntity("floor", std::make_shared<player>());
 		GLAssert();
 		box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
 		Resource* skybox_res = ResourceManager::GetInstance()->LoadResource("Resources/Models/Skybox.obj");
@@ -116,10 +115,9 @@ public:
 		EM->AddComponent<Engine::Texture>("box", "Resources/Texture4.png");
 		GLAssert();
 		//add floor
-		EM->AddComponent<Engine::Render>("floor", box->_vertices, box->_indices);
-		EM->AddComponent<Engine::Transform>("floor", glm::vec3(0.0f, -5.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(20.0f, 1.0f, 20.0f));
-		EM->AddComponent<Engine::AABB>("floor");
-		EM->AddComponent<Engine::Texture>("floor", "Resources/Texture2.png");
+		addFloor(glm::vec3(0.0f, -5.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(20.0f, 1.0f, 20.0f));
+		addFloor(glm::vec3(10.0f, -5.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(20.0f, 1.0f, 20.0f));
+		addFloor(glm::vec3(20.0f, -6.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(20.0f, 1.0f, 20.0f));
 		GLAssert();
 		//add collectible
 		addNewCollectible(box);
@@ -148,7 +146,6 @@ public:
 		checkPlayerMovement(deltaTime);
 		rotateCube(deltaTime);
 		checkForCollectible();
-		
 	};
 	void addNewCollectible(Resource* res)
 	{
@@ -157,6 +154,14 @@ public:
 		EM->AddComponent<Engine::Transform>("asd", glm::vec3(rand() % 10+-5, -3.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("asd");
 		EM->AddComponent<Engine::Texture>("asd", "Resources/Texture4.png");
+	}
+	void addFloor(glm::vec3 t, glm::vec3 r = glm::vec3(0, 0, 0), glm::vec3 s = glm::vec3(1, 1, 1))
+	{
+		floor = EM->AddEntity("floor", std::make_shared<player>());
+		EM->AddComponent<Engine::Render>("floor", box->_vertices, box->_indices);
+		EM->AddComponent<Engine::Transform>("floor", t, r, s);
+		EM->AddComponent<Engine::AABB>("floor");
+		EM->AddComponent<Engine::Texture>("floor", "Resources/Texture2.png");
 	}
 	void checkForCollectible()
 	{
@@ -182,7 +187,7 @@ public:
 				}
 				if (entity->GetName() == "asd")
 				{
-				
+					score++;
 					EM->RemoveEntity("asd");
 				}
 				return true;
@@ -240,8 +245,9 @@ private:
 	std::shared_ptr<Engine::Entity> skybox;
 	std::shared_ptr<Engine::Entity> floor;
 	Resource* box;
+	glm::vec3 t, r, s;
 	bool floorcollision;
-
+	int score = 0;
 };
 
 #include "splashScreen.h"
