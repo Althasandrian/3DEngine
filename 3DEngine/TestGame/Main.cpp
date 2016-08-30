@@ -25,7 +25,6 @@
 #include <Core/Components/AABB.hpp>
 #include <Core/Components/Audio.h>
 #include <Core/Managers/SceneManager.hpp>
-
 #include <Core/ResourceManager.h>
 
 #include <Core/Camera.hpp>
