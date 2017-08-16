@@ -165,7 +165,6 @@ Resource* ResourceManager::LoadTextResource(std::string filepath)
 
 		//Set text to resource////////
 		res->setTextData(readFile);//
-
 	}
 	_resources.push_back(res);
 	return res;
@@ -270,17 +269,6 @@ Resource* ResourceManager::LoadObjectResource(std::string filepath)
 			glm::vec3(materials[i].transmittance[0], materials[i].transmittance[1], materials[i].transmittance[2]),
 			materials[i].ior, materials[i].shininess, materials[i].dissolve, materials[i].illum, materials[i].dummy);
 	}
-
-
-
-
-
-
-
-
-
-
-
 
 	//FILE * file = fopen(filepath.c_str(), "r");
 	//if (file == NULL){

@@ -76,7 +76,7 @@ public:
 		SM = Engine::SystemManager::GetInstance();
 		PS = SM->AddSystem<Engine::PhysicsSystem>();
 		GLAssert();
-	
+		
 		cam = EM->AddEntity("Camera",std::make_shared<player>());
 		EM->AddComponent<Engine::Transform>("Camera", glm::vec3(0.0f), glm::vec3(-90.0f, 0.0f, 0.0f));
 		std::shared_ptr<Engine::Camera> temp = EM->AddComponent<Engine::Camera>("Camera");
@@ -90,22 +90,26 @@ public:
 		
 		player1 = EM->AddEntity("player", std::make_shared<player>());
 		rotatingBox = EM->AddEntity("box", std::make_shared<player>());
-		
 		skybox = EM->AddEntity("Skybox", std::make_shared<player>());
+		//Dragon = EM->AddEntity("dragon", std::make_shared<player>());
 		GLAssert();
 		box = ResourceManager::GetInstance()->LoadResource("Resources/cube.obj");
-		Resource* skybox_res = ResourceManager::GetInstance()->LoadResource("Resources/Models/Skybox.obj");
+		Resource* skybox_res = ResourceManager::GetInstance()->LoadResource("Resources/Skybox.obj");
+		//dragon = ResourceManager::GetInstance()->LoadResource("Resources/Dragon/dragon.obj");
 		GLAssert();
 		//Resource* audiores = ResourceManager::GetInstance()->LoadResource("Resources/bossMusic.wav");
 		EM->AddComponent<Engine::Render>("Skybox", skybox_res->_vertices, skybox_res->_indices);
 		EM->AddComponent<Engine::Transform>("Skybox", glm::vec3(0.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(100.0f, 100.0f, 100.0f));
-		EM->AddComponent<Engine::Texture>("Skybox", "Resources/Textures/Skybox.png");
+		EM->AddComponent<Engine::Texture>("Skybox", "Resources/Skybox.png");
+	
 		GLAssert();
 		//add Player
 		EM->AddComponent<Engine::Render>("player", box->_vertices, box->_indices);
 		EM->AddComponent<Engine::Transform>("player", glm::vec3(2.0f, 0.0f, -10.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f));
 		EM->AddComponent<Engine::AABB>("player");
-		EM->AddComponent<Engine::Texture>("player", "Resources/Texture1.png");
+		EM->AddComponent<Engine::Texture>("player", "Resources/Texture1.png");	
+		//EM->AddComponent<Engine::Material>("player",glm::vec3(0.5f),glm::vec3(1.0f,0.5f,0.31f),glm::vec3(1.0f,0.5f,0.31f),glm::vec3(0.5f,0.5f,0.5f),glm::vec3(0.5f),1.0f,32.0f,1.0f,31.0f,1.0f);
+		EM->AddComponent<Engine::Shader>("player", "Resources/Vert.txt","Resources/Frag.txt");
 		GLAssert();
 		//add rotating box
 		EM->AddComponent<Engine::Render>("box", box->_vertices, box->_indices);
@@ -236,14 +240,17 @@ private:
 	Engine::SystemManager* SM;
 	std::shared_ptr<Engine::PhysicsSystem> PS;
 	std::shared_ptr<Engine::Entity> player1;
+	std::shared_ptr<Engine::Entity> Dragon;
 	std::shared_ptr<Engine::Entity> rotatingBox;
 	std::shared_ptr<Engine::Entity> collectible;
 	std::shared_ptr<Engine::Transform> playertrans;
 	std::shared_ptr<Engine::Transform> boxtrans;
+	std::shared_ptr<Engine::Transform> dragonTrans;
 	std::shared_ptr<Engine::Entity> cam;
 	std::shared_ptr<Engine::Entity> skybox;
 	std::shared_ptr<Engine::Entity> floor;
 	Resource* box;
+	Resource* dragon;
 	glm::vec3 t, r, s;
 	bool floorcollision;
 	int score = 0;
